@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using ApiGestion.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
@@ -13,7 +13,7 @@ public class RepositorioRedSqlServer : IRepositorioRed
     {
         _cadenaConexion =
             configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException("No se encontrÃ³ la cadena de conexiÃ³n.");
+            ?? throw new InvalidOperationException("No se encontró la cadena de conexión.");
     }
 
     private IDbConnection CrearConexion()
