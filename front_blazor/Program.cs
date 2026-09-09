@@ -64,6 +64,11 @@ builder.Services.AddHttpClient<ServicioDocenteDepartamento>(cliente =>
     cliente.BaseAddress = new Uri(urlApi);
     cliente.Timeout = TimeSpan.FromSeconds(10);
 });
+builder.Services.AddHttpClient<ServicioInteresFuturo>(cliente =>
+{
+    cliente.BaseAddress = new Uri(urlApi);
+    cliente.Timeout = TimeSpan.FromSeconds(10);
+});
 // ============================================================
 // UN SERVICIO POR RECURSO (Artículo 10.1)
 //

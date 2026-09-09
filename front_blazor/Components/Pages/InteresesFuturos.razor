@@ -1,0 +1,395 @@
+﻿@page "/intereses-futuros"
+@rendermode InteractiveServer
+@inject ServicioInteresFuturo Servicio
+@inject ServicioDocente ServicioDocentes
+@inject ServicioTerminoClave ServicioTerminos
+@inject IJSRuntime JS
+
+<PageTitle>Intereses futuros</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Intereses futuros</h1>
+        <p class="nota">
+            Intereses académicos y temas futuros de los docentes.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario" @onclick="Agregar">
+            Agregar
+        </button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>
+            @(editando ? "Editar interés futuro" : "Agregar interés futuro")
+        </h2>
+
+        <label>
+            Docente
+            <select @bind="campoDocente">
+                <option value="">Seleccione un docente</option>
+
+                @foreach (var docente in docentes)
+                {
+                    <option value="@docente.Cedula">
+                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                    </option>
+                }
+            </select>
+        </label>
+
+        <label>
+            Término clave
+            <select @bind="campoTermino">
+                <option value="">Seleccione un término</option>
+
+                @foreach (var termino in terminos)
+                {
+                    <option value="@termino.Termino">
+                        @termino.Termino
+                        @if (!string.IsNullOrWhiteSpace(termino.TerminoIngles))
+                        {
+                            <text> - @termino.TerminoIngles</text>
+                        }
+                    </option>
+                }
+            </select>
+        </label>
+
+        <div class="pareja">
+
+            @if (editando)
+            {
+                <button class="boton primario"
+                        @onclick="Guardar"
+                        disabled="@guardando">
+                    Guardar
+                </button>
+            }
+            else
+            {
+                <button class="boton primario"
+                        @onclick="Crear"
+                        disabled="@guardando">
+                    Agregar
+                </button>
+            }
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Docente</th>
+                    <th>Término clave</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td>
+                            @NombreDocente(fila.Docente)
+                        </td>
+
+                        <td>
+                            @fila.TerminoClave
+                        </td>
+
+                        <td>
+                            <div class="acciones">
+
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="nota">
+        @filas.Count interés(es) futuro(s).
+    </p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay intereses futuros registrados.
+    </p>
+}
+
+@code {
+
+    private List<InteresFuturo> filas = new();
+    private List<Docente> docentes = new();
+    private List<TerminoClave> terminos = new();
+
+    private Dictionary<int, string> nombresDocentes = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private string campoDocente = string.Empty;
+    private string campoTermino = string.Empty;
+
+    private int docenteOriginal;
+    private string terminoOriginal = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rDocentes = await ServicioDocentes.Listar();
+
+        if (rDocentes.Ok)
+        {
+            docentes = rDocentes.Datos ?? new();
+
+            nombresDocentes = docentes.ToDictionary(
+                x => x.Cedula,
+                x => $"{x.Nombres} {x.Apellidos}");
+        }
+        else
+        {
+            errores.AddRange(rDocentes.Errores);
+        }
+
+        var rTerminos = await ServicioTerminos.Listar();
+
+        if (rTerminos.Ok)
+        {
+            terminos = rTerminos.Datos ?? new();
+        }
+        else
+        {
+            errores.AddRange(rTerminos.Errores);
+        }
+
+        var resultado = await Servicio.Listar();
+
+        if (resultado.Ok)
+        {
+            filas = resultado.Datos ?? new();
+        }
+        else
+        {
+            errores.AddRange(resultado.Errores);
+        }
+
+        cargando = false;
+    }
+
+    private string NombreDocente(int cedula)
+    {
+        return nombresDocentes.TryGetValue(cedula, out var nombre)
+            ? $"{cedula} - {nombre}"
+            : cedula.ToString();
+    }
+
+    private int DocenteSeleccionado()
+    {
+        return int.TryParse(campoDocente, out var cedula)
+            ? cedula
+            : 0;
+    }
+
+    private void Agregar()
+    {
+        campoDocente = string.Empty;
+        campoTermino = string.Empty;
+
+        mostrandoFormulario = true;
+        editando = false;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(InteresFuturo fila)
+    {
+        docenteOriginal = fila.Docente;
+        terminoOriginal = fila.TerminoClave;
+
+        campoDocente = fila.Docente.ToString();
+        campoTermino = fila.TerminoClave;
+
+        mostrandoFormulario = true;
+        editando = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private async Task Crear()
+    {
+        errores.Clear();
+        exito = string.Empty;
+
+        if (DocenteSeleccionado() == 0)
+        {
+            errores.Add("Debe seleccionar un docente.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(campoTermino))
+        {
+            errores.Add("Debe seleccionar un término clave.");
+            return;
+        }
+
+        guardando = true;
+
+        var entidad = new InteresFuturo
+        {
+            Docente = DocenteSeleccionado(),
+            TerminoClave = campoTermino
+        };
+
+        var resultado = await Servicio.Crear(entidad);
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Interés futuro agregado.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Guardar()
+    {
+        errores.Clear();
+        exito = string.Empty;
+
+        if (DocenteSeleccionado() == 0)
+        {
+            errores.Add("Debe seleccionar un docente.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(campoTermino))
+        {
+            errores.Add("Debe seleccionar un término clave.");
+            return;
+        }
+
+        guardando = true;
+
+        var entidad = new InteresFuturo
+        {
+            Docente = DocenteSeleccionado(),
+            TerminoClave = campoTermino
+        };
+
+        var resultado = await Servicio.Reemplazar(
+            docenteOriginal,
+            terminoOriginal,
+            entidad);
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Interés futuro actualizado.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(InteresFuturo fila)
+    {
+        var confirmar = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"¿Retirar el interés '{fila.TerminoClave}'?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado = await Servicio.Eliminar(
+            fila.Docente,
+            fila.TerminoClave);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Interés futuro retirado.";
+
+        await Cargar();
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+}
