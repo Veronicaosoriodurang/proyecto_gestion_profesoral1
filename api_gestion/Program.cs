@@ -43,6 +43,8 @@ builder.Services.AddScoped<IRepositorioExperiecia, RepositorioExperieciaSqlServe
 builder.Services.AddScoped<IServicioExperiecia, ServicioExperiecia>();
 builder.Services.AddScoped<IRepositorioRedDocente, RepositorioRedDocenteSqlServer>();
 builder.Services.AddScoped<IServicioRedDocente, ServicioRedDocente>();
+builder.Services.AddScoped<IRepositorioEstudioAc, RepositorioEstudioAcSqlServer>();
+builder.Services.AddScoped<IServicioEstudioAc, ServicioEstudioAc>();
 
 builder.Services.AddControllers();
 

@@ -1,0 +1,343 @@
+﻿@page "/estudio-ac"
+@rendermode InteractiveServer
+@inject ServicioEstudioAc Servicio
+@inject ServicioEstudioRealizado ServicioEstudios
+@inject ServicioAreaConocimiento ServicioAreas
+@inject IJSRuntime JS
+
+<PageTitle>Estudios y áreas</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Estudios y áreas de conocimiento</h1>
+        <p class="nota">
+            Asociación entre estudios realizados y áreas de conocimiento.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario" @onclick="Agregar">
+            Agregar
+        </button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>
+            @(editando
+                ? "Editar relación estudio-área"
+                : "Agregar relación estudio-área")
+        </h2>
+
+        <label>
+            Estudio realizado
+            <select @bind="campoEstudio">
+                <option value="">Seleccione un estudio</option>
+
+                @foreach (var estudio in estudios)
+                {
+                    <option value="@estudio.Id">
+                        @estudio.Id - @estudio.Titulo
+                    </option>
+                }
+            </select>
+        </label>
+
+        <label>
+            Área de conocimiento
+            <select @bind="campoArea">
+                <option value="">Seleccione un área</option>
+
+                @foreach (var area in areas)
+                {
+                    <option value="@area.Id">
+                        @area.Id - @area.Area
+                    </option>
+                }
+            </select>
+        </label>
+
+        <div class="pareja">
+
+            <button class="boton primario"
+                    @onclick="Guardar"
+                    disabled="@guardando">
+                @(editando ? "Guardar" : "Agregar")
+            </button>
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Estudio</th>
+                    <th>Área de conocimiento</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td>@NombreEstudio(fila.Estudio)</td>
+                        <td>@NombreArea(fila.AreaConocimiento)</td>
+
+                        <td>
+                            <div class="acciones">
+
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <p class="nota">
+        @filas.Count relación(es).
+    </p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay relaciones estudio-área registradas.
+    </p>
+}
+
+@code {
+
+    private List<EstudioAc> filas = new();
+    private List<EstudioRealizado> estudios = new();
+    private List<AreaConocimiento> areas = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private int estudioOriginal;
+    private string areaOriginal = string.Empty;
+
+    private string campoEstudio = string.Empty;
+    private string campoArea = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rEstudios = await ServicioEstudios.Listar();
+
+        if (rEstudios.Ok)
+            estudios = rEstudios.Datos ?? new();
+        else
+            errores.AddRange(rEstudios.Errores);
+
+        var rAreas = await ServicioAreas.Listar();
+
+        if (rAreas.Ok)
+            areas = rAreas.Datos ?? new();
+        else
+            errores.AddRange(rAreas.Errores);
+
+        var r = await Servicio.Listar();
+
+        if (r.Ok)
+            filas = r.Datos ?? new();
+        else
+            errores.AddRange(r.Errores);
+
+        cargando = false;
+    }
+
+    private string NombreEstudio(int id)
+    {
+        var estudio = estudios.FirstOrDefault(x => x.Id == id);
+
+        return estudio == null
+            ? id.ToString()
+            : $"{id} - {estudio.Titulo}";
+    }
+
+    private string NombreArea(string id)
+    {
+        var area = areas.FirstOrDefault(x => x.Id == id);
+
+        return area == null
+            ? id
+            : $"{id} - {area.Area}";
+    }
+
+    private void Agregar()
+    {
+        campoEstudio = string.Empty;
+        campoArea = string.Empty;
+
+        editando = false;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(EstudioAc fila)
+    {
+        estudioOriginal = fila.Estudio;
+        areaOriginal = fila.AreaConocimiento;
+
+        campoEstudio = fila.Estudio.ToString();
+        campoArea = fila.AreaConocimiento;
+
+        editando = true;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private bool Validar()
+    {
+        errores.Clear();
+
+        if (!int.TryParse(campoEstudio, out _))
+            errores.Add("Debe seleccionar un estudio.");
+
+        if (string.IsNullOrWhiteSpace(campoArea))
+            errores.Add("Debe seleccionar un área de conocimiento.");
+
+        return errores.Count == 0;
+    }
+
+    private async Task Guardar()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var entidad = new EstudioAc
+        {
+            Estudio = int.Parse(campoEstudio),
+            AreaConocimiento = campoArea
+        };
+
+        Resultado<bool> resultado;
+
+        if (editando)
+        {
+            resultado = await Servicio.Reemplazar(
+                estudioOriginal,
+                areaOriginal,
+                entidad);
+        }
+        else
+        {
+            resultado = await Servicio.Crear(entidad);
+        }
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = editando
+            ? "Relación estudio-área actualizada."
+            : "Relación estudio-área agregada.";
+
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(EstudioAc fila)
+    {
+        var confirmar =
+            await JS.InvokeAsync<bool>(
+                "confirm",
+                "¿Retirar esta relación entre estudio y área?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado =
+            await Servicio.Eliminar(
+                fila.Estudio,
+                fila.AreaConocimiento);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Relación estudio-área retirada.";
+
+        await Cargar();
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+}
