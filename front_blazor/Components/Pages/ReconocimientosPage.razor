@@ -1,0 +1,411 @@
+﻿@page "/reconocimientos"
+@rendermode InteractiveServer
+@inject ServicioReconocimiento Servicio
+@inject ServicioDocente ServicioDocentes
+@inject IJSRuntime JS
+
+<PageTitle>Reconocimientos</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Reconocimientos</h1>
+        <p class="nota">
+            Reconocimientos obtenidos por los docentes.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario" @onclick="Agregar">
+            Agregar
+        </button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>
+            @(editando ? "Editar reconocimiento" : "Agregar reconocimiento")
+        </h2>
+
+        <label>
+            Tipo
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoTipo" />
+        </label>
+
+        <label>
+            Fecha
+            <input type="date"
+                   @bind="campoFecha" />
+        </label>
+
+        <label>
+            Institución
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoInstitucion" />
+        </label>
+
+        <label>
+            Nombre
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoNombre" />
+        </label>
+
+        <label>
+            Ámbito
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoAmbito" />
+        </label>
+
+        <label>
+            Docente
+            <select @bind="campoDocente">
+                <option value="">Seleccione un docente</option>
+
+                @foreach (var docente in docentes)
+                {
+                    <option value="@docente.Cedula">
+                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                    </option>
+                }
+            </select>
+        </label>
+
+        <div class="pareja">
+
+            @if (editando)
+            {
+                <button class="boton primario"
+                        @onclick="Guardar"
+                        disabled="@guardando">
+                    Guardar
+                </button>
+            }
+            else
+            {
+                <button class="boton primario"
+                        @onclick="Crear"
+                        disabled="@guardando">
+                    Agregar
+                </button>
+            }
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Institución</th>
+                    <th>Fecha</th>
+                    <th>Ámbito</th>
+                    <th>Docente</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td><code>@fila.Id</code></td>
+                        <td>@fila.Nombre</td>
+                        <td>@fila.Tipo</td>
+                        <td>@fila.Institucion</td>
+                        <td>@fila.Fecha</td>
+                        <td>@fila.Ambito</td>
+                        <td>@NombreDocente(fila.Docente)</td>
+
+                        <td>
+                            <div class="acciones">
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="nota">
+        @filas.Count reconocimiento(s).
+    </p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay reconocimientos registrados.
+    </p>
+}
+
+@code {
+
+    private List<Reconocimiento> filas = new();
+    private List<Docente> docentes = new();
+
+    private Dictionary<int, string> nombresDocentes = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private int idActual;
+
+    private string campoTipo = string.Empty;
+    private DateOnly? campoFecha;
+    private string campoInstitucion = string.Empty;
+    private string campoNombre = string.Empty;
+    private string campoAmbito = string.Empty;
+    private string campoDocente = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rDocentes = await ServicioDocentes.Listar();
+
+        if (rDocentes.Ok)
+        {
+            docentes = rDocentes.Datos ?? new();
+
+            nombresDocentes = docentes.ToDictionary(
+                x => x.Cedula,
+                x => $"{x.Nombres} {x.Apellidos}");
+        }
+        else
+        {
+            errores.AddRange(rDocentes.Errores);
+        }
+
+        var resultado = await Servicio.Listar();
+
+        if (resultado.Ok)
+            filas = resultado.Datos ?? new();
+        else
+            errores.AddRange(resultado.Errores);
+
+        cargando = false;
+    }
+
+    private string NombreDocente(int cedula)
+    {
+        return nombresDocentes.TryGetValue(cedula, out var nombre)
+            ? $"{cedula} - {nombre}"
+            : cedula.ToString();
+    }
+
+    private int DocenteSeleccionado()
+    {
+        return int.TryParse(campoDocente, out var cedula)
+            ? cedula
+            : 0;
+    }
+
+    private void Agregar()
+    {
+        idActual = 0;
+        campoTipo = string.Empty;
+        campoFecha = DateOnly.FromDateTime(DateTime.Today);
+        campoInstitucion = string.Empty;
+        campoNombre = string.Empty;
+        campoAmbito = string.Empty;
+        campoDocente = string.Empty;
+
+        editando = false;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(Reconocimiento fila)
+    {
+        idActual = fila.Id;
+        campoTipo = fila.Tipo;
+        campoFecha = fila.Fecha;
+        campoInstitucion = fila.Institucion;
+        campoNombre = fila.Nombre;
+        campoAmbito = fila.Ambito;
+        campoDocente = fila.Docente.ToString();
+
+        editando = true;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private bool Validar()
+    {
+        errores.Clear();
+
+        if (string.IsNullOrWhiteSpace(campoTipo))
+            errores.Add("Debe ingresar el tipo.");
+
+        if (!campoFecha.HasValue)
+            errores.Add("Debe seleccionar la fecha.");
+
+        if (string.IsNullOrWhiteSpace(campoInstitucion))
+            errores.Add("Debe ingresar la institución.");
+
+        if (string.IsNullOrWhiteSpace(campoNombre))
+            errores.Add("Debe ingresar el nombre.");
+
+        if (string.IsNullOrWhiteSpace(campoAmbito))
+            errores.Add("Debe ingresar el ámbito.");
+
+        if (DocenteSeleccionado() == 0)
+            errores.Add("Debe seleccionar un docente.");
+
+        return errores.Count == 0;
+    }
+
+    private Reconocimiento Construir()
+    {
+        return new Reconocimiento
+        {
+            Id = idActual,
+            Tipo = campoTipo,
+            Fecha = campoFecha,
+            Institucion = campoInstitucion,
+            Nombre = campoNombre,
+            Ambito = campoAmbito,
+            Docente = DocenteSeleccionado()
+        };
+    }
+
+    private async Task Crear()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado = await Servicio.Crear(Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Reconocimiento agregado.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Guardar()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado = await Servicio.Reemplazar(
+            idActual,
+            Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Reconocimiento actualizado.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(Reconocimiento fila)
+    {
+        var confirmar = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"¿Retirar el reconocimiento '{fila.Nombre}'?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado = await Servicio.Eliminar(fila.Id);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Reconocimiento retirado.";
+
+        await Cargar();
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+}
