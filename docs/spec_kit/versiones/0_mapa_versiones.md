@@ -18,7 +18,7 @@
 
 | Versión | Qué agrega (acumulativo) | Estado |
 |---|---|---|
-| **v1** | CRUD completo de las **tablas sin clave foránea**, con los catálogos del Excel cargados | **En curso** ([spec](v1_programa/2_spec.md)) |
+| **v1** | CRUD completo de las **tablas sin clave foránea**, con API REST y frontend funcionando | **Terminada ✅** |
 | v2 | CRUD de las **11 tablas con clave foránea**: las FK como listas desplegables cargadas desde la API, y validación de integridad referencial | Sin especificar |
 | v3 | **JWT**, sesiones y control de acceso por roles; CRUD de `usuario`, `rol` y `rol_usuario` solo para administradores | Sin especificar |
 | v4 | **10 consultas multitabla** (4+ tablas cada una), dashboard con gráficos, páginas corporativas, responsive/PWA y **publicación** en un servidor | Sin especificar |
@@ -38,24 +38,22 @@ Las 19 tablas de la base, repartidas:
 > qué puede **nombrar el código** de cada versión, no qué existe en el
 > motor.
 
-## Lo que este ejemplo construye
+## Lo que construye la v1
 
-La v1 de este repositorio se construye sobre **`programa`**: una rebanada
-vertical completa —controlador, servicio, repositorio, interfaces,
-peticiones y prueba sin base de datos— sobre la tabla **con más campos de
-las siete sin clave foránea** (once, frente a los cuatro de la siguiente).
+La v1 implementa el CRUD completo, tanto en la API REST como en el frontend
+Blazor, de las cinco tablas sin clave foránea del módulo Gestión Profesoral:
 
-Y arranca **vacía**, a propósito: el Excel de referencia no trae programas.
-Eso no es una carencia sino una ventaja para el smoke test, que puede
-recorrer el ciclo completo desde el principio —**listado vacío → 204,
-crear → 1 fila, borrar → 204 otra vez**— y ejercitar el 204 que una tabla
-llena nunca deja probar.
+- `programa`
+- `area_conocimiento`
+- `termino_clave`
+- `linea_investigacion`
+- `red`
 
-Las demás tablas de la v1 son **ese mismo patrón** con otros nombres. El
-equipo que tome este ejemplo lo revisa, y **si está de acuerdo lo retoma y
-lo completa; si no, lo rehace a su manera** — lo que no puede es cambiar la
-especificación sin pasar por sus compuertas.
+Cada recurso cuenta con controlador, servicio, repositorio, interfaces,
+peticiones de creación/reemplazo/actualización, validaciones y borrado lógico.
 
+La versión fue verificada de extremo a extremo, integrada mediante Pull Request
+a `main` y cerrada con el tag `v1`.
 ## Reglas del mapa
 
 1. **No se anticipa nada de una versión futura** (Artículo 1 de la
