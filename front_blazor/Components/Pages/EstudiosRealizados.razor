@@ -1,0 +1,430 @@
+﻿@page "/estudios-realizados"
+@rendermode InteractiveServer
+@inject ServicioEstudioRealizado Servicio
+@inject ServicioDocente ServicioDocentes
+@inject IJSRuntime JS
+
+<PageTitle>Estudios realizados</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Estudios realizados</h1>
+        <p class="nota">
+            Estudios académicos registrados para los docentes.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario" @onclick="Agregar">Agregar</button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>@(editando ? "Editar estudio" : "Agregar estudio")</h2>
+
+        <label>
+            Id
+            <input type="number" @bind="campoId" disabled="@editando" />
+        </label>
+
+        <label>
+            Título
+            <input type="text" maxlength="45" @bind="campoTitulo" />
+        </label>
+
+        <label>
+            Universidad
+            <input type="text" maxlength="50" @bind="campoUniversidad" />
+        </label>
+
+        <label>
+            Fecha
+            <input type="date" @bind="campoFecha" />
+        </label>
+
+        <label>
+            Tipo
+            <input type="text" maxlength="45" @bind="campoTipo" />
+        </label>
+
+        <label>
+            Ciudad
+            <input type="text" maxlength="45" @bind="campoCiudad" />
+        </label>
+
+        <label>
+            Docente
+            <select @bind="campoDocenteTexto">
+                <option value="">Seleccione un docente</option>
+
+                @foreach (var docente in docentes)
+                {
+                    <option value="@docente.Cedula">
+                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                    </option>
+                }
+            </select>
+        </label>
+
+        <label>
+            Institución acreditada
+            <select @bind="campoInsAcreditada">
+                <option value="1">Sí</option>
+                <option value="0">No</option>
+            </select>
+        </label>
+
+        <label>
+            Metodología
+            <input type="text" maxlength="45" @bind="campoMetodologia" />
+        </label>
+
+        <label>
+            Perfil del egresado
+            <textarea @bind="campoPerfilEgresado"></textarea>
+        </label>
+
+        <label>
+            País
+            <input type="text" maxlength="45" @bind="campoPais" />
+        </label>
+
+        <div class="pareja">
+
+            @if (editando)
+            {
+                <button class="boton primario"
+                        @onclick="Guardar"
+                        disabled="@guardando">
+                    Guardar
+                </button>
+            }
+            else
+            {
+                <button class="boton primario"
+                        @onclick="Crear"
+                        disabled="@guardando">
+                    Agregar
+                </button>
+            }
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Universidad</th>
+                    <th>Fecha</th>
+                    <th>Docente</th>
+                    <th>Metodología</th>
+                    <th>País</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td><code>@fila.Id</code></td>
+                        <td>@fila.Titulo</td>
+                        <td>@fila.Universidad</td>
+                        <td>@fila.Fecha</td>
+                        <td>@NombreDocente(fila.Docente)</td>
+                        <td>@fila.Metodologia</td>
+                        <td>@fila.Pais</td>
+
+                        <td>
+                            <div class="acciones">
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="nota">@filas.Count estudio(s).</p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay estudios realizados.
+    </p>
+}
+
+@code {
+
+    private List<EstudioRealizado> filas = new();
+    private List<Docente> docentes = new();
+
+    private Dictionary<int, string> nombresDocentes = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private int campoId;
+    private string campoTitulo = string.Empty;
+    private string campoUniversidad = string.Empty;
+    private DateOnly? campoFecha;
+    private string campoTipo = string.Empty;
+    private string campoCiudad = string.Empty;
+    private string campoDocenteTexto = string.Empty;
+    private byte campoInsAcreditada = 1;
+    private string campoMetodologia = string.Empty;
+    private string campoPerfilEgresado = string.Empty;
+    private string campoPais = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rDocentes = await ServicioDocentes.Listar();
+
+        if (rDocentes.Ok)
+        {
+            docentes = rDocentes.Datos ?? new();
+
+            nombresDocentes = docentes.ToDictionary(
+                x => x.Cedula,
+                x => $"{x.Nombres} {x.Apellidos}");
+        }
+        else
+        {
+            errores.AddRange(rDocentes.Errores);
+        }
+
+        var resultado = await Servicio.Listar();
+
+        if (resultado.Ok)
+        {
+            filas = resultado.Datos ?? new();
+        }
+        else
+        {
+            errores.AddRange(resultado.Errores);
+        }
+
+        cargando = false;
+    }
+
+    private string NombreDocente(int cedula)
+    {
+        return nombresDocentes.TryGetValue(cedula, out var nombre)
+            ? nombre
+            : cedula.ToString();
+    }
+
+    private int DocenteSeleccionado()
+    {
+        return int.TryParse(campoDocenteTexto, out var cedula)
+            ? cedula
+            : 0;
+    }
+
+    private void Agregar()
+    {
+        Limpiar();
+        mostrandoFormulario = true;
+        editando = false;
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(EstudioRealizado fila)
+    {
+        campoId = fila.Id;
+        campoTitulo = fila.Titulo;
+        campoUniversidad = fila.Universidad;
+        campoFecha = fila.Fecha;
+        campoTipo = fila.Tipo;
+        campoCiudad = fila.Ciudad;
+        campoDocenteTexto = fila.Docente.ToString();
+        campoInsAcreditada = fila.InsAcreditada;
+        campoMetodologia = fila.Metodologia;
+        campoPerfilEgresado = fila.PerfilEgresado;
+        campoPais = fila.Pais;
+
+        mostrandoFormulario = true;
+        editando = true;
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private async Task Crear()
+    {
+        errores.Clear();
+        exito = string.Empty;
+
+        if (DocenteSeleccionado() == 0)
+        {
+            errores.Add("Debe seleccionar un docente.");
+            return;
+        }
+
+        guardando = true;
+
+        var entidad = Construir();
+
+        var resultado = await Servicio.Crear(entidad);
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Estudio realizado agregado.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Guardar()
+    {
+        errores.Clear();
+        exito = string.Empty;
+
+        if (DocenteSeleccionado() == 0)
+        {
+            errores.Add("Debe seleccionar un docente.");
+            return;
+        }
+
+        guardando = true;
+
+        var entidad = Construir();
+
+        var resultado = await Servicio.Reemplazar(campoId, entidad);
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Estudio realizado actualizado.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(EstudioRealizado fila)
+    {
+        var confirmar = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"¿Retirar el estudio '{fila.Titulo}'?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado = await Servicio.Eliminar(fila.Id);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Estudio realizado retirado.";
+
+        await Cargar();
+    }
+
+    private EstudioRealizado Construir()
+    {
+        return new EstudioRealizado
+        {
+            Id = campoId,
+            Titulo = campoTitulo,
+            Universidad = campoUniversidad,
+            Fecha = campoFecha,
+            Tipo = campoTipo,
+            Ciudad = campoCiudad,
+            Docente = DocenteSeleccionado(),
+            InsAcreditada = campoInsAcreditada,
+            Metodologia = campoMetodologia,
+            PerfilEgresado = campoPerfilEgresado,
+            Pais = campoPais
+        };
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+
+    private void Limpiar()
+    {
+        campoId = 0;
+        campoTitulo = string.Empty;
+        campoUniversidad = string.Empty;
+        campoFecha = null;
+        campoTipo = string.Empty;
+        campoCiudad = string.Empty;
+        campoDocenteTexto = string.Empty;
+        campoInsAcreditada = 1;
+        campoMetodologia = string.Empty;
+        campoPerfilEgresado = string.Empty;
+        campoPais = string.Empty;
+    }
+}
