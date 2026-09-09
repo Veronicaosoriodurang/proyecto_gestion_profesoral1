@@ -41,6 +41,8 @@ builder.Services.AddScoped<IRepositorioReconocimiento, RepositorioReconocimiento
 builder.Services.AddScoped<IServicioReconocimiento, ServicioReconocimiento>();
 builder.Services.AddScoped<IRepositorioExperiecia, RepositorioExperieciaSqlServer>();
 builder.Services.AddScoped<IServicioExperiecia, ServicioExperiecia>();
+builder.Services.AddScoped<IRepositorioRedDocente, RepositorioRedDocenteSqlServer>();
+builder.Services.AddScoped<IServicioRedDocente, ServicioRedDocente>();
 
 builder.Services.AddControllers();
 
