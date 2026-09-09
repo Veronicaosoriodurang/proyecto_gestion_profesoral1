@@ -1,0 +1,478 @@
+﻿@page "/red-docente"
+@rendermode InteractiveServer
+@inject ServicioRedDocente Servicio
+@inject ServicioDocente ServicioDocentes
+@inject ServicioRed ServicioRedes
+@inject IJSRuntime JS
+
+<PageTitle>Redes de docentes</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Redes de docentes</h1>
+
+        <p class="nota">
+            Vinculación de docentes con redes académicas.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario" @onclick="Agregar">
+            Agregar
+        </button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>
+            @(editando
+                ? "Editar relación red-docente"
+                : "Agregar relación red-docente")
+        </h2>
+
+        <label>
+            Red
+            <select @bind="campoRed">
+                <option value="">Seleccione una red</option>
+
+                @foreach (var red in redes)
+                {
+                    <option value="@red.Idr">
+                        @red.Idr - @red.Nombre
+                    </option>
+                }
+            </select>
+        </label>
+
+        <label>
+            Docente
+            <select @bind="campoDocente">
+                <option value="">Seleccione un docente</option>
+
+                @foreach (var docente in docentes)
+                {
+                    <option value="@docente.Cedula">
+                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                    </option>
+                }
+            </select>
+        </label>
+
+        <label>
+            Fecha de inicio
+            <input type="date"
+                   @bind="campoFechaInicio" />
+        </label>
+
+        <label>
+            Fecha de fin
+            <input type="text"
+                   maxlength="45"
+                   placeholder="Ejemplo: 2026-12-01"
+                   @bind="campoFechaFin" />
+        </label>
+
+        <label>
+            Actividades destacadas
+            <textarea rows="4"
+                      @bind="campoActDestacadas">
+            </textarea>
+        </label>
+
+        <div class="pareja">
+
+            @if (editando)
+            {
+                <button class="boton primario"
+                        @onclick="Guardar"
+                        disabled="@guardando">
+                    Guardar
+                </button>
+            }
+            else
+            {
+                <button class="boton primario"
+                        @onclick="Crear"
+                        disabled="@guardando">
+                    Agregar
+                </button>
+            }
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Red</th>
+                    <th>Docente</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Actividades destacadas</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td>@NombreRed(fila.Red)</td>
+
+                        <td>
+                            @NombreDocente(fila.Docente)
+                        </td>
+
+                        <td>@fila.FechaInicio</td>
+
+                        <td>
+                            @(string.IsNullOrWhiteSpace(fila.FechaFin)
+                                ? "Sin registrar"
+                                : fila.FechaFin)
+                        </td>
+
+                        <td>@fila.ActDestacadas</td>
+
+                        <td>
+                            <div class="acciones">
+
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <p class="nota">
+        @filas.Count relación(es).
+    </p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay relaciones red-docente registradas.
+    </p>
+}
+
+@code {
+
+    private List<RedDocente> filas = new();
+    private List<Docente> docentes = new();
+    private List<Red> redes = new();
+
+    private Dictionary<int, string> nombresDocentes = new();
+    private Dictionary<int, string> nombresRedes = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private int redOriginal;
+    private int docenteOriginal;
+
+    private string campoRed = string.Empty;
+    private string campoDocente = string.Empty;
+    private DateOnly? campoFechaInicio;
+    private string campoFechaFin = string.Empty;
+    private string campoActDestacadas = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rDocentes = await ServicioDocentes.Listar();
+
+        if (rDocentes.Ok)
+        {
+            docentes = rDocentes.Datos ?? new();
+
+            nombresDocentes = docentes.ToDictionary(
+                x => x.Cedula,
+                x => $"{x.Nombres} {x.Apellidos}");
+        }
+        else
+        {
+            errores.AddRange(rDocentes.Errores);
+        }
+
+        var rRedes = await ServicioRedes.Listar();
+
+        if (rRedes.Ok)
+        {
+            redes = rRedes.Datos ?? new();
+
+            nombresRedes = redes.ToDictionary(
+                x => x.Idr,
+                x => x.Nombre);
+        }
+        else
+        {
+            errores.AddRange(rRedes.Errores);
+        }
+
+        var resultado = await Servicio.Listar();
+
+        if (resultado.Ok)
+        {
+            filas = resultado.Datos ?? new();
+        }
+        else
+        {
+            errores.AddRange(resultado.Errores);
+        }
+
+        cargando = false;
+    }
+
+    private string NombreDocente(int cedula)
+    {
+        return nombresDocentes.TryGetValue(
+            cedula,
+            out var nombre)
+                ? $"{cedula} - {nombre}"
+                : cedula.ToString();
+    }
+
+    private string NombreRed(int id)
+    {
+        return nombresRedes.TryGetValue(
+            id,
+            out var nombre)
+                ? $"{id} - {nombre}"
+                : id.ToString();
+    }
+
+    private int RedSeleccionada()
+    {
+        return int.TryParse(
+            campoRed,
+            out var id)
+                ? id
+                : 0;
+    }
+
+    private int DocenteSeleccionado()
+    {
+        return int.TryParse(
+            campoDocente,
+            out var cedula)
+                ? cedula
+                : 0;
+    }
+
+    private void Agregar()
+    {
+        redOriginal = 0;
+        docenteOriginal = 0;
+
+        campoRed = string.Empty;
+        campoDocente = string.Empty;
+        campoFechaInicio =
+            DateOnly.FromDateTime(DateTime.Today);
+
+        campoFechaFin = string.Empty;
+        campoActDestacadas = string.Empty;
+
+        editando = false;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(RedDocente fila)
+    {
+        redOriginal = fila.Red;
+        docenteOriginal = fila.Docente;
+
+        campoRed = fila.Red.ToString();
+        campoDocente = fila.Docente.ToString();
+        campoFechaInicio = fila.FechaInicio;
+        campoFechaFin = fila.FechaFin ?? string.Empty;
+        campoActDestacadas = fila.ActDestacadas;
+
+        editando = true;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private bool Validar()
+    {
+        errores.Clear();
+
+        if (RedSeleccionada() == 0)
+            errores.Add("Debe seleccionar una red.");
+
+        if (DocenteSeleccionado() == 0)
+            errores.Add("Debe seleccionar un docente.");
+
+        if (!campoFechaInicio.HasValue)
+            errores.Add("Debe seleccionar la fecha de inicio.");
+
+        if (string.IsNullOrWhiteSpace(campoActDestacadas))
+            errores.Add(
+                "Debe ingresar las actividades destacadas.");
+
+        return errores.Count == 0;
+    }
+
+    private RedDocente Construir()
+    {
+        return new RedDocente
+        {
+            Red = RedSeleccionada(),
+            Docente = DocenteSeleccionado(),
+            FechaInicio = campoFechaInicio,
+            FechaFin =
+                string.IsNullOrWhiteSpace(campoFechaFin)
+                    ? null
+                    : campoFechaFin.Trim(),
+            ActDestacadas = campoActDestacadas.Trim()
+        };
+    }
+
+    private async Task Crear()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado =
+            await Servicio.Crear(Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Relación red-docente agregada.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Guardar()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado =
+            await Servicio.Reemplazar(
+                redOriginal,
+                docenteOriginal,
+                Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Relación red-docente actualizada.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(RedDocente fila)
+    {
+        var confirmar =
+            await JS.InvokeAsync<bool>(
+                "confirm",
+                "¿Retirar esta relación entre red y docente?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado =
+            await Servicio.Eliminar(
+                fila.Red,
+                fila.Docente);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Relación red-docente retirada.";
+
+        await Cargar();
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+}
