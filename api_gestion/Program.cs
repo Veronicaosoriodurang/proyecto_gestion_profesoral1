@@ -33,6 +33,8 @@ builder.Services.AddScoped<IRepositorioEstudioRealizado, RepositorioEstudioReali
 builder.Services.AddScoped<IServicioEstudioRealizado, ServicioEstudioRealizado>();
 builder.Services.AddScoped<IRepositorioDocenteDepartamento, RepositorioDocenteDepartamentoSqlServer>();
 builder.Services.AddScoped<IServicioDocenteDepartamento, ServicioDocenteDepartamento>();
+builder.Services.AddScoped<IRepositorioInteresFuturo, RepositorioInteresFuturoSqlServer>();
+builder.Services.AddScoped<IServicioInteresFuturo, ServicioInteresFuturo>();
 
 builder.Services.AddControllers();
 
