@@ -31,6 +31,8 @@ builder.Services.AddScoped<IRepositorioDocente, RepositorioDocenteSqlServer>();
 builder.Services.AddScoped<IServicioDocente, ServicioDocente>();
 builder.Services.AddScoped<IRepositorioEstudioRealizado, RepositorioEstudioRealizadoSqlServer>();
 builder.Services.AddScoped<IServicioEstudioRealizado, ServicioEstudioRealizado>();
+builder.Services.AddScoped<IRepositorioDocenteDepartamento, RepositorioDocenteDepartamentoSqlServer>();
+builder.Services.AddScoped<IServicioDocenteDepartamento, ServicioDocenteDepartamento>();
 
 builder.Services.AddControllers();
 
