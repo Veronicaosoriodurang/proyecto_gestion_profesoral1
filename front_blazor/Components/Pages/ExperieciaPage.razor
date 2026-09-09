@@ -1,0 +1,415 @@
+﻿@page "/experiecia"
+@rendermode InteractiveServer
+@inject ServicioExperiecia Servicio
+@inject ServicioDocente ServicioDocentes
+@inject IJSRuntime JS
+
+<PageTitle>Experiencia docente</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Experiencia docente</h1>
+        <p class="nota">
+            Experiencia laboral y académica de los docentes.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario" @onclick="Agregar">
+            Agregar
+        </button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>
+            @(editando ? "Editar experiencia" : "Agregar experiencia")
+        </h2>
+
+        <label>
+            Nombre del cargo
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoNombreCargo" />
+        </label>
+
+        <label>
+            Institución
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoInstitucion" />
+        </label>
+
+        <label>
+            Tipo
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoTipo" />
+        </label>
+
+        <label>
+            Fecha de inicio
+            <input type="date"
+                   @bind="campoFechaInicio" />
+        </label>
+
+        <label>
+            Fecha de fin
+            <input type="date"
+                   @bind="campoFechaFin" />
+        </label>
+
+        <label>
+            Docente
+            <select @bind="campoDocente">
+                <option value="">Seleccione un docente</option>
+
+                @foreach (var docente in docentes)
+                {
+                    <option value="@docente.Cedula">
+                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                    </option>
+                }
+            </select>
+        </label>
+
+        <div class="pareja">
+
+            @if (editando)
+            {
+                <button class="boton primario"
+                        @onclick="Guardar"
+                        disabled="@guardando">
+                    Guardar
+                </button>
+            }
+            else
+            {
+                <button class="boton primario"
+                        @onclick="Crear"
+                        disabled="@guardando">
+                    Agregar
+                </button>
+            }
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Cargo</th>
+                    <th>Institución</th>
+                    <th>Tipo</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Docente</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td><code>@fila.Id</code></td>
+                        <td>@fila.NombreCargo</td>
+                        <td>@fila.Institucion</td>
+                        <td>@fila.Tipo</td>
+                        <td>@fila.FechaInicio</td>
+                        <td>@fila.FechaFin</td>
+                        <td>@NombreDocente(fila.Docente)</td>
+
+                        <td>
+                            <div class="acciones">
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <p class="nota">
+        @filas.Count experiencia(s).
+    </p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay experiencias registradas.
+    </p>
+}
+
+@code {
+
+    private List<Experiecia> filas = new();
+    private List<Docente> docentes = new();
+
+    private Dictionary<int, string> nombresDocentes = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private int idActual;
+
+    private string campoNombreCargo = string.Empty;
+    private string campoInstitucion = string.Empty;
+    private string campoTipo = string.Empty;
+    private DateOnly? campoFechaInicio;
+    private DateOnly? campoFechaFin;
+    private string campoDocente = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rDocentes = await ServicioDocentes.Listar();
+
+        if (rDocentes.Ok)
+        {
+            docentes = rDocentes.Datos ?? new();
+
+            nombresDocentes = docentes.ToDictionary(
+                x => x.Cedula,
+                x => $"{x.Nombres} {x.Apellidos}");
+        }
+        else
+        {
+            errores.AddRange(rDocentes.Errores);
+        }
+
+        var resultado = await Servicio.Listar();
+
+        if (resultado.Ok)
+            filas = resultado.Datos ?? new();
+        else
+            errores.AddRange(resultado.Errores);
+
+        cargando = false;
+    }
+
+    private string NombreDocente(int cedula)
+    {
+        return nombresDocentes.TryGetValue(cedula, out var nombre)
+            ? $"{cedula} - {nombre}"
+            : cedula.ToString();
+    }
+
+    private int DocenteSeleccionado()
+    {
+        return int.TryParse(campoDocente, out var cedula)
+            ? cedula
+            : 0;
+    }
+
+    private void Agregar()
+    {
+        idActual = 0;
+        campoNombreCargo = string.Empty;
+        campoInstitucion = string.Empty;
+        campoTipo = string.Empty;
+        campoFechaInicio = DateOnly.FromDateTime(DateTime.Today);
+        campoFechaFin = null;
+        campoDocente = string.Empty;
+
+        editando = false;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(Experiecia fila)
+    {
+        idActual = fila.Id;
+        campoNombreCargo = fila.NombreCargo;
+        campoInstitucion = fila.Institucion;
+        campoTipo = fila.Tipo;
+        campoFechaInicio = fila.FechaInicio;
+        campoFechaFin = fila.FechaFin;
+        campoDocente = fila.Docente.ToString();
+
+        editando = true;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private bool Validar()
+    {
+        errores.Clear();
+
+        if (string.IsNullOrWhiteSpace(campoNombreCargo))
+            errores.Add("Debe ingresar el nombre del cargo.");
+
+        if (string.IsNullOrWhiteSpace(campoInstitucion))
+            errores.Add("Debe ingresar la institución.");
+
+        if (string.IsNullOrWhiteSpace(campoTipo))
+            errores.Add("Debe ingresar el tipo.");
+
+        if (!campoFechaInicio.HasValue)
+            errores.Add("Debe seleccionar la fecha de inicio.");
+
+        if (campoFechaInicio.HasValue &&
+            campoFechaFin.HasValue &&
+            campoFechaFin.Value < campoFechaInicio.Value)
+        {
+            errores.Add(
+                "La fecha de fin no puede ser anterior a la fecha de inicio.");
+        }
+
+        if (DocenteSeleccionado() == 0)
+            errores.Add("Debe seleccionar un docente.");
+
+        return errores.Count == 0;
+    }
+
+    private Experiecia Construir()
+    {
+        return new Experiecia
+        {
+            Id = idActual,
+            NombreCargo = campoNombreCargo,
+            Institucion = campoInstitucion,
+            Tipo = campoTipo,
+            FechaInicio = campoFechaInicio,
+            FechaFin = campoFechaFin,
+            Docente = DocenteSeleccionado()
+        };
+    }
+
+    private async Task Crear()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado = await Servicio.Crear(Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Experiencia agregada.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Guardar()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado = await Servicio.Reemplazar(
+            idActual,
+            Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Experiencia actualizada.";
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(Experiecia fila)
+    {
+        var confirmar = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"¿Retirar la experiencia '{fila.NombreCargo}'?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado = await Servicio.Eliminar(fila.Id);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Experiencia retirada.";
+
+        await Cargar();
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+}
