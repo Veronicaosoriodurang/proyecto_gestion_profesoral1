@@ -1,0 +1,434 @@
+﻿@page "/evaluacion-docente"
+@rendermode InteractiveServer
+@inject ServicioEvaluacionDocente Servicio
+@inject ServicioDocente ServicioDocentes
+@inject IJSRuntime JS
+
+<PageTitle>Evaluación docente</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Evaluación docente</h1>
+
+        <p class="nota">
+            Calificaciones registradas para los docentes.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario"
+                @onclick="Agregar">
+            Agregar
+        </button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>
+            @(editando
+                ? "Editar evaluación"
+                : "Agregar evaluación")
+        </h2>
+
+        <label>
+            Calificación
+            <input type="number"
+                   step="0.1"
+                   min="0"
+                   max="5"
+                   @bind="campoCalificacion" />
+        </label>
+
+        <label>
+            Semestre
+            <input type="text"
+                   maxlength="45"
+                   placeholder="Ejemplo: 2026-2"
+                   @bind="campoSemestre" />
+        </label>
+
+        <label>
+            Docente
+            <select @bind="campoDocente">
+                <option value="">
+                    Seleccione un docente
+                </option>
+
+                @foreach (var docente in docentes)
+                {
+                    <option value="@docente.Cedula">
+                        @docente.Cedula -
+                        @docente.Nombres
+                        @docente.Apellidos
+                    </option>
+                }
+            </select>
+        </label>
+
+        <div class="pareja">
+
+            @if (editando)
+            {
+                <button class="boton primario"
+                        @onclick="Guardar"
+                        disabled="@guardando">
+                    Guardar
+                </button>
+            }
+            else
+            {
+                <button class="boton primario"
+                        @onclick="Crear"
+                        disabled="@guardando">
+                    Agregar
+                </button>
+            }
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Calificación</th>
+                    <th>Semestre</th>
+                    <th>Docente</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td>
+                            <code>@fila.Id</code>
+                        </td>
+
+                        <td>
+                            @fila.Calificacion
+                        </td>
+
+                        <td>
+                            @fila.Semestre
+                        </td>
+
+                        <td>
+                            @NombreDocente(fila.Docente)
+                        </td>
+
+                        <td>
+                            <div class="acciones">
+
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+    <p class="nota">
+        @filas.Count evaluación(es).
+    </p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay evaluaciones registradas.
+    </p>
+}
+
+@code {
+
+    private List<EvaluacionDocente> filas = new();
+    private List<Docente> docentes = new();
+
+    private Dictionary<int, string>
+        nombresDocentes = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private int idActual;
+
+    private float campoCalificacion;
+    private string campoSemestre = string.Empty;
+    private string campoDocente = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rDocentes =
+            await ServicioDocentes.Listar();
+
+        if (rDocentes.Ok)
+        {
+            docentes =
+                rDocentes.Datos ?? new();
+
+            nombresDocentes =
+                docentes.ToDictionary(
+                    x => x.Cedula,
+                    x => $"{x.Nombres} {x.Apellidos}");
+        }
+        else
+        {
+            errores.AddRange(
+                rDocentes.Errores);
+        }
+
+        var resultado =
+            await Servicio.Listar();
+
+        if (resultado.Ok)
+        {
+            filas =
+                resultado.Datos ?? new();
+        }
+        else
+        {
+            errores.AddRange(
+                resultado.Errores);
+        }
+
+        cargando = false;
+    }
+
+    private string NombreDocente(int cedula)
+    {
+        return nombresDocentes.TryGetValue(
+            cedula,
+            out var nombre)
+                ? $"{cedula} - {nombre}"
+                : cedula.ToString();
+    }
+
+    private int DocenteSeleccionado()
+    {
+        return int.TryParse(
+            campoDocente,
+            out var cedula)
+                ? cedula
+                : 0;
+    }
+
+    private void Agregar()
+    {
+        idActual = 0;
+        campoCalificacion = 0;
+        campoSemestre = string.Empty;
+        campoDocente = string.Empty;
+
+        mostrandoFormulario = true;
+        editando = false;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(
+        EvaluacionDocente fila)
+    {
+        idActual = fila.Id;
+        campoCalificacion = fila.Calificacion;
+        campoSemestre = fila.Semestre;
+        campoDocente = fila.Docente.ToString();
+
+        mostrandoFormulario = true;
+        editando = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private bool Validar()
+    {
+        errores.Clear();
+
+        if (campoCalificacion < 0
+            || campoCalificacion > 5)
+        {
+            errores.Add(
+                "La calificación debe estar entre 0 y 5.");
+        }
+
+        if (string.IsNullOrWhiteSpace(
+            campoSemestre))
+        {
+            errores.Add(
+                "Debe ingresar el semestre.");
+        }
+
+        if (DocenteSeleccionado() == 0)
+        {
+            errores.Add(
+                "Debe seleccionar un docente.");
+        }
+
+        return errores.Count == 0;
+    }
+
+    private EvaluacionDocente Construir()
+    {
+        return new EvaluacionDocente
+        {
+            Id = idActual,
+            Calificacion = campoCalificacion,
+            Semestre = campoSemestre,
+            Docente = DocenteSeleccionado()
+        };
+    }
+
+    private async Task Crear()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado =
+            await Servicio.Crear(
+                Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(
+                resultado.Errores);
+            return;
+        }
+
+        exito =
+            "Evaluación docente agregada.";
+
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Guardar()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        var resultado =
+            await Servicio.Reemplazar(
+                idActual,
+                Construir());
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(
+                resultado.Errores);
+            return;
+        }
+
+        exito =
+            "Evaluación docente actualizada.";
+
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(
+        EvaluacionDocente fila)
+    {
+        var confirmar =
+            await JS.InvokeAsync<bool>(
+                "confirm",
+                $"¿Retirar la evaluación del semestre '{fila.Semestre}'?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado =
+            await Servicio.Eliminar(
+                fila.Id);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(
+                resultado.Errores);
+            return;
+        }
+
+        exito =
+            "Evaluación docente retirada.";
+
+        await Cargar();
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+}
