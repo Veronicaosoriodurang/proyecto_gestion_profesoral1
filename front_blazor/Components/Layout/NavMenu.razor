@@ -90,12 +90,26 @@
         color: #102D69;
     }
 
-    .premium-nav,
-    .premium-nav-inner,
-    .nav-group,
-    .nav-dropdown {
+    .premium-nav {
         position: relative;
         z-index: 62;
+    }
+
+    .premium-nav-inner {
+        position: relative;
+        z-index: 62;
+    }
+
+    .nav-group {
+        position: relative;
+        z-index: 63;
+    }
+
+    .nav-dropdown {
+        position: absolute;
+        z-index: 70;
+        top: calc(100% + 8px);
+        left: 0;
     }
 
     .nav-click-away {
