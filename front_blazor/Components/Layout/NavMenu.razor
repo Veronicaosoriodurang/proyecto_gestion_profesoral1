@@ -1,32 +1,51 @@
-@*
-    EL MENÚ, CON UN ENLACE POR PANTALLA
+<nav class="premium-nav" aria-label="Navegación principal">
+    <div class="contenedor premium-nav-inner">
+        <NavLink class="nav-home" href="" Match="NavLinkMatch.All">Inicio</NavLink>
 
-    Hoy hay uno porque la v1 construye una tabla. Cuando haya más recursos
-    habrá un enlace por cada uno, escrito aquí, a direcciones que existen — no
-    una dirección con el nombre de la tabla como parámetro (Artículo 10.1).
-*@
-<nav class="menu">
-    <div class="contenedor menu-interno">
-        <NavLink class="enlace" href="" Match="NavLinkMatch.All">Inicio</NavLink>
-        <NavLink class="enlace" href="programas">Programas</NavLink>
-        <NavLink class="enlace" href="redes">Redes</NavLink>
-        <NavLink class="enlace" href="areas-conocimiento">Áreas de conocimiento</NavLink>
-        <NavLink class="enlace" href="terminos-clave">Términos clave</NavLink>
-        <NavLink class="enlace" href="lineas-investigacion">Líneas de investigación</NavLink>
-        <NavLink class="enlace" href="docentes">Docentes</NavLink>
-<NavLink class="enlace" href="estudios-realizados">Estudios realizados</NavLink>
-<NavLink class="enlace" href="docente-departamento">Docente - Departamento</NavLink>
-        <NavLink class="enlace" href="intereses-futuros">Intereses futuros</NavLink>
-        <NavLink class="enlace" href="evaluacion-docente">Evaluación docente</NavLink>
-        <NavLink class="enlace" href="reconocimientos">Reconocimientos</NavLink>
-        <NavLink class="enlace" href="experiecia">Experiencia docente</NavLink>
-        <NavLink class="enlace" href="red-docente">Redes de docentes</NavLink>
-        <NavLink class="enlace" href="estudio-ac">Estudios y áreas</NavLink>
-        <NavLink class="enlace" href="apoyo-profesoral">Apoyo profesoral</NavLink>
-        <NavLink class="enlace" href="becas">Becas</NavLink>
+        <details class="nav-group">
+            <summary>Docentes</summary>
+            <div class="nav-dropdown">
+                <NavLink href="docentes">Docentes</NavLink>
+                <NavLink href="docente-departamento">Vinculación académica</NavLink>
+            </div>
+        </details>
+
+        <details class="nav-group">
+            <summary>Formación</summary>
+            <div class="nav-dropdown">
+                <NavLink href="estudios-realizados">Estudios realizados</NavLink>
+                <NavLink href="estudio-ac">Estudios y áreas</NavLink>
+                <NavLink href="programas">Programas</NavLink>
+                <NavLink href="areas-conocimiento">Áreas de conocimiento</NavLink>
+            </div>
+        </details>
+
+        <details class="nav-group">
+            <summary>Trayectoria</summary>
+            <div class="nav-dropdown">
+                <NavLink href="evaluacion-docente">Evaluación docente</NavLink>
+                <NavLink href="experiecia">Experiencia docente</NavLink>
+                <NavLink href="reconocimientos">Reconocimientos</NavLink>
+            </div>
+        </details>
+
+        <details class="nav-group">
+            <summary>Redes</summary>
+            <div class="nav-dropdown">
+                <NavLink href="redes">Redes</NavLink>
+                <NavLink href="red-docente">Redes de docentes</NavLink>
+                <NavLink href="terminos-clave">Términos clave</NavLink>
+                <NavLink href="lineas-investigacion">Líneas de investigación</NavLink>
+                <NavLink href="intereses-futuros">Intereses futuros</NavLink>
+            </div>
+        </details>
+
+        <details class="nav-group">
+            <summary>Apoyos</summary>
+            <div class="nav-dropdown">
+                <NavLink href="apoyo-profesoral">Apoyo profesoral</NavLink>
+                <NavLink href="becas">Becas</NavLink>
+            </div>
+        </details>
     </div>
 </nav>
-
-
-
-
