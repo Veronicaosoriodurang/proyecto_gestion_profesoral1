@@ -1,0 +1,381 @@
+﻿@page "/apoyo-profesoral"
+@rendermode InteractiveServer
+@inject ServicioApoyoProfesoral Servicio
+@inject ServicioEstudioRealizado ServicioEstudios
+@inject IJSRuntime JS
+
+<PageTitle>Apoyo profesoral</PageTitle>
+
+<div class="encabezado">
+    <div>
+        <h1>Apoyo profesoral</h1>
+
+        <p class="nota">
+            Registro del apoyo recibido para los estudios realizados.
+        </p>
+    </div>
+
+    @if (!mostrandoFormulario)
+    {
+        <button class="boton primario" @onclick="Agregar">
+            Agregar
+        </button>
+    }
+</div>
+
+@foreach (var error in errores)
+{
+    <p class="aviso error">@error</p>
+}
+
+@if (!string.IsNullOrEmpty(exito))
+{
+    <p class="aviso exito">@exito</p>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="tarjeta-formulario">
+
+        <h2>
+            @(editando
+                ? "Editar apoyo profesoral"
+                : "Agregar apoyo profesoral")
+        </h2>
+
+        <label>
+            Estudio realizado
+            <select @bind="campoEstudio">
+                <option value="">
+                    Seleccione un estudio
+                </option>
+
+                @foreach (var estudio in estudios)
+                {
+                    <option value="@estudio.Id">
+                        @estudio.Id - @estudio.Titulo
+                    </option>
+                }
+            </select>
+        </label>
+
+        <label>
+            ¿Cuenta con apoyo?
+            <select @bind="campoConApoyo">
+                <option value="">Seleccione</option>
+                <option value="1">Sí</option>
+                <option value="0">No</option>
+            </select>
+        </label>
+
+        <label>
+            Institución
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoInstitucion" />
+        </label>
+
+        <label>
+            Tipo de apoyo
+            <input type="text"
+                   maxlength="45"
+                   @bind="campoTipo" />
+        </label>
+
+        <div class="pareja">
+
+            <button class="boton primario"
+                    @onclick="Guardar"
+                    disabled="@guardando">
+                @(editando ? "Guardar" : "Agregar")
+            </button>
+
+            <button class="boton"
+                    @onclick="Cancelar"
+                    disabled="@guardando">
+                Cancelar
+            </button>
+
+        </div>
+    </div>
+}
+
+@if (cargando)
+{
+    <p class="nota">Cargando…</p>
+}
+else if (filas.Count > 0)
+{
+    <div class="tabla-scroll">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Estudio</th>
+                    <th>Con apoyo</th>
+                    <th>Institución</th>
+                    <th>Tipo</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var fila in filas)
+                {
+                    <tr>
+                        <td>
+                            @NombreEstudio(fila.Estudios)
+                        </td>
+
+                        <td>
+                            @(fila.ConApoyo == 1
+                                ? "Sí"
+                                : "No")
+                        </td>
+
+                        <td>@fila.Institucion</td>
+                        <td>@fila.Tipo</td>
+
+                        <td>
+                            <div class="acciones">
+
+                                <button class="boton"
+                                        @onclick="() => Editar(fila)">
+                                    Editar
+                                </button>
+
+                                <button class="boton peligro"
+                                        @onclick="() => Retirar(fila)">
+                                    Retirar
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+
+    <p class="nota">
+        @filas.Count registro(s).
+    </p>
+}
+else
+{
+    <p class="vacio">
+        Todavía no hay apoyos profesorales registrados.
+    </p>
+}
+
+@code {
+
+    private List<ApoyoProfesoral> filas = new();
+    private List<EstudioRealizado> estudios = new();
+
+    private List<string> errores = new();
+    private string exito = string.Empty;
+
+    private bool cargando = true;
+    private bool guardando;
+    private bool mostrandoFormulario;
+    private bool editando;
+
+    private int estudioOriginal;
+
+    private string campoEstudio = string.Empty;
+    private string campoConApoyo = string.Empty;
+    private string campoInstitucion = string.Empty;
+    private string campoTipo = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Cargar();
+    }
+
+    private async Task Cargar()
+    {
+        cargando = true;
+        errores.Clear();
+
+        var rEstudios =
+            await ServicioEstudios.Listar();
+
+        if (rEstudios.Ok)
+            estudios = rEstudios.Datos ?? new();
+        else
+            errores.AddRange(rEstudios.Errores);
+
+        var r = await Servicio.Listar();
+
+        if (r.Ok)
+            filas = r.Datos ?? new();
+        else
+            errores.AddRange(r.Errores);
+
+        cargando = false;
+    }
+
+    private string NombreEstudio(int id)
+    {
+        var estudio =
+            estudios.FirstOrDefault(x => x.Id == id);
+
+        return estudio == null
+            ? id.ToString()
+            : $"{id} - {estudio.Titulo}";
+    }
+
+    private void Agregar()
+    {
+        estudioOriginal = 0;
+
+        campoEstudio = string.Empty;
+        campoConApoyo = string.Empty;
+        campoInstitucion = string.Empty;
+        campoTipo = string.Empty;
+
+        editando = false;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private void Editar(ApoyoProfesoral fila)
+    {
+        estudioOriginal = fila.Estudios;
+
+        campoEstudio = fila.Estudios.ToString();
+        campoConApoyo = fila.ConApoyo.ToString();
+        campoInstitucion = fila.Institucion;
+        campoTipo = fila.Tipo;
+
+        editando = true;
+        mostrandoFormulario = true;
+
+        errores.Clear();
+        exito = string.Empty;
+    }
+
+    private bool Validar()
+    {
+        errores.Clear();
+
+        if (!int.TryParse(campoEstudio, out _))
+            errores.Add(
+                "Debe seleccionar un estudio.");
+
+        if (campoConApoyo != "0" &&
+            campoConApoyo != "1")
+        {
+            errores.Add(
+                "Debe indicar si cuenta con apoyo.");
+        }
+
+        if (string.IsNullOrWhiteSpace(
+            campoInstitucion))
+        {
+            errores.Add(
+                "Debe ingresar la institución.");
+        }
+
+        if (string.IsNullOrWhiteSpace(campoTipo))
+            errores.Add(
+                "Debe ingresar el tipo de apoyo.");
+
+        return errores.Count == 0;
+    }
+
+    private ApoyoProfesoral Construir()
+    {
+        return new ApoyoProfesoral
+        {
+            Estudios = int.Parse(campoEstudio),
+            ConApoyo = byte.Parse(campoConApoyo),
+            Institucion = campoInstitucion.Trim(),
+            Tipo = campoTipo.Trim()
+        };
+    }
+
+    private async Task Guardar()
+    {
+        exito = string.Empty;
+
+        if (!Validar())
+            return;
+
+        guardando = true;
+
+        Resultado<bool> resultado;
+
+        var entidad = Construir();
+
+        if (editando)
+        {
+            resultado =
+                await Servicio.Reemplazar(
+                    estudioOriginal,
+                    entidad);
+        }
+        else
+        {
+            resultado =
+                await Servicio.Crear(entidad);
+        }
+
+        guardando = false;
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = editando
+            ? "Apoyo profesoral actualizado."
+            : "Apoyo profesoral agregado.";
+
+        mostrandoFormulario = false;
+
+        await Cargar();
+    }
+
+    private async Task Retirar(
+        ApoyoProfesoral fila)
+    {
+        var confirmar =
+            await JS.InvokeAsync<bool>(
+                "confirm",
+                "¿Retirar este apoyo profesoral?");
+
+        if (!confirmar)
+            return;
+
+        errores.Clear();
+        exito = string.Empty;
+
+        var resultado =
+            await Servicio.Eliminar(
+                fila.Estudios);
+
+        if (!resultado.Ok)
+        {
+            errores.AddRange(resultado.Errores);
+            return;
+        }
+
+        exito = "Apoyo profesoral retirado.";
+
+        await Cargar();
+    }
+
+    private void Cancelar()
+    {
+        mostrandoFormulario = false;
+        errores.Clear();
+    }
+}

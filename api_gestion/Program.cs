@@ -45,6 +45,8 @@ builder.Services.AddScoped<IRepositorioRedDocente, RepositorioRedDocenteSqlServe
 builder.Services.AddScoped<IServicioRedDocente, ServicioRedDocente>();
 builder.Services.AddScoped<IRepositorioEstudioAc, RepositorioEstudioAcSqlServer>();
 builder.Services.AddScoped<IServicioEstudioAc, ServicioEstudioAc>();
+builder.Services.AddScoped<IRepositorioApoyoProfesoral, RepositorioApoyoProfesoralSqlServer>();
+builder.Services.AddScoped<IServicioApoyoProfesoral, ServicioApoyoProfesoral>();
 
 builder.Services.AddControllers();
 
