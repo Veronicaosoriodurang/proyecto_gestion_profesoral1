@@ -9,7 +9,7 @@
 <div class="encabezado">
     <div>
         <h1>Docentes</h1>
-        <p class="nota">Fichas del personal docente. Un docente retirado deja de aparecer aquí, pero no se borra de la base.</p>
+        <p class="nota">Consulta las fichas del personal docente. Toca la foto o el nombre para abrir el perfil completo.</p>
     </div>
     @if (!mostrandoFormulario)
     {
@@ -98,14 +98,26 @@ else if (filas.Count > 0)
                 @foreach (var fila in filas)
                 {
                     <tr>
-                        <td class="docente-avatar-celda"><img class="docente-avatar-tabla" src="@RutaAvatar(fila.Cedula)" alt="Avatar de @fila.Nombres @fila.Apellidos" /></td>
+                        <td class="docente-avatar-celda">
+                            <a class="docente-perfil-link" href="/docentes/perfil/@fila.Cedula" title="Ver perfil de @fila.Nombres @fila.Apellidos">
+                                <img class="docente-avatar-tabla" src="@RutaAvatar(fila.Cedula)" alt="Avatar de @fila.Nombres @fila.Apellidos" />
+                            </a>
+                        </td>
                         <td><code>@fila.Cedula</code></td>
-                        <td><div class="docente-nombre-tabla"><strong>@fila.Nombres @fila.Apellidos</strong><span>@fila.Escalafon</span></div></td>
+                        <td>
+                            <a class="docente-nombre-link" href="/docentes/perfil/@fila.Cedula">
+                                <div class="docente-nombre-tabla">
+                                    <strong>@fila.Nombres @fila.Apellidos</strong>
+                                    <span>@fila.Escalafon · Ver perfil</span>
+                                </div>
+                            </a>
+                        </td>
                         <td>@fila.Cargo</td>
                         <td>@fila.Correo</td>
                         <td>@NombreLinea(fila.LineaInvestigacionPrincipal)</td>
                         <td>
                             <div class="acciones">
+                                <a class="boton" href="/docentes/perfil/@fila.Cedula">Ver</a>
                                 <button class="boton" @onclick="() => Editar(fila)">Editar</button>
                                 <button class="boton peligro" @onclick="() => Retirar(fila)">Retirar</button>
                             </div>
@@ -124,10 +136,13 @@ else
 
 <style>
     .docente-avatar-celda { width: 58px; }
-    .docente-avatar-tabla { width: 42px; height: 42px; display: block; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 4px 12px rgba(16,45,105,.10); background: #EAF3F8; }
+    .docente-avatar-tabla { width: 42px; height: 42px; display: block; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 4px 12px rgba(16,45,105,.10); background: #EAF3F8; transition:transform .16s ease, box-shadow .16s ease; }
+    .docente-perfil-link:hover .docente-avatar-tabla { transform:scale(1.06); box-shadow:0 7px 16px rgba(16,45,105,.16); }
+    .docente-nombre-link { text-decoration:none; color:inherit; }
     .docente-nombre-tabla { display: grid; gap: 2px; min-width: 170px; }
     .docente-nombre-tabla strong { color: #102D69; font-size: .9rem; }
     .docente-nombre-tabla span { color: #667085; font-size: .72rem; }
+    .docente-nombre-link:hover strong { color:#0B6FA4; }
 </style>
 
 @code {
