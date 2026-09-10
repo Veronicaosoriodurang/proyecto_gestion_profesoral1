@@ -2,7 +2,7 @@
 
 # GESTIÓN PROFESORAL
 
-### Sistema académico para administrar información y relaciones de docentes
+### Sistema académico para organizar, relacionar y administrar la información de los docentes
 
 ![Version](https://img.shields.io/badge/VERSION-v2-2ea44f?style=for-the-badge)
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge)
@@ -20,7 +20,8 @@
 
 ## Contenido
 
-- [Qué es el proyecto](#qué-es-el-proyecto)
+- [De qué trata el proyecto](#de-qué-trata-el-proyecto)
+- [Por qué se desarrolla](#por-qué-se-desarrolla)
 - [Qué está terminado](#qué-está-terminado)
 - [Cómo ejecutar el proyecto](#cómo-ejecutar-el-proyecto)
 - [Cómo funciona](#cómo-funciona)
@@ -33,22 +34,47 @@
 - [Pruebas realizadas](#pruebas-realizadas)
 - [Material conceptual del curso](#material-conceptual-del-curso)
 - [Versiones](#versiones)
+- [Información académica](#información-académica)
 
 ---
 
-## Qué es el proyecto
+## De qué trata el proyecto
 
-**Gestión Profesoral** es una aplicación académica para registrar y administrar información relacionada con docentes.
+**Gestión Profesoral** es una aplicación web pensada para organizar en un solo sistema la información académica y profesional de los docentes de una institución educativa.
 
-El sistema permite trabajar con datos como programas, redes, áreas de conocimiento, estudios realizados, departamentos, evaluaciones, reconocimientos, experiencia, apoyos profesorales y becas.
+La información de un docente no se limita a su nombre o a la dependencia a la que pertenece. También puede incluir sus estudios realizados, áreas de conocimiento, experiencia, evaluaciones, reconocimientos, participación en redes académicas, intereses futuros, apoyos institucionales y becas.
 
-La aplicación está dividida en tres partes principales:
+Cuando estos datos se manejan por separado es más difícil consultarlos, relacionarlos y mantenerlos actualizados. Por eso este proyecto propone una solución donde la información se almacena de manera estructurada y cada dato puede relacionarse con los demás de forma controlada.
 
-1. **Frontend Blazor:** es la pantalla que usa la persona.
-2. **API REST:** recibe las solicitudes, valida la información y aplica las reglas del sistema.
-3. **SQL Server:** guarda los datos.
+La aplicación permite registrar, consultar, actualizar y retirar información desde una interfaz web. El usuario trabaja en **Blazor**, la **API REST** recibe y valida cada solicitud, y **SQL Server** almacena los datos.
 
-El frontend **no se conecta directamente a la base de datos**. Toda la información pasa primero por la API.
+La idea central del sistema se puede resumir así:
+
+> **Blazor muestra, la API valida y procesa, y SQL Server guarda.**
+
+---
+
+## Por qué se desarrolla
+
+Este proyecto se realiza como parte de la asignatura **Aplicación y Servicios Web** y tiene dos propósitos principales.
+
+El primero es resolver un caso académico realista: construir un sistema capaz de administrar información profesoral y sus relaciones sin guardar datos aislados o inconsistentes.
+
+El segundo es aplicar en un mismo proyecto los temas trabajados en clase, entre ellos:
+
+- construcción de una API REST;
+- operaciones CRUD;
+- arquitectura por capas;
+- validación de información;
+- claves primarias y claves foráneas;
+- borrado lógico;
+- acceso a datos con Dapper;
+- desarrollo de interfaces con Blazor;
+- ejecución del sistema con Docker Compose;
+- documentación mediante Spec Kit;
+- uso de Git y GitHub para control de versiones.
+
+Por esta razón el proyecto no consiste únicamente en crear pantallas. También busca demostrar una organización clara del código, separación de responsabilidades, control de errores y trazabilidad entre lo que se especifica, lo que se programa y lo que finalmente se prueba.
 
 ---
 
@@ -440,7 +466,21 @@ El archivo `docs/spec_kit/versiones/0_mapa_versiones.md` define las siguientes e
 
 Una forma sencilla de presentar el proyecto es:
 
-> Gestión Profesoral es una aplicación web dividida en frontend, API y base de datos. Blazor muestra las pantallas, la API valida y procesa la información mediante una arquitectura de controlador, servicio y repositorio, y SQL Server almacena los datos. La v1 desarrolla los recursos independientes y la v2 agrega las relaciones entre docentes, estudios, evaluaciones, redes, apoyos y becas. Todos los recursos manejan validaciones y borrado lógico, y el proyecto puede ejecutarse completo con Docker Compose.
+> Gestión Profesoral es una aplicación web que organiza la información académica y profesional de los docentes y permite relacionar datos como estudios, evaluaciones, experiencia, redes, apoyos y becas. El usuario trabaja desde Blazor, la API valida y procesa cada solicitud mediante una arquitectura por capas, y SQL Server almacena la información. La v1 construye los recursos independientes y la v2 incorpora las relaciones entre las diferentes tablas, con validaciones y borrado lógico. Todo el sistema puede ejecutarse con Docker Compose.
+
+---
+
+## Información académica
+
+| Dato | Información |
+|---|---|
+| **Estudiante** | Veronica Osorio Durango |
+| **Correo institucional** | veronicaosorio312028@correo.itm.edu.co |
+| **Institución** | Instituto Tecnológico Metropolitano — ITM |
+| **Asignatura** | Aplicación y Servicios Web |
+| **Profesor** | Carlos Arturo Castro Castro |
+| **Proyecto de aula** | Gestión Profesoral |
+| **Versión entregada** | v2 |
 
 ---
 
@@ -448,6 +488,8 @@ Una forma sencilla de presentar el proyecto es:
 
 **Gestión Profesoral — Versión 2 completada**
 
-Aplicación y Servicios Web
+Instituto Tecnológico Metropolitano — ITM  
+Aplicación y Servicios Web  
+Veronica Osorio Durango
 
 </div>
