@@ -47,6 +47,8 @@ builder.Services.AddScoped<IRepositorioEstudioAc, RepositorioEstudioAcSqlServer>
 builder.Services.AddScoped<IServicioEstudioAc, ServicioEstudioAc>();
 builder.Services.AddScoped<IRepositorioApoyoProfesoral, RepositorioApoyoProfesoralSqlServer>();
 builder.Services.AddScoped<IServicioApoyoProfesoral, ServicioApoyoProfesoral>();
+builder.Services.AddScoped<IRepositorioBeca, RepositorioBecaSqlServer>();
+builder.Services.AddScoped<IServicioBeca, ServicioBeca>();
 
 builder.Services.AddControllers();
 
