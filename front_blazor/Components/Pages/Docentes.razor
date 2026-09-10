@@ -9,9 +9,7 @@
 <div class="encabezado">
     <div>
         <h1>Docentes</h1>
-        <p class="nota">
-            Fichas del personal docente. Un docente retirado deja de aparecer aquí, pero no se borra de la base.
-        </p>
+        <p class="nota">Fichas del personal docente. Un docente retirado deja de aparecer aquí, pero no se borra de la base.</p>
     </div>
     @if (!mostrandoFormulario)
     {
@@ -32,128 +30,47 @@
 {
     <div class="tarjeta-formulario">
         <h2>@(editando ? "Editar el docente" : "Agregar el docente")</h2>
-
-        <label>
-            Cédula
-            <input type="number" @bind="campoCedula" disabled="@editando" />
-            @if (editando)
-            {
-                <span class="ayuda">
-                    La cédula identifica la ficha y no se cambia. Si está mal, se agrega otra y se retira esta.
-                </span>
-            }
-            else
-            {
-                <span class="ayuda">La cédula del docente. No se podrá cambiar después.</span>
-            }
+        <label>Cédula<input type="number" @bind="campoCedula" disabled="@editando" />
+            @if (editando) { <span class="ayuda">La cédula identifica la ficha y no se cambia. Si está mal, se agrega otra y se retira esta.</span> }
+            else { <span class="ayuda">La cédula del docente. No se podrá cambiar después.</span> }
         </label>
-
-        <label>
-            Nombres
-            <input type="text" maxlength="60" @bind="campoNombres" />
-        </label>
-
-        <label>
-            Apellidos
-            <input type="text" maxlength="60" @bind="campoApellidos" />
-        </label>
-
-        <label>
-            Género
-            <input type="text" maxlength="12" @bind="campoGenero" />
-        </label>
-
-        <label>
-            Cargo
-            <input type="text" maxlength="30" @bind="campoCargo" />
-        </label>
-
-        <label>
-            Fecha de nacimiento
-            <input type="date" @bind="campoFechaNacimiento" />
-        </label>
-
-        <label>
-            Correo
-            <input type="text" maxlength="70" @bind="campoCorreo" />
-        </label>
-
-        <label>
-            Teléfono
-            <input type="text" maxlength="20" @bind="campoTelefono" />
-        </label>
-
-        <label>
-            URL CvLAC
-            <input type="text" maxlength="128" @bind="campoUrlCvlac" />
-        </label>
-
-        <label>
-            Fecha de actualización
-            <input type="date" @bind="campoFechaActualizacion" />
-        </label>
-
-        <label>
-            Escalafón
-            <input type="text" maxlength="45" @bind="campoEscalafon" />
-        </label>
-
-        <label>
-            Perfil
-            <textarea @bind="campoPerfil"></textarea>
-        </label>
-
-        <label>
-            Categoría Minciencias
-            <input type="text" maxlength="45" @bind="campoCatMinciencia" />
-            <span class="ayuda">Opcional.</span>
-        </label>
-
-        <label>
-            Convocatoria Minciencias
-            <input type="text" maxlength="45" @bind="campoConvMinciencia" />
-        </label>
-
-        <label>
-            Nacionalidad
-            <input type="text" maxlength="45" @bind="campoNacionalidaad" />
-        </label>
-
-        <label>
-            Línea de investigación principal
+        <label>Nombres<input type="text" maxlength="60" @bind="campoNombres" /></label>
+        <label>Apellidos<input type="text" maxlength="60" @bind="campoApellidos" /></label>
+        <label>Género<input type="text" maxlength="12" @bind="campoGenero" /></label>
+        <label>Cargo<input type="text" maxlength="30" @bind="campoCargo" /></label>
+        <label>Fecha de nacimiento<input type="date" @bind="campoFechaNacimiento" /></label>
+        <label>Correo<input type="text" maxlength="70" @bind="campoCorreo" /></label>
+        <label>Teléfono<input type="text" maxlength="20" @bind="campoTelefono" /></label>
+        <label>URL CvLAC<input type="text" maxlength="128" @bind="campoUrlCvlac" /></label>
+        <label>Fecha de actualización<input type="date" @bind="campoFechaActualizacion" /></label>
+        <label>Escalafón<input type="text" maxlength="45" @bind="campoEscalafon" /></label>
+        <label>Perfil<textarea @bind="campoPerfil"></textarea></label>
+        <label>Categoría Minciencias<input type="text" maxlength="45" @bind="campoCatMinciencia" /><span class="ayuda">Opcional.</span></label>
+        <label>Convocatoria Minciencias<input type="text" maxlength="45" @bind="campoConvMinciencia" /></label>
+        <label>Nacionalidad<input type="text" maxlength="45" @bind="campoNacionalidaad" /></label>
+        <label>Línea de investigación principal
             <select @bind="campoLineaTexto">
                 <option value="">Sin línea principal</option>
-                @foreach (var linea in lineas)
-                {
-                    <option value="@linea.Id">@linea.Nombre</option>
-                }
+                @foreach (var linea in lineas) { <option value="@linea.Id">@linea.Nombre</option> }
             </select>
         </label>
 
         <div class="pareja">
             @if (editando)
             {
-                <button class="boton primario" @onclick="GuardarCompleta" disabled="@guardando">
-                    Guardar la ficha completa
-                </button>
-                <button class="boton" @onclick="GuardarLoQueCambio" disabled="@guardando">
-                    Guardar solo lo que cambié
-                </button>
+                <button class="boton primario" @onclick="GuardarCompleta" disabled="@guardando">Guardar la ficha completa</button>
+                <button class="boton" @onclick="GuardarLoQueCambio" disabled="@guardando">Guardar solo lo que cambié</button>
             }
             else
             {
-                <button class="boton primario" @onclick="Crear" disabled="@guardando">
-                    Agregar
-                </button>
+                <button class="boton primario" @onclick="Crear" disabled="@guardando">Agregar</button>
             }
             <button class="boton" @onclick="Cancelar" disabled="@guardando">Cancelar</button>
         </div>
 
         @if (editando)
         {
-            <span class="ayuda">
-                «La ficha completa» exige los datos obligatorios. «Solo lo que cambié» guarda lo diligenciado y deja lo demás como estaba.
-            </span>
+            <span class="ayuda">«La ficha completa» exige los datos obligatorios. «Solo lo que cambié» guarda lo diligenciado y deja lo demás como estaba.</span>
         }
     </div>
 }
@@ -168,9 +85,9 @@ else if (filas.Count > 0)
         <table>
             <thead>
                 <tr>
+                    <th></th>
                     <th>Cédula</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
+                    <th>Nombre</th>
                     <th>Cargo</th>
                     <th>Correo</th>
                     <th>Línea principal</th>
@@ -181,9 +98,9 @@ else if (filas.Count > 0)
                 @foreach (var fila in filas)
                 {
                     <tr>
+                        <td class="docente-avatar-celda"><img class="docente-avatar-tabla" src="@RutaAvatar(fila.Cedula)" alt="Avatar de @fila.Nombres @fila.Apellidos" /></td>
                         <td><code>@fila.Cedula</code></td>
-                        <td>@fila.Nombres</td>
-                        <td>@fila.Apellidos</td>
+                        <td><div class="docente-nombre-tabla"><strong>@fila.Nombres @fila.Apellidos</strong><span>@fila.Escalafon</span></div></td>
                         <td>@fila.Cargo</td>
                         <td>@fila.Correo</td>
                         <td>@NombreLinea(fila.LineaInvestigacionPrincipal)</td>
@@ -202,10 +119,16 @@ else if (filas.Count > 0)
 }
 else
 {
-    <p class="vacio">
-        Todavía no hay docentes. Use «Agregar» para crear el primero.
-    </p>
+    <p class="vacio">Todavía no hay docentes. Use «Agregar» para crear el primero.</p>
 }
+
+<style>
+    .docente-avatar-celda { width: 58px; }
+    .docente-avatar-tabla { width: 42px; height: 42px; display: block; border-radius: 50%; object-fit: cover; border: 2px solid #fff; box-shadow: 0 4px 12px rgba(16,45,105,.10); background: #EAF3F8; }
+    .docente-nombre-tabla { display: grid; gap: 2px; min-width: 170px; }
+    .docente-nombre-tabla strong { color: #102D69; font-size: .9rem; }
+    .docente-nombre-tabla span { color: #667085; font-size: .72rem; }
+</style>
 
 @code {
     private List<Docente> filas = new();
@@ -213,12 +136,10 @@ else
     private Dictionary<int, string> nombresLinea = new();
     private List<string> errores = new();
     private string exito = string.Empty;
-
     private bool cargando = true;
     private bool guardando;
     private bool mostrandoFormulario;
     private bool editando;
-
     private int campoCedula;
     private string campoNombres = string.Empty;
     private string campoApellidos = string.Empty;
@@ -237,11 +158,11 @@ else
     private string campoLineaTexto = string.Empty;
 
     protected override async Task OnInitializedAsync() => await Cargar();
+    private static string RutaAvatar(int cedula) => $"/images/docentes/{cedula}.svg";
 
     private string NombreLinea(int? id)
     {
-        if (id is int i && nombresLinea.TryGetValue(i, out var nombre))
-            return nombre;
+        if (id is int i && nombresLinea.TryGetValue(i, out var nombre)) return nombre;
         return "—";
     }
 
@@ -254,7 +175,6 @@ else
     private async Task Cargar()
     {
         cargando = true;
-
         var rLineas = await ServicioLineas.Listar();
         if (rLineas.Ok)
         {
@@ -269,12 +189,8 @@ else
 
         var r = await Servicio.Listar();
         cargando = false;
-
         errores = r.Errores;
-        if (!rLineas.Ok)
-        {
-            errores = errores.Concat(rLineas.Errores).ToList();
-        }
+        if (!rLineas.Ok) errores = errores.Concat(rLineas.Errores).ToList();
         filas = r.Ok ? r.Datos! : new();
     }
 
@@ -351,9 +267,7 @@ else
         FechaActualizacion = campoFechaActualizacion,
         Escalafon = campoEscalafon.Trim(),
         Perfil = campoPerfil.Trim(),
-        CatMinciencia = string.IsNullOrWhiteSpace(campoCatMinciencia)
-            ? null
-            : campoCatMinciencia.Trim(),
+        CatMinciencia = string.IsNullOrWhiteSpace(campoCatMinciencia) ? null : campoCatMinciencia.Trim(),
         ConvMinciencia = campoConvMinciencia.Trim(),
         Nacionalidaad = campoNacionalidaad.Trim(),
         LineaInvestigacionPrincipal = LineaSeleccionada()
@@ -378,23 +292,7 @@ else
     private async Task GuardarLoQueCambio()
     {
         guardando = true;
-        var r = await Servicio.Actualizar(
-            campoCedula,
-            campoNombres,
-            campoApellidos,
-            campoGenero,
-            campoCargo,
-            campoFechaNacimiento,
-            campoCorreo,
-            campoTelefono,
-            campoUrlCvlac,
-            campoFechaActualizacion,
-            campoEscalafon,
-            campoPerfil,
-            campoCatMinciencia,
-            campoConvMinciencia,
-            campoNacionalidaad,
-            LineaSeleccionada());
+        var r = await Servicio.Actualizar(campoCedula, campoNombres, campoApellidos, campoGenero, campoCargo, campoFechaNacimiento, campoCorreo, campoTelefono, campoUrlCvlac, campoFechaActualizacion, campoEscalafon, campoPerfil, campoCatMinciencia, campoConvMinciencia, campoNacionalidaad, LineaSeleccionada());
         guardando = false;
         await TrasGuardar(r, $"Se guardó el docente {campoCedula}.");
     }
@@ -417,10 +315,8 @@ else
 
     private async Task Retirar(Docente fila)
     {
-        var seguro = await JS.InvokeAsync<bool>(
-            "confirm", $"¿Retirar {fila.Cedula} del uso?");
+        var seguro = await JS.InvokeAsync<bool>("confirm", $"¿Retirar {fila.Cedula} del uso?");
         if (!seguro) return;
-
         var r = await Servicio.Eliminar(fila.Cedula);
         if (r.Ok)
         {
