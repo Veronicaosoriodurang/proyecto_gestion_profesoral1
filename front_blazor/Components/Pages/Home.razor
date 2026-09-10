@@ -2,26 +2,99 @@
 
 <PageTitle>Gestión profesoral</PageTitle>
 
-<div class="encabezado">
-    <div>
-        <h1>Sistema de gestión profesoral</h1>
-        <p class="nota">
-            Los programas académicos, los docentes y su hoja de vida académica.
+<section class="inicio-hero">
+    <div class="inicio-hero-texto">
+        <span class="inicio-etiqueta">Proyecto de aula · Versión 2</span>
+        <h1>Gestión Profesoral</h1>
+        <p class="inicio-descripcion">
+            Un sistema académico para organizar en un solo lugar la información de los docentes,
+            su formación, experiencia, evaluaciones, reconocimientos, redes, apoyos y becas.
         </p>
+        <div class="acciones inicio-acciones">
+            <a class="boton primario" href="docentes">Ver docentes</a>
+            <a class="boton" href="programas">Ver programas</a>
+        </div>
     </div>
-</div>
 
-<div class="tarjetas">
-    <a class="tarjeta" href="programas">
-        <strong>Programas</strong>
-        <span class="nota">
-            Los programas académicos a los que se adscriben los docentes: su nivel, su ciudad y su facultad
-        </span>
-    </a>
-</div>
+    <div class="inicio-hero-imagen">
+        <img src="images/gestion-profesoral.svg" alt="Ilustración del sistema de Gestión Profesoral" />
+    </div>
+</section>
 
-<p class="nota">
-    Esta versión construye <strong>una</strong> tabla completa, de punta a
-    punta: su API y su pantalla. Las demás llegan en las versiones siguientes,
-    cada una con la suya.
-</p>
+<section class="inicio-resumen" aria-label="Resumen del proyecto">
+    <div>
+        <strong>16</strong>
+        <span>recursos implementados</span>
+    </div>
+    <div>
+        <strong>v2</strong>
+        <span>versión actual</span>
+    </div>
+    <div>
+        <strong>3</strong>
+        <span>capas principales en la API</span>
+    </div>
+</section>
+
+<section class="inicio-seccion">
+    <div class="inicio-titulo-seccion">
+        <span>Información centralizada</span>
+        <h2>¿Qué permite gestionar?</h2>
+        <p>La información se organiza por áreas para que cada dato tenga una función clara dentro del sistema.</p>
+    </div>
+
+    <div class="inicio-modulos">
+        <a class="inicio-modulo" href="docentes">
+            <span class="inicio-numero">01</span>
+            <strong>Docentes</strong>
+            <p>Información principal del profesor y sus relaciones académicas.</p>
+        </a>
+        <a class="inicio-modulo" href="estudios-realizados">
+            <span class="inicio-numero">02</span>
+            <strong>Formación académica</strong>
+            <p>Estudios realizados, apoyos profesorales y becas.</p>
+        </a>
+        <a class="inicio-modulo" href="evaluacion-docente">
+            <span class="inicio-numero">03</span>
+            <strong>Trayectoria</strong>
+            <p>Evaluaciones, experiencia y reconocimientos del docente.</p>
+        </a>
+        <a class="inicio-modulo" href="red-docente">
+            <span class="inicio-numero">04</span>
+            <strong>Redes y conocimiento</strong>
+            <p>Participación en redes, áreas de conocimiento e intereses futuros.</p>
+        </a>
+    </div>
+</section>
+
+<section class="inicio-seccion inicio-como-funciona">
+    <div class="inicio-titulo-seccion">
+        <span>Arquitectura</span>
+        <h2>¿Cómo funciona?</h2>
+        <p>La aplicación separa la interfaz, la lógica y los datos para que cada parte tenga una responsabilidad clara.</p>
+    </div>
+
+    <div class="inicio-flujo">
+        <div class="inicio-paso">
+            <strong>Blazor</strong>
+            <span>Muestra</span>
+            <p>Es la interfaz que utiliza la persona.</p>
+        </div>
+        <div class="inicio-flecha">→</div>
+        <div class="inicio-paso">
+            <strong>API REST</strong>
+            <span>Valida y procesa</span>
+            <p>Aplica las reglas antes de guardar o consultar.</p>
+        </div>
+        <div class="inicio-flecha">→</div>
+        <div class="inicio-paso">
+            <strong>SQL Server</strong>
+            <span>Guarda</span>
+            <p>Almacena la información del sistema.</p>
+        </div>
+    </div>
+</section>
+
+<section class="inicio-frase">
+    <p><strong>Idea clave:</strong> Blazor muestra, la API valida y procesa, y SQL Server guarda.</p>
+</section>
