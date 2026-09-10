@@ -1,100 +1,162 @@
 @page "/"
 
-<PageTitle>Gestión profesoral</PageTitle>
+<PageTitle>Gestión Profesoral</PageTitle>
 
-<section class="inicio-hero">
-    <div class="inicio-hero-texto">
-        <span class="inicio-etiqueta">Proyecto de aula · Versión 2</span>
-        <h1>Gestión Profesoral</h1>
-        <p class="inicio-descripcion">
-            Un sistema académico para organizar en un solo lugar la información de los docentes,
-            su formación, experiencia, evaluaciones, reconocimientos, redes, apoyos y becas.
+<section class="home-hero">
+    <div class="home-hero-contenido">
+        <span class="home-kicker">Proyecto académico · Versión 2</span>
+        <h1>Todo lo relacionado con los docentes, en un solo lugar</h1>
+        <p class="home-lead">
+            Consulta y administra formación, experiencia, evaluaciones, redes, reconocimientos, apoyos y becas desde una interfaz sencilla y organizada.
         </p>
-        <div class="acciones inicio-acciones">
-            <a class="boton primario" href="docentes">Ver docentes</a>
-            <a class="boton" href="programas">Ver programas</a>
+        <div class="home-acciones">
+            <a class="boton boton-grande primario" href="docentes">Ver docentes</a>
+            <a class="boton boton-grande" href="#modulos">Explorar módulos</a>
+        </div>
+        <div class="home-confianza">
+            <span><strong>16</strong> recursos</span>
+            <span><strong>v2</strong> completada</span>
+            <span><strong>3</strong> capas principales</span>
         </div>
     </div>
 
-    <div class="inicio-hero-imagen">
-        <img src="images/gestion-profesoral.svg" alt="Ilustración del sistema de Gestión Profesoral" />
+    <div class="home-hero-visual" aria-hidden="true">
+        <div class="home-visual-tarjeta home-visual-principal">
+            <span class="home-avatar">VD</span>
+            <div>
+                <small>Perfil docente</small>
+                <strong>Información académica</strong>
+                <span>Organizada y relacionada</span>
+            </div>
+        </div>
+        <div class="home-visual-grid">
+            <div class="home-mini-card">
+                <span class="home-mini-icono">01</span>
+                <strong>Formación</strong>
+            </div>
+            <div class="home-mini-card">
+                <span class="home-mini-icono">02</span>
+                <strong>Trayectoria</strong>
+            </div>
+            <div class="home-mini-card">
+                <span class="home-mini-icono">03</span>
+                <strong>Redes</strong>
+            </div>
+            <div class="home-mini-card">
+                <span class="home-mini-icono">04</span>
+                <strong>Apoyos</strong>
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="inicio-resumen" aria-label="Resumen del proyecto">
+<section class="home-ayuda">
     <div>
-        <strong>16</strong>
-        <span>recursos implementados</span>
+        <span class="home-ayuda-numero">1</span>
+        <p><strong>Elige una categoría</strong><br />Las opciones están agrupadas para que encuentres todo rápido.</p>
     </div>
     <div>
-        <strong>v2</strong>
-        <span>versión actual</span>
+        <span class="home-ayuda-numero">2</span>
+        <p><strong>Entra al módulo</strong><br />Cada pantalla tiene una función clara y directa.</p>
     </div>
     <div>
-        <strong>3</strong>
-        <span>capas principales en la API</span>
+        <span class="home-ayuda-numero">3</span>
+        <p><strong>Consulta o registra</strong><br />Los botones y formularios mantienen siempre el mismo estilo.</p>
     </div>
 </section>
 
-<section class="inicio-seccion">
-    <div class="inicio-titulo-seccion">
-        <span>Información centralizada</span>
-        <h2>¿Qué permite gestionar?</h2>
-        <p>La información se organiza por áreas para que cada dato tenga una función clara dentro del sistema.</p>
+<section class="home-seccion" id="modulos">
+    <div class="home-seccion-cabecera">
+        <div>
+            <span class="home-kicker">Accesos principales</span>
+            <h2>¿Qué deseas administrar?</h2>
+        </div>
+        <p>Solo elige el grupo que necesitas. Dentro encontrarás las opciones relacionadas.</p>
     </div>
 
-    <div class="inicio-modulos">
-        <a class="inicio-modulo" href="docentes">
-            <span class="inicio-numero">01</span>
-            <strong>Docentes</strong>
-            <p>Información principal del profesor y sus relaciones académicas.</p>
+    <div class="home-categorias">
+        <a class="home-categoria categoria-docentes" href="docentes">
+            <div class="home-categoria-icono">D</div>
+            <div class="home-categoria-texto">
+                <strong>Docentes</strong>
+                <span>Datos principales y relación con departamentos.</span>
+            </div>
+            <span class="home-categoria-flecha">→</span>
         </a>
-        <a class="inicio-modulo" href="estudios-realizados">
-            <span class="inicio-numero">02</span>
-            <strong>Formación académica</strong>
-            <p>Estudios realizados, apoyos profesorales y becas.</p>
+
+        <a class="home-categoria categoria-formacion" href="estudios-realizados">
+            <div class="home-categoria-icono">F</div>
+            <div class="home-categoria-texto">
+                <strong>Formación académica</strong>
+                <span>Estudios, programas y áreas de conocimiento.</span>
+            </div>
+            <span class="home-categoria-flecha">→</span>
         </a>
-        <a class="inicio-modulo" href="evaluacion-docente">
-            <span class="inicio-numero">03</span>
-            <strong>Trayectoria</strong>
-            <p>Evaluaciones, experiencia y reconocimientos del docente.</p>
+
+        <a class="home-categoria categoria-trayectoria" href="evaluacion-docente">
+            <div class="home-categoria-icono">T</div>
+            <div class="home-categoria-texto">
+                <strong>Trayectoria</strong>
+                <span>Evaluaciones, experiencia y reconocimientos.</span>
+            </div>
+            <span class="home-categoria-flecha">→</span>
         </a>
-        <a class="inicio-modulo" href="red-docente">
-            <span class="inicio-numero">04</span>
-            <strong>Redes y conocimiento</strong>
-            <p>Participación en redes, áreas de conocimiento e intereses futuros.</p>
+
+        <a class="home-categoria categoria-redes" href="red-docente">
+            <div class="home-categoria-icono">R</div>
+            <div class="home-categoria-texto">
+                <strong>Redes y conocimiento</strong>
+                <span>Redes, términos clave, líneas e intereses futuros.</span>
+            </div>
+            <span class="home-categoria-flecha">→</span>
+        </a>
+
+        <a class="home-categoria categoria-apoyos" href="apoyo-profesoral">
+            <div class="home-categoria-icono">A</div>
+            <div class="home-categoria-texto">
+                <strong>Apoyos y becas</strong>
+                <span>Apoyo profesoral y becas asociadas a estudios.</span>
+            </div>
+            <span class="home-categoria-flecha">→</span>
         </a>
     </div>
 </section>
 
-<section class="inicio-seccion inicio-como-funciona">
-    <div class="inicio-titulo-seccion">
-        <span>Arquitectura</span>
-        <h2>¿Cómo funciona?</h2>
-        <p>La aplicación separa la interfaz, la lógica y los datos para que cada parte tenga una responsabilidad clara.</p>
+<section class="home-seccion home-flujo-seccion">
+    <div class="home-seccion-cabecera">
+        <div>
+            <span class="home-kicker">Así de simple</span>
+            <h2>¿Cómo funciona el sistema?</h2>
+        </div>
+        <p>La parte técnica está separada, pero para el usuario todo se siente como una sola aplicación.</p>
     </div>
 
-    <div class="inicio-flujo">
-        <div class="inicio-paso">
-            <strong>Blazor</strong>
-            <span>Muestra</span>
-            <p>Es la interfaz que utiliza la persona.</p>
+    <div class="home-flujo">
+        <div class="home-flujo-paso">
+            <span>1</span>
+            <strong>Blazor muestra</strong>
+            <p>Es la interfaz donde ves y diligencias la información.</p>
         </div>
-        <div class="inicio-flecha">→</div>
-        <div class="inicio-paso">
-            <strong>API REST</strong>
-            <span>Valida y procesa</span>
-            <p>Aplica las reglas antes de guardar o consultar.</p>
+        <div class="home-flujo-conector">→</div>
+        <div class="home-flujo-paso">
+            <span>2</span>
+            <strong>La API valida</strong>
+            <p>Comprueba los datos y aplica las reglas del sistema.</p>
         </div>
-        <div class="inicio-flecha">→</div>
-        <div class="inicio-paso">
-            <strong>SQL Server</strong>
-            <span>Guarda</span>
-            <p>Almacena la información del sistema.</p>
+        <div class="home-flujo-conector">→</div>
+        <div class="home-flujo-paso">
+            <span>3</span>
+            <strong>SQL Server guarda</strong>
+            <p>Almacena la información y conserva sus relaciones.</p>
         </div>
     </div>
 </section>
 
-<section class="inicio-frase">
-    <p><strong>Idea clave:</strong> Blazor muestra, la API valida y procesa, y SQL Server guarda.</p>
+<section class="home-cierre">
+    <div>
+        <span class="home-kicker">Idea clave</span>
+        <h2>Blazor muestra, la API valida y SQL Server guarda.</h2>
+        <p>Esa es la forma más sencilla de entender toda la arquitectura del proyecto.</p>
+    </div>
+    <a class="boton boton-grande primario" href="docentes">Comenzar con docentes</a>
 </section>
