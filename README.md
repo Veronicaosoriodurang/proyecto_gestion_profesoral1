@@ -1,160 +1,242 @@
-# Módulo Gestión Profesoral — ejemplo de referencia
+# Gestión Profesoral
 
-Este repositorio contiene **dos cosas distintas**, y conviene no
-confundirlas:
+![Version](https://img.shields.io/badge/VERSION-v2-2ea44f?style=for-the-badge)
+![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge)
+![Blazor](https://img.shields.io/badge/BLAZOR-SERVER-512BD4?style=for-the-badge)
+![SQL Server](https://img.shields.io/badge/SQL%20SERVER-2022-CC2927?style=for-the-badge)
+![Docker](https://img.shields.io/badge/DOCKER-COMPOSE-2496ED?style=for-the-badge)
+![API](https://img.shields.io/badge/API-REST-0078D4?style=for-the-badge)
+![Status](https://img.shields.io/badge/STATUS-V2%20COMPLETADA-2ea44f?style=for-the-badge)
 
-| | Qué es |
-|---|---|
-| [`ProyectosDeAula/`](ProyectosDeAula/) | **El material del curso**: la metodología, los cuatro documentos de módulo y los scripts de base de datos. Es lo que ya conocen |
-| Todo lo demás | **El ejemplo de referencia** del módulo Gestión Profesoral: su versión 1, construida siguiendo esa metodología al pie de la letra |
+Proyecto académico del módulo **Gestión Profesoral**, desarrollado con arquitectura por capas, API REST en .NET, Dapper, SQL Server, Blazor Server y Docker Compose.
 
-El ejemplo no es un sistema para descargar: es un **molde de método**. Se
-ejecuta, se estudia, y se reconstruye.
+La versión **v2** implementa los recursos de la primera versión y todas las relaciones definidas para la segunda versión, con validaciones, manejo de claves foráneas y eliminación lógica.
 
 ---
 
-## 1. Arranque: un solo comando
+## Estado del proyecto
 
-Solo hace falta **Docker Desktop**. No hay que instalar .NET ni SQL Server.
+**Versión actual:** v2 completada
+
+**Recursos v1:**
+
+- Programa
+- Red
+- Área de conocimiento
+- Término clave
+- Línea de investigación
+
+**Recursos v2:**
+
+- Docente
+- Estudios realizados
+- Docente - Departamento
+- Intereses futuros
+- Evaluación docente
+- Reconocimiento
+- Experiecia
+- Red - Docente
+- Estudio - Área de conocimiento
+- Apoyo profesoral
+- Beca
+
+Todos los recursos de v2 cuentan con API y pantalla Blazor según corresponda, y las operaciones usan borrado lógico mediante el campo `activo`.
+
+---
+
+## Tecnologías
+
+| Tecnología | Uso |
+|---|---|
+| .NET 10 | API y frontend |
+| ASP.NET Core | API REST |
+| Blazor Server | Interfaz web |
+| Dapper | Acceso a datos |
+| SQL Server 2022 | Base de datos |
+| Docker Compose | Ejecución del sistema |
+| Swagger | Documentación y pruebas de la API |
+| Git y GitHub | Control de versiones |
+
+---
+
+## Arquitectura
+
+La API sigue una arquitectura de tres capas:
+
+```text
+Controller
+    |
+    v
+Servicio
+    |
+    v
+Repositorio
+    |
+    v
+SQL Server
+```
+
+Cada recurso mantiene responsabilidades separadas:
+
+```text
+api_gestion/
+├── Controllers/
+├── Modelos/
+├── Peticiones/
+├── Repositorios/
+├── Servicios/
+└── Excepciones/
+
+front_blazor/
+├── Components/Pages/
+├── Servicios/
+└── wwwroot/
+```
+
+El frontend consume la API mediante HTTP; no accede directamente a SQL Server.
+
+---
+
+## Ejecución
+
+Solo se necesita **Docker Desktop**.
 
 ```powershell
-git clone https://github.com/ccastro2050/proyecto_gestion_profesoral1.git
+git clone https://github.com/Veronicaosoriodurang/proyecto_gestion_profesoral1.git
 cd proyecto_gestion_profesoral1
 docker compose up -d --build
 ```
 
-La primera vez tarda unos minutos: descarga las imágenes, espera a que el
-motor **responda** (no solo a que exista), crea la base con sus 19 tablas y
-sus catálogos, y compila la API **y la pantalla**. Al terminar:
+Servicios principales:
 
-| Qué | Dónde |
+| Servicio | Dirección |
 |---|---|
-| **LA PANTALLA** — empiece por aquí | **http://localhost:8075** |
-| **API — diagnóstico** | http://localhost:8074/ |
-| **Documentación interactiva** | http://localhost:8074/swagger |
-| Listado de programas | http://localhost:8074/api/programa |
-| SQL Server (SSMS o SQLTools, opcional) | `localhost,11472` · usuario `sa` |
+| Aplicación Blazor | http://localhost:8075 |
+| API | http://localhost:8074 |
+| Swagger | http://localhost:8074/swagger |
+| SQL Server | localhost,11472 |
 
-**Pruebe la joya didáctica de la v1:** un `PUT` sin `nivel`
-responde **422**; el **mismo cuerpo** enviado por `PATCH` responde **200**.
-Esa diferencia es parte de lo que enseña esta versión, y está en la
-colección de [Postman](postman/) lista para probar con clics.
-
-> **¿La contraseña de la base?** Está a la vista en el
-> `docker-compose.yml`. Es una excepción **declarada** (Artículo 7 de la
-> [constitución](docs/spec_kit/1_constitution.md)): este repositorio es una
-> plantilla que corre en contenedores desechables y nunca se despliega.
-> **En su proyecto de aula eso no se copia:** ahí los secretos van en un
-> `.env` fuera de git, y un secreto quemado anula el criterio de seguridad
-> de la versión.
-
-### Los días siguientes
+Para detener el proyecto:
 
 ```powershell
-docker compose up -d           # encender
-docker compose down            # apagar (los datos se conservan)
-docker compose down -v         # resetear la base a su estado original
+docker compose down
 ```
 
-Si edita un `.cs`, **no hay que hacer nada**: el código está montado y
-`dotnet watch` recompila y reinicia solo.
+Para reiniciar también los datos de la base:
 
-## 2. Qué construye la versión 1
-
-El CRUD completo de **`programa`** de punta a punta: controlador, servicio,
-repositorio, interfaces, peticiones por verbo y una prueba que corre **sin
-base de datos**.
-
-**La tabla arranca vacía**, y eso no es una carencia: el smoke test recorre
-el ciclo completo desde el estado inicial —**204 → crear → total 1 → borrar
-→ 204 otra vez**— y ejercita el 204 del listado vacío, que una tabla llena
-nunca deja probar.
-
-Es **una** de las cinco tablas sin clave foránea que pide la v1 del módulo.
-Las otras cuatro son **el mismo patrón** con otros nombres: el equipo que
-tome este ejemplo lo revisa y, si está de acuerdo, lo retoma y lo completa;
-si no, lo rehace a su manera. Lo que no puede es cambiar la especificación
-sin pasar por sus compuertas.
-
-## 3. Estructura
-
-```
-proyecto_gestion_profesoral1/
-├── db/                                 el script y su inicializador (artefacto DADO)
-├── api_gestion/
-│   ├── Controllers/                    CAPA 1: HTTP — códigos de estado y JSON
-│   ├── Peticiones/                     la frontera de entrada: valida el cuerpo → 422
-│   ├── Modelos/                        la entidad, lo que viaja entre capas
-│   ├── Servicios/                      CAPA 2: negocio — no conoce HTTP ni el motor
-│   ├── Repositorios/                   CAPA 3: datos — el SQL con Dapper
-│   ├── Excepciones/                    cómo el negocio avisa un 404 sin hablar de HTTP
-│   └── pruebas/                        el servicio con un repositorio de mentiras
-├── front_blazor/                     LA PANTALLA: Blazor Server, un TERCER proceso
-│   ├── Program.cs                    registra UN servicio por recurso
-│   ├── Servicios/                    lo ÚNICO que habla HTTP con la API
-│   ├── Components/Pages/             una pantalla por recurso, con dirección propia
-│   └── wwwroot/app.css               los estilos, servidos del propio contenedor
-│
-├── pruebas_humo/                     humo_front.py: recorre el sistema DESDE LA
-│                                     PANTALLA y apaga la API para probar que
-│                                     son procesos distintos
-├── docs/spec_kit/                      LA FUENTE DE VERDAD (ver abajo)
-├── postman/                            los 14 endpoints listos para probar con clics
-├── docker-compose.yml                  TODO el sistema declarado en un archivo
-└── ProyectosDeAula/                    el material del curso
+```powershell
+docker compose down -v
 ```
 
-**La regla de lectura:** el sistema vive en `docker-compose.yml`, la API en
-`api_gestion/` (una carpeta por capa), y **todo lo que explica** vive
-en `docs/`.
+---
 
-## 4. El spec kit: lo que se escribió ANTES del código
+## Endpoints principales
 
-| Documento | Qué contiene |
+La API expone rutas independientes por recurso. Algunos ejemplos:
+
+```text
+/api/programa
+/api/red
+/api/area-conocimiento
+/api/termino-clave
+/api/linea-investigacion
+/api/docente
+/api/estudios-realizados
+/api/docente-departamento
+/api/intereses-futuros
+/api/evaluacion-docente
+/api/reconocimiento
+/api/experiecia
+/api/red-docente
+/api/estudio-ac
+/api/apoyo-profesoral
+/api/beca
+```
+
+Las operaciones implementadas incluyen:
+
+```text
+GET
+POST
+PUT
+PATCH
+DELETE
+```
+
+El `DELETE` es lógico: el registro permanece en la base de datos y cambia su estado mediante `activo`.
+
+---
+
+## Validaciones
+
+Entre las validaciones implementadas se encuentran:
+
+- cuerpos incompletos en `PUT` con respuesta 422;
+- `PATCH` vacío rechazado;
+- límites inválidos rechazados;
+- recursos inexistentes o inactivos con respuesta 404;
+- validación de claves foráneas antes de crear o modificar relaciones;
+- segundo intento de eliminación lógica sobre un registro ya inactivo con respuesta 404;
+- validación de rangos y fechas cuando aplica.
+
+---
+
+## Base de datos
+
+La base de datos del módulo contiene las tablas definidas por el proyecto de Gestión Profesoral. La v2 trabaja con las tablas funcionales del módulo y sus relaciones, manteniendo las claves foráneas establecidas en el script SQL original.
+
+El archivo principal se encuentra en:
+
+```text
+db/gestion_profesoral.sql
+```
+
+---
+
+## Spec Kit
+
+La documentación de especificación se encuentra en `docs/spec_kit/`.
+
+Documentos principales:
+
+| Documento | Contenido |
 |---|---|
-| [SDD_SPECKIT.md](docs/SDD_SPECKIT.md) | **Empiece por aquí**: qué es SDD, qué es GitHub Spec Kit, y cómo se arman estos documentos |
-| [1_constitution.md](docs/spec_kit/1_constitution.md) | Las 11 reglas permanentes del proyecto |
-| [0_mapa_versiones.md](docs/spec_kit/versiones/0_mapa_versiones.md) | La ruta v1 → v4 y qué tabla entra en cada versión |
-| [2_spec.md](docs/spec_kit/versiones/v1_programa/2_spec.md) | QUÉ construir, los 7 criterios de aceptación y las **Clarificaciones** |
-| [3_plan.md](docs/spec_kit/versiones/v1_programa/3_plan.md) | CÓMO: capas, decisiones y el **Chequeo de constitución** |
-| [4_research.md](docs/spec_kit/versiones/v1_programa/4_research.md) | Las decisiones con la alternativa que se descartó |
-| [5_data_model.md](docs/spec_kit/versiones/v1_programa/5_data_model.md) | La tabla, sus semillas exactas y quién no puede escribir qué |
-| [6_contracts.md](docs/spec_kit/versiones/v1_programa/6_contracts.md) | Los 7 endpoints con TODOS sus códigos de respuesta |
-| [7_quickstart.md](docs/spec_kit/versiones/v1_programa/7_quickstart.md) | El smoke test, comando por comando |
-| [8_tasks.md](docs/spec_kit/versiones/v1_programa/8_tasks.md) | Las fases de construcción, cada una con su compuerta |
-| [9_checklist.md](docs/spec_kit/versiones/v1_programa/9_checklist.md) | La lista con la que se revisa la spec **antes** de programar |
-| [GUIA_IA1.md](docs/spec_kit/versiones/v1_programa/GUIA_IA1.md) | Cómo reconstruir esta versión con ayuda de IA, con el prompt listo |
+| `1_constitution.md` | Reglas permanentes del proyecto |
+| `0_mapa_versiones.md` | Ruta de versiones v1 a v4 |
+| `v1_programa/` | Especificación y planificación de v1 |
+| `v2_relaciones/2_spec.md` | Especificación de v2 |
+| `v2_relaciones/3_plan.md` | Plan de implementación de v2 |
 
-> 🤖 **¿Va a trabajar con IA?** Empiece por la
-> [GUIA_IA1](docs/spec_kit/versiones/v1_programa/GUIA_IA1.md): trae
-> los dos caminos —chat web e IDE agéntico— con su prompt exacto, y la
-> regla que más importa: **cuando la IA dice "asumo que…", hay que pararla.**
+La especificación define qué debe construirse y el código se desarrolla respetando esas reglas.
 
-## 5. Cómo se construyó esto
+---
 
-El [PLAN_V1.md](PLAN_V1.md) documenta el proceso completo, paso a paso: qué
-se copió del ejemplo del curso, qué se adaptó, qué se escribió de cero, y
-los defectos que aparecieron por el camino —incluidos los del propio script
-de base de datos que entrega el módulo—.
+## Pruebas realizadas en v2
 
-Vale la pena leerlo por una razón: **la especificación se escribió primero,
-y el código se construyó con IA siguiéndola.** Las correcciones que hubo no
-fueron parches al código: fueron huecos del plan, que se taparon en el
-documento y no en el programa.
+Durante el desarrollo se verificaron los CRUD completos de los recursos de v2, incluyendo casos válidos e inválidos.
 
-## Material conceptual del curso
+Al cierre de la versión se realizó una prueba de regresión sobre los endpoints principales de v1 y v2. Los recursos con datos respondieron `200` y los listados activos sin registros respondieron `204`, sin errores `400`, `404` o `500` en la prueba de lectura final.
 
-Los conceptos del curso, **con el código de este repositorio como material**: los ejemplos hablan de `programa`, no de un proyecto de otro módulo.
+También se verificó la compilación de la API y del frontend en .NET 10 dentro de Docker.
 
-| Documento | Qué cubre |
-|---|---|
-| [Flujo de una peticion](docs/FLUJO_DE_UNA_PETICION.md) | El viaje completo de una petición por las capas, de la ruta al SQL y de vuelta |
-| [Paradigma poo](docs/PARADIGMA_POO.md) | Qué es un paradigma, los cuatro pilares de la P.O.O., y dónde vive cada paradigma en este proyecto |
-| [Solid capas patrones](docs/SOLID_CAPAS_PATRONES.md) | Los cinco principios SOLID y las tres capas — con el archivo de este repositorio donde se ve cada uno |
-| [Principios acid](docs/PRINCIPIOS_ACID.md) | Las cuatro garantías transaccionales, cada una señalada en el código y en la base de ESTE módulo |
-| [Programacion asincronica](docs/PROGRAMACION_ASINCRONICA.md) | Qué resuelve el asincronismo en la web, qué se daña sin él, y cómo se ve en este código |
-| [Conceptos docker](docs/CONCEPTOS_DOCKER.md) | Imagen, contenedor, volumen y compose, con el `docker-compose.yml` de aquí explicado línea por línea |
-| [Calidad de pruebas](docs/CALIDAD_DE_PRUEBAS.md) | Cobertura, la métrica CRAP y las pruebas de mutación: cómo saber si sus pruebas de verdad protegen |
-| [Sdd speckit](docs/SDD_SPECKIT.md) | La metodología con la que se trabaja este curso: la especificación manda sobre el código |
+---
 
-> Los tutoriales de administración de la base de datos (pgAdmin, SSMS, phpMyAdmin, SQLTools) **no están todavía**: llevan capturas de pantalla que hay que tomar contra la base de este módulo.
+## Versiones
+
+### v1
+
+CRUD de las tablas sin claves foráneas y estructura inicial del proyecto.
+
+### v2
+
+CRUD y relaciones del módulo Gestión Profesoral, validación de claves foráneas, borrado lógico y pantallas Blazor para los recursos implementados.
+
+### Próximas versiones
+
+El mapa de versiones del Spec Kit define las siguientes etapas del proyecto, incluyendo autenticación y funcionalidades posteriores.
+
+---
+
+## Proyecto académico
+
+Este repositorio corresponde a un proyecto de aula. Su objetivo es aplicar conceptos de servicios web, arquitectura por capas, APIs REST, persistencia de datos, validaciones, Docker, control de versiones y desarrollo frontend con Blazor.
