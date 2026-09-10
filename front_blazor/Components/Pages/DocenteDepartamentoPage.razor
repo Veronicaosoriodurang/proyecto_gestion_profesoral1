@@ -28,57 +28,28 @@
 
 <div class="card mb-4">
     <div class="card-body">
-        <h4>
-            @(editando
-                ? "Editar relación"
-                : "Nueva relación")
-        </h4>
+        <h4>@(editando ? "Editar relación" : "Nueva relación")</h4>
 
         <div class="row g-3">
-
             <div class="col-md-6">
                 <label class="form-label">Docente</label>
-
-                <select class="form-select"
-                        @bind="formulario.Docente"
-                        disabled="@editando">
-
-                    <option value="0">
-                        Seleccione un docente
-                    </option>
-
+                <select class="form-select" @bind="formulario.Docente" disabled="@editando">
+                    <option value="0">Seleccione un docente</option>
                     @foreach (var docente in docentes)
                     {
-                        <option value="@docente.Cedula">
-                            @docente.Cedula -
-                            @docente.Nombres
-                            @docente.Apellidos
-                        </option>
+                        <option value="@docente.Cedula">@docente.Cedula - @docente.Nombres @docente.Apellidos</option>
                     }
-
                 </select>
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">
-                    Departamento / Programa
-                </label>
-
-                <select class="form-select"
-                        @bind="formulario.Departamento"
-                        disabled="@editando">
-
-                    <option value="0">
-                        Seleccione un programa
-                    </option>
-
+                <label class="form-label">Departamento / Programa</label>
+                <select class="form-select" @bind="formulario.Departamento" disabled="@editando">
+                    <option value="0">Seleccione un programa</option>
                     @foreach (var programa in programas)
                     {
-                        <option value="@programa.Id">
-                            @programa.Id - @programa.Nombre
-                        </option>
+                        <option value="@programa.Id">@programa.Id - @programa.Nombre</option>
                     }
-
                 </select>
             </div>
 
@@ -87,13 +58,9 @@
                 var docente = DocenteSeleccionado;
                 <div class="col-12">
                     <section class="docente-seleccionado" aria-label="Docente seleccionado">
-                        <object class="docente-foto"
-                                data="@RutaFoto(docente.Cedula)"
-                                type="image/jpeg"
-                                aria-label="Foto de @docente.Nombres @docente.Apellidos">
-                            <div class="docente-avatar-fallback">@Iniciales(docente)</div>
-                        </object>
-
+                        <img class="docente-foto"
+                             src="@RutaFoto(docente.Cedula)"
+                             alt="Avatar de @docente.Nombres @docente.Apellidos" />
                         <div class="docente-info">
                             <span class="docente-kicker">Docente seleccionado</span>
                             <strong>@docente.Nombres @docente.Apellidos</strong>
@@ -102,7 +69,6 @@
                                 <span>@docente.Correo</span>
                             </div>
                         </div>
-
                         <span class="docente-check">Seleccionado</span>
                     </section>
                 </div>
@@ -110,58 +76,31 @@
 
             <div class="col-md-6">
                 <label class="form-label">Dedicación</label>
-
-                <input class="form-control"
-                       maxlength="15"
-                       @bind="formulario.Dedicacion" />
+                <input class="form-control" maxlength="15" @bind="formulario.Dedicacion" />
             </div>
 
             <div class="col-md-6">
                 <label class="form-label">Modalidad</label>
-
-                <input class="form-control"
-                       maxlength="45"
-                       @bind="formulario.Modalidad" />
+                <input class="form-control" maxlength="45" @bind="formulario.Modalidad" />
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">
-                    Fecha de ingreso
-                </label>
-
-                <input type="date"
-                       class="form-control"
-                       @bind="formulario.FechaIngreso" />
+                <label class="form-label">Fecha de ingreso</label>
+                <input type="date" class="form-control" @bind="formulario.FechaIngreso" />
             </div>
 
             <div class="col-md-6">
-                <label class="form-label">
-                    Fecha de salida
-                </label>
-
-                <input type="date"
-                       class="form-control"
-                       @bind="formulario.FechaSalida" />
+                <label class="form-label">Fecha de salida</label>
+                <input type="date" class="form-control" @bind="formulario.FechaSalida" />
             </div>
-
         </div>
 
         <div class="mt-3">
-
-            <button class="btn btn-primary me-2"
-                    @onclick="Guardar">
-
-                @(editando ? "Guardar cambios" : "Crear")
-            </button>
-
+            <button class="btn btn-primary me-2" @onclick="Guardar">@(editando ? "Guardar cambios" : "Crear")</button>
             @if (editando)
             {
-                <button class="btn btn-secondary"
-                        @onclick="CancelarEdicion">
-                    Cancelar
-                </button>
+                <button class="btn btn-secondary" @onclick="CancelarEdicion">Cancelar</button>
             }
-
         </div>
     </div>
 </div>
@@ -172,16 +111,12 @@
 }
 else if (relaciones.Count == 0)
 {
-    <div class="alert alert-info">
-        No hay relaciones docente-departamento registradas.
-    </div>
+    <div class="alert alert-info">No hay relaciones docente-departamento registradas.</div>
 }
 else
 {
     <div class="table-responsive">
-
         <table class="table table-striped table-bordered">
-
             <thead>
                 <tr>
                     <th>Docente</th>
@@ -193,56 +128,24 @@ else
                     <th>Acciones</th>
                 </tr>
             </thead>
-
             <tbody>
-
                 @foreach (var item in relaciones)
                 {
                     <tr>
-
-                        <td>
-                            @NombreDocente(item.Docente)
-                        </td>
-
-                        <td>
-                            @NombrePrograma(item.Departamento)
-                        </td>
-
+                        <td>@NombreDocente(item.Docente)</td>
+                        <td>@NombrePrograma(item.Departamento)</td>
                         <td>@item.Dedicacion</td>
                         <td>@item.Modalidad</td>
-
+                        <td>@item.FechaIngreso?.ToString("yyyy-MM-dd")</td>
+                        <td>@(item.FechaSalida.HasValue ? item.FechaSalida.Value.ToString("yyyy-MM-dd") : "-")</td>
                         <td>
-                            @item.FechaIngreso?.ToString("yyyy-MM-dd")
+                            <button class="btn btn-sm btn-warning me-2" @onclick="() => Editar(item)">Editar</button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(item)">Eliminar</button>
                         </td>
-
-                        <td>
-                            @(item.FechaSalida.HasValue
-                                ? item.FechaSalida.Value
-                                    .ToString("yyyy-MM-dd")
-                                : "-")
-                        </td>
-
-                        <td>
-
-                            <button class="btn btn-sm btn-warning me-2"
-                                    @onclick="() => Editar(item)">
-                                Editar
-                            </button>
-
-                            <button class="btn btn-sm btn-danger"
-                                    @onclick="() => Eliminar(item)">
-                                Eliminar
-                            </button>
-
-                        </td>
-
                     </tr>
                 }
-
             </tbody>
-
         </table>
-
     </div>
 }
 
@@ -259,30 +162,15 @@ else
         background: linear-gradient(135deg, #F8FBFE, #EEF7FA);
     }
 
-    .docente-foto,
-    .docente-avatar-fallback {
-        width: 58px;
-        height: 58px;
-        border-radius: 50%;
-    }
-
     .docente-foto {
+        width: 62px;
+        height: 62px;
         display: block;
-        overflow: hidden;
+        border-radius: 50%;
         border: 2px solid #fff;
         box-shadow: 0 5px 14px rgba(16,45,105,.12);
         background: #E7F0F7;
         object-fit: cover;
-    }
-
-    .docente-avatar-fallback {
-        display: grid;
-        place-items: center;
-        background: linear-gradient(145deg, #102D69, #0B6FA4);
-        color: #fff;
-        font-size: 1rem;
-        font-weight: 800;
-        letter-spacing: .03em;
     }
 
     .docente-info { min-width: 0; }
@@ -324,54 +212,31 @@ else
 </style>
 
 @code {
-
     private List<DocenteDepartamento> relaciones = new();
     private List<Docente> docentes = new();
     private List<Programa> programas = new();
-
     private DocenteDepartamento formulario = Nuevo();
-
     private bool cargando = true;
     private bool editando = false;
-
     private int docenteOriginal;
     private int departamentoOriginal;
-
     private string mensaje = string.Empty;
     private List<string> errores = new();
 
-    private Docente? DocenteSeleccionado =>
-        docentes.FirstOrDefault(x => x.Cedula == formulario.Docente);
+    private Docente? DocenteSeleccionado => docentes.FirstOrDefault(x => x.Cedula == formulario.Docente);
 
-    protected override async Task OnInitializedAsync()
-    {
-        await Cargar();
-    }
+    protected override async Task OnInitializedAsync() => await Cargar();
 
     private async Task Cargar()
     {
         cargando = true;
         errores.Clear();
-
         var rRelaciones = await Servicio.Listar();
         var rDocentes = await ServicioDocente.Listar();
         var rProgramas = await ServicioPrograma.Listar();
-
-        if (rRelaciones.Ok)
-            relaciones = rRelaciones.Datos ?? new();
-        else
-            errores.AddRange(rRelaciones.Errores);
-
-        if (rDocentes.Ok)
-            docentes = rDocentes.Datos ?? new();
-        else
-            errores.AddRange(rDocentes.Errores);
-
-        if (rProgramas.Ok)
-            programas = rProgramas.Datos ?? new();
-        else
-            errores.AddRange(rProgramas.Errores);
-
+        if (rRelaciones.Ok) relaciones = rRelaciones.Datos ?? new(); else errores.AddRange(rRelaciones.Errores);
+        if (rDocentes.Ok) docentes = rDocentes.Datos ?? new(); else errores.AddRange(rDocentes.Errores);
+        if (rProgramas.Ok) programas = rProgramas.Datos ?? new(); else errores.AddRange(rProgramas.Errores);
         cargando = false;
     }
 
@@ -379,75 +244,30 @@ else
     {
         mensaje = string.Empty;
         errores.Clear();
-
-        if (formulario.Docente <= 0)
-        {
-            errores.Add("Debe seleccionar un docente.");
-            return;
-        }
-
-        if (formulario.Departamento <= 0)
-        {
-            errores.Add(
-                "Debe seleccionar un departamento/programa.");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(formulario.Dedicacion))
-        {
-            errores.Add("La dedicación es obligatoria.");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(formulario.Modalidad))
-        {
-            errores.Add("La modalidad es obligatoria.");
-            return;
-        }
-
-        if (!formulario.FechaIngreso.HasValue)
-        {
-            errores.Add("La fecha de ingreso es obligatoria.");
-            return;
-        }
+        if (formulario.Docente <= 0) { errores.Add("Debe seleccionar un docente."); return; }
+        if (formulario.Departamento <= 0) { errores.Add("Debe seleccionar un departamento/programa."); return; }
+        if (string.IsNullOrWhiteSpace(formulario.Dedicacion)) { errores.Add("La dedicación es obligatoria."); return; }
+        if (string.IsNullOrWhiteSpace(formulario.Modalidad)) { errores.Add("La modalidad es obligatoria."); return; }
+        if (!formulario.FechaIngreso.HasValue) { errores.Add("La fecha de ingreso es obligatoria."); return; }
 
         Resultado<bool> resultado;
-
         if (editando)
-        {
-            resultado = await Servicio.Reemplazar(
-                docenteOriginal,
-                departamentoOriginal,
-                formulario);
-        }
+            resultado = await Servicio.Reemplazar(docenteOriginal, departamentoOriginal, formulario);
         else
-        {
             resultado = await Servicio.Crear(formulario);
-        }
 
-        if (!resultado.Ok)
-        {
-            errores = resultado.Errores;
-            return;
-        }
-
-        mensaje = editando
-            ? "Relación actualizada correctamente."
-            : "Relación creada correctamente.";
-
+        if (!resultado.Ok) { errores = resultado.Errores; return; }
+        mensaje = editando ? "Relación actualizada correctamente." : "Relación creada correctamente.";
         formulario = Nuevo();
         editando = false;
-
         await Cargar();
     }
 
     private void Editar(DocenteDepartamento item)
     {
         editando = true;
-
         docenteOriginal = item.Docente;
         departamentoOriginal = item.Departamento;
-
         formulario = new DocenteDepartamento
         {
             Docente = item.Docente,
@@ -457,35 +277,19 @@ else
             FechaIngreso = item.FechaIngreso,
             FechaSalida = item.FechaSalida
         };
-
         mensaje = string.Empty;
         errores.Clear();
     }
 
     private async Task Eliminar(DocenteDepartamento item)
     {
-        var confirmar = await JS.InvokeAsync<bool>(
-            "confirm",
-            "¿Desea retirar esta relación?");
-
-        if (!confirmar)
-            return;
-
+        var confirmar = await JS.InvokeAsync<bool>("confirm", "¿Desea retirar esta relación?");
+        if (!confirmar) return;
         mensaje = string.Empty;
         errores.Clear();
-
-        var resultado = await Servicio.Eliminar(
-            item.Docente,
-            item.Departamento);
-
-        if (!resultado.Ok)
-        {
-            errores = resultado.Errores;
-            return;
-        }
-
+        var resultado = await Servicio.Eliminar(item.Docente, item.Departamento);
+        if (!resultado.Ok) { errores = resultado.Errores; return; }
         mensaje = "Relación eliminada correctamente.";
-
         await Cargar();
     }
 
@@ -499,45 +303,20 @@ else
 
     private string NombreDocente(int cedula)
     {
-        var docente =
-            docentes.FirstOrDefault(x => x.Cedula == cedula);
-
-        return docente == null
-            ? cedula.ToString()
-            : $"{cedula} - {docente.Nombres} {docente.Apellidos}";
+        var docente = docentes.FirstOrDefault(x => x.Cedula == cedula);
+        return docente == null ? cedula.ToString() : $"{cedula} - {docente.Nombres} {docente.Apellidos}";
     }
 
     private string NombrePrograma(int id)
     {
-        var programa =
-            programas.FirstOrDefault(x => x.Id == id);
-
-        return programa == null
-            ? id.ToString()
-            : $"{id} - {programa.Nombre}";
+        var programa = programas.FirstOrDefault(x => x.Id == id);
+        return programa == null ? id.ToString() : $"{id} - {programa.Nombre}";
     }
 
-    private static string RutaFoto(int cedula) =>
-        $"/images/docentes/{cedula}.jpg";
+    private static string RutaFoto(int cedula) => $"/images/docentes/{cedula}.svg";
 
-    private static string Iniciales(Docente docente)
+    private static DocenteDepartamento Nuevo() => new()
     {
-        var nombre = string.IsNullOrWhiteSpace(docente.Nombres)
-            ? "D"
-            : docente.Nombres.Trim()[0].ToString();
-
-        var apellido = string.IsNullOrWhiteSpace(docente.Apellidos)
-            ? string.Empty
-            : docente.Apellidos.Trim()[0].ToString();
-
-        return (nombre + apellido).ToUpperInvariant();
-    }
-
-    private static DocenteDepartamento Nuevo()
-    {
-        return new DocenteDepartamento
-        {
-            FechaIngreso = DateOnly.FromDateTime(DateTime.Today)
-        };
-    }
+        FechaIngreso = DateOnly.FromDateTime(DateTime.Today)
+    };
 }
