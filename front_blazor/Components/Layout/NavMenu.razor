@@ -1,51 +1,123 @@
 <nav class="premium-nav" aria-label="Navegación principal">
     <div class="contenedor premium-nav-inner">
-        <NavLink class="nav-home" href="" Match="NavLinkMatch.All">Inicio</NavLink>
+        <NavLink class="nav-home" href="" Match="NavLinkMatch.All" @onclick="CerrarMenu">Inicio</NavLink>
 
-        <details class="nav-group">
-            <summary>Docentes</summary>
-            <div class="nav-dropdown">
-                <NavLink href="docentes">Docentes</NavLink>
-                <NavLink href="docente-departamento">Vinculación académica</NavLink>
-            </div>
-        </details>
+        <div class="nav-group @(menuAbierto == "docentes" ? "open" : "")">
+            <button type="button" class="nav-trigger" @onclick='() => AlternarMenu("docentes")'>Docentes</button>
+            @if (menuAbierto == "docentes")
+            {
+                <div class="nav-dropdown">
+                    <NavLink href="docentes" @onclick="CerrarMenu">Docentes</NavLink>
+                    <NavLink href="docente-departamento" @onclick="CerrarMenu">Vinculación académica</NavLink>
+                </div>
+            }
+        </div>
 
-        <details class="nav-group">
-            <summary>Formación</summary>
-            <div class="nav-dropdown">
-                <NavLink href="estudios-realizados">Estudios realizados</NavLink>
-                <NavLink href="estudio-ac">Estudios y áreas</NavLink>
-                <NavLink href="programas">Programas</NavLink>
-                <NavLink href="areas-conocimiento">Áreas de conocimiento</NavLink>
-            </div>
-        </details>
+        <div class="nav-group @(menuAbierto == "formacion" ? "open" : "")">
+            <button type="button" class="nav-trigger" @onclick='() => AlternarMenu("formacion")'>Formación</button>
+            @if (menuAbierto == "formacion")
+            {
+                <div class="nav-dropdown">
+                    <NavLink href="estudios-realizados" @onclick="CerrarMenu">Estudios realizados</NavLink>
+                    <NavLink href="estudio-ac" @onclick="CerrarMenu">Estudios y áreas</NavLink>
+                    <NavLink href="programas" @onclick="CerrarMenu">Programas</NavLink>
+                    <NavLink href="areas-conocimiento" @onclick="CerrarMenu">Áreas de conocimiento</NavLink>
+                </div>
+            }
+        </div>
 
-        <details class="nav-group">
-            <summary>Trayectoria</summary>
-            <div class="nav-dropdown">
-                <NavLink href="evaluacion-docente">Evaluación docente</NavLink>
-                <NavLink href="experiecia">Experiencia docente</NavLink>
-                <NavLink href="reconocimientos">Reconocimientos</NavLink>
-            </div>
-        </details>
+        <div class="nav-group @(menuAbierto == "trayectoria" ? "open" : "")">
+            <button type="button" class="nav-trigger" @onclick='() => AlternarMenu("trayectoria")'>Trayectoria</button>
+            @if (menuAbierto == "trayectoria")
+            {
+                <div class="nav-dropdown">
+                    <NavLink href="evaluacion-docente" @onclick="CerrarMenu">Evaluación docente</NavLink>
+                    <NavLink href="experiecia" @onclick="CerrarMenu">Experiencia docente</NavLink>
+                    <NavLink href="reconocimientos" @onclick="CerrarMenu">Reconocimientos</NavLink>
+                </div>
+            }
+        </div>
 
-        <details class="nav-group">
-            <summary>Redes</summary>
-            <div class="nav-dropdown">
-                <NavLink href="redes">Redes</NavLink>
-                <NavLink href="red-docente">Redes de docentes</NavLink>
-                <NavLink href="terminos-clave">Términos clave</NavLink>
-                <NavLink href="lineas-investigacion">Líneas de investigación</NavLink>
-                <NavLink href="intereses-futuros">Intereses futuros</NavLink>
-            </div>
-        </details>
+        <div class="nav-group @(menuAbierto == "redes" ? "open" : "")">
+            <button type="button" class="nav-trigger" @onclick='() => AlternarMenu("redes")'>Redes</button>
+            @if (menuAbierto == "redes")
+            {
+                <div class="nav-dropdown">
+                    <NavLink href="redes" @onclick="CerrarMenu">Redes</NavLink>
+                    <NavLink href="red-docente" @onclick="CerrarMenu">Redes de docentes</NavLink>
+                    <NavLink href="terminos-clave" @onclick="CerrarMenu">Términos clave</NavLink>
+                    <NavLink href="lineas-investigacion" @onclick="CerrarMenu">Líneas de investigación</NavLink>
+                    <NavLink href="intereses-futuros" @onclick="CerrarMenu">Intereses futuros</NavLink>
+                </div>
+            }
+        </div>
 
-        <details class="nav-group">
-            <summary>Apoyos</summary>
-            <div class="nav-dropdown">
-                <NavLink href="apoyo-profesoral">Apoyo profesoral</NavLink>
-                <NavLink href="becas">Becas</NavLink>
-            </div>
-        </details>
+        <div class="nav-group @(menuAbierto == "apoyos" ? "open" : "")">
+            <button type="button" class="nav-trigger" @onclick='() => AlternarMenu("apoyos")'>Apoyos</button>
+            @if (menuAbierto == "apoyos")
+            {
+                <div class="nav-dropdown">
+                    <NavLink href="apoyo-profesoral" @onclick="CerrarMenu">Apoyo profesoral</NavLink>
+                    <NavLink href="becas" @onclick="CerrarMenu">Becas</NavLink>
+                </div>
+            }
+        </div>
     </div>
 </nav>
+
+@if (menuAbierto is not null)
+{
+    <button class="nav-click-away" aria-label="Cerrar menú" @onclick="CerrarMenu"></button>
+}
+
+<style>
+    .nav-trigger {
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        padding: 9px 12px;
+        border-radius: 9px;
+        font: inherit;
+        font-size: .86rem;
+        font-weight: 650;
+        color: #445166;
+        transition: .15s ease;
+    }
+
+    .nav-trigger:hover,
+    .nav-group.open > .nav-trigger {
+        background: #F0F6FB;
+        color: #102D69;
+    }
+
+    .premium-nav,
+    .premium-nav-inner,
+    .nav-group,
+    .nav-dropdown {
+        position: relative;
+        z-index: 62;
+    }
+
+    .nav-click-away {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        border: 0;
+        background: transparent;
+        cursor: default;
+    }
+</style>
+
+@code {
+    private string? menuAbierto;
+
+    private void AlternarMenu(string menu)
+    {
+        menuAbierto = menuAbierto == menu ? null : menu;
+    }
+
+    private void CerrarMenu()
+    {
+        menuAbierto = null;
+    }
+}
