@@ -1,4 +1,8 @@
-# Gestión Profesoral
+<div align="center">
+
+# GESTIÓN PROFESORAL
+
+### Sistema académico para administrar información y relaciones de docentes
 
 ![Version](https://img.shields.io/badge/VERSION-v2-2ea44f?style=for-the-badge)
 ![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge)
@@ -6,123 +10,133 @@
 ![SQL Server](https://img.shields.io/badge/SQL%20SERVER-2022-CC2927?style=for-the-badge)
 ![Docker](https://img.shields.io/badge/DOCKER-COMPOSE-2496ED?style=for-the-badge)
 ![API](https://img.shields.io/badge/API-REST-0078D4?style=for-the-badge)
-![Status](https://img.shields.io/badge/STATUS-V2%20COMPLETADA-2ea44f?style=for-the-badge)
+![Estado](https://img.shields.io/badge/ESTADO-V2%20COMPLETADA-2ea44f?style=for-the-badge)
 
-Proyecto académico del módulo **Gestión Profesoral**, desarrollado con arquitectura por capas, API REST en .NET, Dapper, SQL Server, Blazor Server y Docker Compose.
+**Proyecto de aula — Aplicación y Servicios Web**
 
-La versión **v2** implementa los recursos de la primera versión y todas las relaciones definidas para la segunda versión, con validaciones, manejo de claves foráneas y eliminación lógica.
-
----
-
-## Estado del proyecto
-
-**Versión actual:** v2 completada
-
-**Recursos v1:**
-
-- Programa
-- Red
-- Área de conocimiento
-- Término clave
-- Línea de investigación
-
-**Recursos v2:**
-
-- Docente
-- Estudios realizados
-- Docente - Departamento
-- Intereses futuros
-- Evaluación docente
-- Reconocimiento
-- Experiecia
-- Red - Docente
-- Estudio - Área de conocimiento
-- Apoyo profesoral
-- Beca
-
-Todos los recursos de v2 cuentan con API y pantalla Blazor según corresponda, y las operaciones usan borrado lógico mediante el campo `activo`.
+</div>
 
 ---
 
-## Tecnologías
+## Contenido
 
-| Tecnología | Uso |
+- [Qué es el proyecto](#qué-es-el-proyecto)
+- [Qué está terminado](#qué-está-terminado)
+- [Cómo ejecutar el proyecto](#cómo-ejecutar-el-proyecto)
+- [Cómo funciona](#cómo-funciona)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Recursos y rutas](#recursos-y-rutas)
+- [Operaciones CRUD](#operaciones-crud)
+- [Validaciones](#validaciones)
+- [Base de datos](#base-de-datos)
+- [Spec Kit](#spec-kit)
+- [Pruebas realizadas](#pruebas-realizadas)
+- [Material conceptual del curso](#material-conceptual-del-curso)
+- [Versiones](#versiones)
+
+---
+
+## Qué es el proyecto
+
+**Gestión Profesoral** es una aplicación académica para registrar y administrar información relacionada con docentes.
+
+El sistema permite trabajar con datos como programas, redes, áreas de conocimiento, estudios realizados, departamentos, evaluaciones, reconocimientos, experiencia, apoyos profesorales y becas.
+
+La aplicación está dividida en tres partes principales:
+
+1. **Frontend Blazor:** es la pantalla que usa la persona.
+2. **API REST:** recibe las solicitudes, valida la información y aplica las reglas del sistema.
+3. **SQL Server:** guarda los datos.
+
+El frontend **no se conecta directamente a la base de datos**. Toda la información pasa primero por la API.
+
+---
+
+## Qué está terminado
+
+La versión actual es **v2**.
+
+### Versión 1
+
+La v1 implementa los recursos sin claves foráneas:
+
+| Recurso | Estado |
 |---|---|
-| .NET 10 | API y frontend |
-| ASP.NET Core | API REST |
-| Blazor Server | Interfaz web |
-| Dapper | Acceso a datos |
-| SQL Server 2022 | Base de datos |
-| Docker Compose | Ejecución del sistema |
-| Swagger | Documentación y pruebas de la API |
-| Git y GitHub | Control de versiones |
+| Programa | Completo |
+| Red | Completo |
+| Área de conocimiento | Completo |
+| Término clave | Completo |
+| Línea de investigación | Completo |
+
+### Versión 2
+
+La v2 agrega los recursos que dependen de otras tablas mediante claves foráneas:
+
+| Recurso | Relación principal | Estado |
+|---|---|---|
+| Docente | Línea de investigación | Completo |
+| Estudios realizados | Docente | Completo |
+| Docente - Departamento | Docente y Programa | Completo |
+| Intereses futuros | Docente y Término clave | Completo |
+| Evaluación docente | Docente | Completo |
+| Reconocimiento | Docente | Completo |
+| Experiecia | Docente | Completo |
+| Red - Docente | Red y Docente | Completo |
+| Estudio - Área de conocimiento | Estudio y Área | Completo |
+| Apoyo profesoral | Estudio realizado | Completo |
+| Beca | Estudio realizado | Completo |
+
+**Resultado de v2: 11 de 11 recursos completados.**
+
+Cada recurso de la v2 tiene su lógica de API y su pantalla Blazor correspondiente.
 
 ---
 
-## Arquitectura
+## Cómo ejecutar el proyecto
 
-La API sigue una arquitectura de tres capas:
+### Requisito
 
-```text
-Controller
-    |
-    v
-Servicio
-    |
-    v
-Repositorio
-    |
-    v
-SQL Server
-```
+Solo se necesita tener **Docker Desktop** instalado y funcionando.
 
-Cada recurso mantiene responsabilidades separadas:
-
-```text
-api_gestion/
-├── Controllers/
-├── Modelos/
-├── Peticiones/
-├── Repositorios/
-├── Servicios/
-└── Excepciones/
-
-front_blazor/
-├── Components/Pages/
-├── Servicios/
-└── wwwroot/
-```
-
-El frontend consume la API mediante HTTP; no accede directamente a SQL Server.
-
----
-
-## Ejecución
-
-Solo se necesita **Docker Desktop**.
+### 1. Clonar el repositorio
 
 ```powershell
 git clone https://github.com/Veronicaosoriodurang/proyecto_gestion_profesoral1.git
 cd proyecto_gestion_profesoral1
+```
+
+### 2. Levantar todo el sistema
+
+```powershell
 docker compose up -d --build
 ```
 
-Servicios principales:
+Docker se encarga de levantar SQL Server, la API y el frontend.
+
+### 3. Abrir la aplicación
 
 | Servicio | Dirección |
 |---|---|
 | Aplicación Blazor | http://localhost:8075 |
 | API | http://localhost:8074 |
 | Swagger | http://localhost:8074/swagger |
-| SQL Server | localhost,11472 |
+| SQL Server | `localhost,11472` |
 
-Para detener el proyecto:
+### Comandos útiles
+
+Encender nuevamente:
+
+```powershell
+docker compose up -d
+```
+
+Apagar:
 
 ```powershell
 docker compose down
 ```
 
-Para reiniciar también los datos de la base:
+Apagar y reiniciar los datos de la base:
 
 ```powershell
 docker compose down -v
@@ -130,94 +144,277 @@ docker compose down -v
 
 ---
 
-## Endpoints principales
+## Cómo funciona
 
-La API expone rutas independientes por recurso. Algunos ejemplos:
-
-```text
-/api/programa
-/api/red
-/api/area-conocimiento
-/api/termino-clave
-/api/linea-investigacion
-/api/docente
-/api/estudios-realizados
-/api/docente-departamento
-/api/intereses-futuros
-/api/evaluacion-docente
-/api/reconocimiento
-/api/experiecia
-/api/red-docente
-/api/estudio-ac
-/api/apoyo-profesoral
-/api/beca
-```
-
-Las operaciones implementadas incluyen:
+La idea principal se puede resumir así:
 
 ```text
-GET
-POST
-PUT
-PATCH
-DELETE
+Usuario
+   |
+   v
+Blazor Server
+   |
+   | HTTP
+   v
+API REST
+   |
+   v
+Servicio
+   |
+   v
+Repositorio con Dapper
+   |
+   v
+SQL Server
 ```
 
-El `DELETE` es lógico: el registro permanece en la base de datos y cambia su estado mediante `activo`.
+Dentro de la API se usa una arquitectura por capas.
+
+### Controller
+
+Recibe la petición HTTP y devuelve la respuesta correspondiente.
+
+Ejemplos de respuestas:
+
+```text
+200  operación correcta
+204  listado sin registros activos
+400  solicitud inválida
+404  recurso inexistente o inactivo
+422  cuerpo obligatorio incompleto
+```
+
+### Servicio
+
+Contiene las reglas del negocio.
+
+Por ejemplo, antes de crear una beca se comprueba que el estudio relacionado exista y esté activo.
+
+### Repositorio
+
+Es la capa que ejecuta el SQL mediante **Dapper**.
+
+Esta separación permite que cada parte tenga una responsabilidad clara.
+
+---
+
+## Estructura del proyecto
+
+```text
+proyecto_gestion_profesoral1/
+|
+|-- api_gestion/
+|   |-- Controllers/        recibe las peticiones HTTP
+|   |-- Modelos/            representa los datos
+|   |-- Peticiones/         valida los cuerpos de entrada
+|   |-- Servicios/          contiene las reglas del negocio
+|   |-- Repositorios/       consulta SQL Server con Dapper
+|   `-- Excepciones/        maneja errores controlados
+|
+|-- front_blazor/
+|   |-- Components/Pages/   pantallas de cada recurso
+|   |-- Servicios/          comunicación HTTP con la API
+|   `-- wwwroot/            archivos y estilos del frontend
+|
+|-- db/
+|   `-- gestion_profesoral.sql
+|
+|-- docs/
+|   `-- spec_kit/           especificaciones y planes del proyecto
+|
+|-- pruebas_humo/           pruebas generales del sistema
+|-- postman/                recursos de prueba de la API
+|-- ProyectosDeAula/        material entregado para el curso
+`-- docker-compose.yml      definición de los servicios Docker
+```
+
+La regla más importante para entender esta estructura es:
+
+> **Blazor muestra, la API decide y SQL Server guarda.**
+
+---
+
+## Recursos y rutas
+
+La API tiene una ruta específica para cada recurso.
+
+| Recurso | Ruta principal |
+|---|---|
+| Programa | `/api/programa` |
+| Red | `/api/red` |
+| Área de conocimiento | `/api/area-conocimiento` |
+| Término clave | `/api/termino-clave` |
+| Línea de investigación | `/api/linea-investigacion` |
+| Docente | `/api/docente` |
+| Estudios realizados | `/api/estudios-realizados` |
+| Docente - Departamento | `/api/docente-departamento` |
+| Intereses futuros | `/api/intereses-futuros` |
+| Evaluación docente | `/api/evaluacion-docente` |
+| Reconocimiento | `/api/reconocimiento` |
+| Experiecia | `/api/experiecia` |
+| Red - Docente | `/api/red-docente` |
+| Estudio - Área | `/api/estudio-ac` |
+| Apoyo profesoral | `/api/apoyo-profesoral` |
+| Beca | `/api/beca` |
+
+Swagger permite consultar y probar estas rutas desde:
+
+```text
+http://localhost:8074/swagger
+```
+
+---
+
+## Operaciones CRUD
+
+Los recursos implementan las operaciones necesarias para administrar los datos.
+
+| Método | Función |
+|---|---|
+| `GET` | Consultar |
+| `POST` | Crear |
+| `PUT` | Reemplazar un registro completo |
+| `PATCH` | Actualizar solo algunos campos |
+| `DELETE` | Retirar mediante borrado lógico |
+
+### PUT y PATCH
+
+Una diferencia importante del proyecto es:
+
+- **PUT** espera los datos obligatorios del recurso completo.
+- **PATCH** permite enviar únicamente los campos que se quieren modificar.
+
+Por eso un PUT incompleto puede responder `422`, mientras que un PATCH válido puede actualizar un solo campo.
+
+### Borrado lógico
+
+El `DELETE` no elimina físicamente la fila de SQL Server.
+
+El registro queda almacenado y su campo `activo` cambia para indicar que ya no debe aparecer como disponible.
+
+```text
+activo = 1   registro activo
+activo = 0   registro retirado
+```
 
 ---
 
 ## Validaciones
 
-Entre las validaciones implementadas se encuentran:
+La aplicación controla errores antes de guardar información incorrecta.
 
-- cuerpos incompletos en `PUT` con respuesta 422;
-- `PATCH` vacío rechazado;
-- límites inválidos rechazados;
-- recursos inexistentes o inactivos con respuesta 404;
-- validación de claves foráneas antes de crear o modificar relaciones;
-- segundo intento de eliminación lógica sobre un registro ya inactivo con respuesta 404;
-- validación de rangos y fechas cuando aplica.
+Entre las validaciones implementadas están:
+
+- campos obligatorios;
+- cuerpos incompletos en `PUT`;
+- rechazo de un `PATCH` vacío;
+- límites de consulta inválidos;
+- recursos inexistentes;
+- recursos inactivos;
+- claves foráneas inexistentes o inactivas;
+- segundo intento de eliminación de un registro ya retirado;
+- rangos permitidos;
+- validaciones de fechas cuando corresponde.
+
+Ejemplo: una beca no permite que `fecha_fin` sea anterior a `fecha_inicio`.
 
 ---
 
 ## Base de datos
 
-La base de datos del módulo contiene las tablas definidas por el proyecto de Gestión Profesoral. La v2 trabaja con las tablas funcionales del módulo y sus relaciones, manteniendo las claves foráneas establecidas en el script SQL original.
-
-El archivo principal se encuentra en:
+El script principal se encuentra en:
 
 ```text
 db/gestion_profesoral.sql
 ```
 
+SQL Server mantiene las claves primarias y las claves foráneas definidas para el módulo.
+
+En la v2 las relaciones son especialmente importantes. Por ejemplo:
+
+```text
+Docente ---- Estudios realizados ---- Beca
+   |
+   +-------- Evaluación docente
+   |
+   +-------- Reconocimiento
+   |
+   +-------- Experiecia
+```
+
+Antes de guardar una relación, el servicio comprueba que el registro relacionado exista y se encuentre activo.
+
 ---
 
 ## Spec Kit
 
-La documentación de especificación se encuentra en `docs/spec_kit/`.
+El proyecto sigue una metodología basada en especificaciones.
 
-Documentos principales:
+La documentación principal está en:
 
-| Documento | Contenido |
+```text
+docs/spec_kit/
+```
+
+| Documento | Para qué sirve |
 |---|---|
 | `1_constitution.md` | Reglas permanentes del proyecto |
-| `0_mapa_versiones.md` | Ruta de versiones v1 a v4 |
-| `v1_programa/` | Especificación y planificación de v1 |
-| `v2_relaciones/2_spec.md` | Especificación de v2 |
-| `v2_relaciones/3_plan.md` | Plan de implementación de v2 |
+| `0_mapa_versiones.md` | Define qué se construye en cada versión |
+| `v1_programa/2_spec.md` | Especificación de la v1 |
+| `v1_programa/3_plan.md` | Plan de construcción de la v1 |
+| `v2_relaciones/2_spec.md` | Qué debe cumplir la v2 |
+| `v2_relaciones/3_plan.md` | Orden y forma de construir la v2 |
 
-La especificación define qué debe construirse y el código se desarrolla respetando esas reglas.
+La idea del Spec Kit es sencilla:
+
+> **Primero se define qué debe hacer el sistema y después se programa.**
 
 ---
 
-## Pruebas realizadas en v2
+## Pruebas realizadas
 
-Durante el desarrollo se verificaron los CRUD completos de los recursos de v2, incluyendo casos válidos e inválidos.
+Durante la v2 cada recurso fue probado individualmente.
 
-Al cierre de la versión se realizó una prueba de regresión sobre los endpoints principales de v1 y v2. Los recursos con datos respondieron `200` y los listados activos sin registros respondieron `204`, sin errores `400`, `404` o `500` en la prueba de lectura final.
+Se verificaron casos como:
 
-También se verificó la compilación de la API y del frontend en .NET 10 dentro de Docker.
+```text
+POST válido                 -> 200
+GET válido                  -> 200
+PUT válido                  -> 200
+PATCH válido                -> 200
+PATCH vacío                 -> 400
+PUT incompleto              -> 422
+recurso inexistente         -> 404
+DELETE válido               -> 200
+segundo DELETE              -> 404
+```
+
+También se probaron las claves foráneas y las reglas particulares de cada tabla.
+
+Al finalizar la v2 se ejecutó una prueba de regresión sobre los recursos de v1 y v2:
+
+- los recursos con datos respondieron `200`;
+- los listados activos sin registros respondieron `204`;
+- no aparecieron errores `400`, `404` ni `500` en la prueba final de lectura.
+
+La API y el frontend también fueron compilados correctamente con **.NET 10 dentro de Docker**.
+
+---
+
+## Material conceptual del curso
+
+Además del código, el repositorio conserva documentación conceptual relacionada con los temas trabajados en clase.
+
+| Documento | Tema |
+|---|---|
+| `docs/FLUJO_DE_UNA_PETICION.md` | Recorrido de una petición por las capas |
+| `docs/PARADIGMA_POO.md` | Programación orientada a objetos |
+| `docs/SOLID_CAPAS_PATRONES.md` | Principios SOLID y arquitectura por capas |
+| `docs/PRINCIPIOS_ACID.md` | Propiedades ACID de una base de datos |
+| `docs/PROGRAMACION_ASINCRONICA.md` | Programación asíncrona |
+| `docs/CONCEPTOS_DOCKER.md` | Imágenes, contenedores, volúmenes y Compose |
+| `docs/CALIDAD_DE_PRUEBAS.md` | Calidad y cobertura de pruebas |
+| `docs/SDD_SPECKIT.md` | Desarrollo dirigido por especificaciones |
 
 ---
 
@@ -225,18 +422,32 @@ También se verificó la compilación de la API y del frontend en .NET 10 dentro
 
 ### v1
 
-CRUD de las tablas sin claves foráneas y estructura inicial del proyecto.
+Construye la base del proyecto y los CRUD de los recursos sin claves foráneas.
 
 ### v2
 
-CRUD y relaciones del módulo Gestión Profesoral, validación de claves foráneas, borrado lógico y pantallas Blazor para los recursos implementados.
+Agrega los recursos relacionados, valida las claves foráneas, mantiene borrado lógico e incorpora las pantallas Blazor correspondientes.
 
-### Próximas versiones
+**Estado: completada.**
 
-El mapa de versiones del Spec Kit define las siguientes etapas del proyecto, incluyendo autenticación y funcionalidades posteriores.
+### Siguientes versiones
+
+El archivo `docs/spec_kit/versiones/0_mapa_versiones.md` define las siguientes etapas del proyecto, incluyendo autenticación y funcionalidades posteriores.
 
 ---
 
-## Proyecto académico
+## Explicación rápida del proyecto
 
-Este repositorio corresponde a un proyecto de aula. Su objetivo es aplicar conceptos de servicios web, arquitectura por capas, APIs REST, persistencia de datos, validaciones, Docker, control de versiones y desarrollo frontend con Blazor.
+Una forma sencilla de presentar el proyecto es:
+
+> Gestión Profesoral es una aplicación web dividida en frontend, API y base de datos. Blazor muestra las pantallas, la API valida y procesa la información mediante una arquitectura de controlador, servicio y repositorio, y SQL Server almacena los datos. La v1 desarrolla los recursos independientes y la v2 agrega las relaciones entre docentes, estudios, evaluaciones, redes, apoyos y becas. Todos los recursos manejan validaciones y borrado lógico, y el proyecto puede ejecutarse completo con Docker Compose.
+
+---
+
+<div align="center">
+
+**Gestión Profesoral — Versión 2 completada**
+
+Aplicación y Servicios Web
+
+</div>
