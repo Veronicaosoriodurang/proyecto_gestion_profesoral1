@@ -1,0 +1,405 @@
+@page "/docentes/perfil/{Cedula:int}"
+@rendermode InteractiveServer
+@using FrontGestion.Servicios
+@inject ServicioDocente ServicioDocente
+@inject ServicioEstudioRealizado ServicioEstudios
+@inject ServicioDocenteDepartamento ServicioVinculaciones
+@inject ServicioPrograma ServicioProgramas
+@inject ServicioEvaluacionDocente ServicioEvaluaciones
+@inject ServicioExperiecia ServicioExperiencia
+@inject ServicioReconocimiento ServicioReconocimientos
+@inject ServicioRedDocente ServicioRedDocente
+@inject ServicioRed ServicioRedes
+@inject ServicioApoyoProfesoral ServicioApoyos
+@inject ServicioBeca ServicioBecas
+
+<PageTitle>Perfil docente</PageTitle>
+
+@if (cargando)
+{
+    <div class="perfil-cargando">Cargando perfil del docente…</div>
+}
+else if (docente is null)
+{
+    <section class="perfil-vacio">
+        <strong>No encontramos este docente.</strong>
+        <p>Puede que haya sido retirado o que la cédula no corresponda a una ficha activa.</p>
+        <a class="boton primario" href="/docentes">Volver a docentes</a>
+    </section>
+}
+else
+{
+    <a class="perfil-volver" href="/docentes">← Volver a docentes</a>
+
+    <section class="perfil-portada">
+        <div class="perfil-identidad">
+            <img class="perfil-foto" src="@RutaAvatar(docente.Cedula)" alt="Foto de @docente.Nombres @docente.Apellidos" />
+            <div>
+                <span class="perfil-kicker">Perfil docente</span>
+                <h1>@docente.Nombres @docente.Apellidos</h1>
+                <div class="perfil-etiquetas">
+                    <span>@docente.Cargo</span>
+                    <span>@docente.Escalafon</span>
+                    <span>@docente.Nacionalidaad</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="perfil-contacto">
+            <div><small>Correo</small><strong>@docente.Correo</strong></div>
+            <div><small>Teléfono</small><strong>@docente.Telefono</strong></div>
+            <div><small>Cédula</small><strong>@docente.Cedula</strong></div>
+        </div>
+    </section>
+
+    <section class="perfil-resumen">
+        <div><strong>@estudios.Count</strong><span>Estudios</span></div>
+        <div><strong>@TextoPromedio()</strong><span>Promedio evaluación</span></div>
+        <div><strong>@experiencias.Count</strong><span>Experiencias</span></div>
+        <div><strong>@reconocimientos.Count</strong><span>Reconocimientos</span></div>
+        <div><strong>@redesDocente.Count</strong><span>Redes</span></div>
+    </section>
+
+    <div class="perfil-grid">
+        <main class="perfil-columna-principal">
+            <section class="perfil-card perfil-presentacion">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Sobre el docente</span>
+                        <h2>Perfil profesional</h2>
+                    </div>
+                </div>
+                <p>@docente.Perfil</p>
+            </section>
+
+            <section class="perfil-card">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Formación</span>
+                        <h2>Estudios realizados</h2>
+                    </div>
+                    <a href="/estudios-realizados">Ver módulo</a>
+                </div>
+
+                @if (estudios.Count == 0)
+                {
+                    <p class="perfil-sin-datos">No hay estudios registrados para este docente.</p>
+                }
+                else
+                {
+                    <div class="perfil-lista">
+                        @foreach (var item in estudios.OrderByDescending(x => x.Fecha))
+                        {
+                            <article class="perfil-item">
+                                <div class="perfil-item-marca">F</div>
+                                <div>
+                                    <strong>@item.Titulo</strong>
+                                    <span>@item.Universidad · @item.Ciudad, @item.Pais</span>
+                                    <small>@item.Tipo · @item.Metodologia @(item.Fecha.HasValue ? "· " + item.Fecha.Value.ToString("yyyy") : "")</small>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                }
+            </section>
+
+            <section class="perfil-card">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Trayectoria</span>
+                        <h2>Experiencia profesional</h2>
+                    </div>
+                    <a href="/experiecia">Ver módulo</a>
+                </div>
+
+                @if (experiencias.Count == 0)
+                {
+                    <p class="perfil-sin-datos">No hay experiencia registrada.</p>
+                }
+                else
+                {
+                    <div class="perfil-lista">
+                        @foreach (var item in experiencias.OrderByDescending(x => x.FechaInicio))
+                        {
+                            <article class="perfil-item">
+                                <div class="perfil-item-marca">T</div>
+                                <div>
+                                    <strong>@item.NombreCargo</strong>
+                                    <span>@item.Institucion · @item.Tipo</span>
+                                    <small>@RangoFechas(item.FechaInicio, item.FechaFin)</small>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                }
+            </section>
+
+            <section class="perfil-card">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Distinciones</span>
+                        <h2>Reconocimientos</h2>
+                    </div>
+                    <a href="/reconocimientos">Ver módulo</a>
+                </div>
+
+                @if (reconocimientos.Count == 0)
+                {
+                    <p class="perfil-sin-datos">No hay reconocimientos registrados.</p>
+                }
+                else
+                {
+                    <div class="perfil-lista">
+                        @foreach (var item in reconocimientos.OrderByDescending(x => x.Fecha))
+                        {
+                            <article class="perfil-item">
+                                <div class="perfil-item-marca">R</div>
+                                <div>
+                                    <strong>@item.Nombre</strong>
+                                    <span>@item.Institucion · @item.Ambito</span>
+                                    <small>@item.Tipo @(item.Fecha.HasValue ? "· " + item.Fecha.Value.ToString("yyyy-MM-dd") : "")</small>
+                                </div>
+                            </article>
+                        }
+                    </div>
+                }
+            </section>
+        </main>
+
+        <aside class="perfil-columna-lateral">
+            <section class="perfil-card perfil-card-compacta">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Vinculación</span>
+                        <h2>Programa académico</h2>
+                    </div>
+                </div>
+                @if (vinculaciones.Count == 0)
+                {
+                    <p class="perfil-sin-datos">Sin vinculación activa.</p>
+                }
+                else
+                {
+                    @foreach (var item in vinculaciones)
+                    {
+                        <div class="perfil-dato-destacado">
+                            <strong>@NombrePrograma(item.Departamento)</strong>
+                            <span>@item.Dedicacion · @item.Modalidad</span>
+                        </div>
+                    }
+                }
+            </section>
+
+            <section class="perfil-card perfil-card-compacta">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Evaluación</span>
+                        <h2>Desempeño docente</h2>
+                    </div>
+                    <a href="/evaluacion-docente">Ver</a>
+                </div>
+                @if (evaluaciones.Count == 0)
+                {
+                    <p class="perfil-sin-datos">Sin evaluaciones registradas.</p>
+                }
+                else
+                {
+                    @foreach (var item in evaluaciones.OrderByDescending(x => x.Semestre).Take(3))
+                    {
+                        <div class="perfil-evaluacion">
+                            <span>@item.Semestre</span>
+                            <strong>@item.Calificacion.ToString("0.0") / 5.0</strong>
+                        </div>
+                    }
+                }
+            </section>
+
+            <section class="perfil-card perfil-card-compacta">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Comunidad</span>
+                        <h2>Redes académicas</h2>
+                    </div>
+                    <a href="/red-docente">Ver</a>
+                </div>
+                @if (redesDocente.Count == 0)
+                {
+                    <p class="perfil-sin-datos">No participa en redes registradas.</p>
+                }
+                else
+                {
+                    @foreach (var item in redesDocente)
+                    {
+                        <div class="perfil-red">
+                            <strong>@NombreRed(item.Red)</strong>
+                            <span>@item.ActDestacadas</span>
+                        </div>
+                    }
+                }
+            </section>
+
+            <section class="perfil-card perfil-card-compacta">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Beneficios</span>
+                        <h2>Apoyos y becas</h2>
+                    </div>
+                </div>
+                <div class="perfil-beneficios">
+                    <a href="/apoyo-profesoral"><strong>@apoyos.Count</strong><span>Apoyos</span></a>
+                    <a href="/becas"><strong>@becas.Count</strong><span>Becas</span></a>
+                </div>
+            </section>
+
+            <section class="perfil-card perfil-card-compacta">
+                <div class="perfil-card-titulo">
+                    <div>
+                        <span>Investigación</span>
+                        <h2>Información adicional</h2>
+                    </div>
+                </div>
+                <div class="perfil-datos-mini">
+                    <div><span>Categoría Minciencias</span><strong>@(string.IsNullOrWhiteSpace(docente.CatMinciencia) ? "No registrada" : docente.CatMinciencia)</strong></div>
+                    <div><span>Convocatoria</span><strong>@docente.ConvMinciencia</strong></div>
+                    <div><span>Última actualización</span><strong>@(docente.FechaActualizacion?.ToString("yyyy-MM-dd") ?? "Sin fecha")</strong></div>
+                </div>
+            </section>
+        </aside>
+    </div>
+}
+
+<style>
+    .perfil-volver { display:inline-flex; margin-bottom:14px; color:#52627a; font-weight:700; font-size:.84rem; text-decoration:none; }
+    .perfil-volver:hover { color:#102D69; }
+    .perfil-cargando,.perfil-vacio { padding:38px; border:1px solid #E1E8F0; border-radius:20px; background:#fff; }
+    .perfil-vacio p { color:#667085; }
+    .perfil-portada { display:grid; grid-template-columns:1fr auto; gap:28px; align-items:center; padding:26px 28px; border-radius:24px; background:linear-gradient(135deg,#102D69,#174E7D); color:#fff; box-shadow:0 18px 42px rgba(16,45,105,.16); }
+    .perfil-identidad { display:flex; align-items:center; gap:20px; min-width:0; }
+    .perfil-foto { width:92px; height:92px; border-radius:24px; object-fit:cover; background:#EAF3F8; border:3px solid rgba(255,255,255,.8); box-shadow:0 10px 24px rgba(0,0,0,.15); }
+    .perfil-kicker { display:block; margin-bottom:5px; color:#BFE9F1; text-transform:uppercase; letter-spacing:.08em; font-size:.68rem; font-weight:800; }
+    .perfil-portada h1 { margin:0 0 10px; color:#fff; font-size:clamp(1.7rem,3vw,2.55rem); }
+    .perfil-etiquetas { display:flex; gap:7px; flex-wrap:wrap; }
+    .perfil-etiquetas span { padding:5px 9px; border-radius:999px; background:rgba(255,255,255,.12); font-size:.72rem; font-weight:700; }
+    .perfil-contacto { display:grid; gap:8px; min-width:240px; }
+    .perfil-contacto div { padding:9px 12px; border-radius:11px; background:rgba(255,255,255,.09); }
+    .perfil-contacto small { display:block; color:#C7D7E7; font-size:.65rem; }
+    .perfil-contacto strong { display:block; margin-top:2px; font-size:.78rem; overflow-wrap:anywhere; }
+    .perfil-resumen { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; margin:14px 0 20px; border:1px solid #E1E8F0; border-radius:16px; overflow:hidden; background:#E1E8F0; }
+    .perfil-resumen div { display:grid; padding:13px 15px; background:#fff; }
+    .perfil-resumen strong { color:#102D69; font-size:1.18rem; }
+    .perfil-resumen span { color:#667085; font-size:.7rem; }
+    .perfil-grid { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(280px,.75fr); gap:16px; align-items:start; }
+    .perfil-columna-principal,.perfil-columna-lateral { display:grid; gap:16px; }
+    .perfil-card { padding:20px; border:1px solid #E1E8F0; border-radius:18px; background:#fff; box-shadow:0 8px 22px rgba(16,45,105,.04); }
+    .perfil-card-compacta { padding:17px; }
+    .perfil-card-titulo { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; margin-bottom:14px; }
+    .perfil-card-titulo span { color:#0B6FA4; text-transform:uppercase; letter-spacing:.07em; font-size:.64rem; font-weight:800; }
+    .perfil-card-titulo h2 { margin:3px 0 0; color:#102D69; font-size:1rem; }
+    .perfil-card-titulo a { color:#0B6FA4; text-decoration:none; font-size:.72rem; font-weight:800; white-space:nowrap; }
+    .perfil-presentacion p { margin:0; color:#52627A; line-height:1.7; }
+    .perfil-lista { display:grid; gap:10px; }
+    .perfil-item { display:grid; grid-template-columns:auto 1fr; gap:11px; padding:12px; border-radius:13px; background:#F7F9FC; }
+    .perfil-item-marca { width:34px; height:34px; display:grid; place-items:center; border-radius:10px; background:#E8F4F8; color:#102D69; font-size:.72rem; font-weight:900; }
+    .perfil-item div:last-child { display:grid; gap:2px; }
+    .perfil-item strong { color:#183761; font-size:.84rem; }
+    .perfil-item span { color:#52627A; font-size:.76rem; }
+    .perfil-item small { color:#8490A3; font-size:.69rem; }
+    .perfil-sin-datos { margin:0; color:#8994A4; font-size:.78rem; }
+    .perfil-dato-destacado { display:grid; gap:3px; padding:12px; border-radius:12px; background:#F4F8FB; }
+    .perfil-dato-destacado strong { color:#102D69; font-size:.82rem; }
+    .perfil-dato-destacado span { color:#667085; font-size:.72rem; }
+    .perfil-evaluacion,.perfil-red { display:flex; justify-content:space-between; gap:12px; padding:9px 0; border-bottom:1px solid #EDF1F5; }
+    .perfil-evaluacion:last-child,.perfil-red:last-child { border-bottom:0; }
+    .perfil-evaluacion span,.perfil-red span { color:#667085; font-size:.72rem; }
+    .perfil-evaluacion strong,.perfil-red strong { color:#102D69; font-size:.78rem; }
+    .perfil-red { display:grid; }
+    .perfil-beneficios { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .perfil-beneficios a { display:grid; padding:12px; border-radius:12px; background:#F2F7FA; text-decoration:none; }
+    .perfil-beneficios strong { color:#102D69; font-size:1.08rem; }
+    .perfil-beneficios span { color:#667085; font-size:.7rem; }
+    .perfil-datos-mini { display:grid; gap:10px; }
+    .perfil-datos-mini div { display:grid; gap:2px; }
+    .perfil-datos-mini span { color:#8A95A5; font-size:.66rem; }
+    .perfil-datos-mini strong { color:#334155; font-size:.76rem; }
+    @@media(max-width:900px){.perfil-portada{grid-template-columns:1fr}.perfil-contacto{grid-template-columns:repeat(3,1fr);min-width:0}.perfil-grid{grid-template-columns:1fr}.perfil-resumen{grid-template-columns:repeat(3,1fr)}}
+    @@media(max-width:620px){.perfil-portada{padding:20px}.perfil-identidad{align-items:flex-start}.perfil-foto{width:72px;height:72px;border-radius:19px}.perfil-contacto{grid-template-columns:1fr}.perfil-resumen{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+@code {
+    [Parameter] public int Cedula { get; set; }
+
+    private bool cargando = true;
+    private Docente? docente;
+    private List<EstudioRealizado> estudios = new();
+    private List<DocenteDepartamento> vinculaciones = new();
+    private List<Programa> programas = new();
+    private List<EvaluacionDocente> evaluaciones = new();
+    private List<Experiecia> experiencias = new();
+    private List<Reconocimiento> reconocimientos = new();
+    private List<RedDocente> redesDocente = new();
+    private List<Red> redes = new();
+    private List<ApoyoProfesoral> apoyos = new();
+    private List<Beca> becas = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        cargando = true;
+
+        var rDocente = await ServicioDocente.Obtener(Cedula);
+        if (!rDocente.Ok)
+        {
+            docente = null;
+            cargando = false;
+            return;
+        }
+
+        docente = rDocente.Datos;
+
+        var rEstudios = await ServicioEstudios.Listar();
+        var rVinculos = await ServicioVinculaciones.Listar();
+        var rProgramas = await ServicioProgramas.Listar();
+        var rEvaluaciones = await ServicioEvaluaciones.Listar();
+        var rExperiencia = await ServicioExperiencia.Listar();
+        var rReconocimientos = await ServicioReconocimientos.Listar();
+        var rRedDocente = await ServicioRedDocente.Listar();
+        var rRedes = await ServicioRedes.Listar();
+        var rApoyos = await ServicioApoyos.Listar();
+        var rBecas = await ServicioBecas.Listar();
+
+        estudios = rEstudios.Ok ? (rEstudios.Datos ?? new()).Where(x => x.Docente == Cedula).ToList() : new();
+        vinculaciones = rVinculos.Ok ? (rVinculos.Datos ?? new()).Where(x => x.Docente == Cedula).ToList() : new();
+        programas = rProgramas.Ok ? rProgramas.Datos ?? new() : new();
+        evaluaciones = rEvaluaciones.Ok ? (rEvaluaciones.Datos ?? new()).Where(x => x.Docente == Cedula).ToList() : new();
+        experiencias = rExperiencia.Ok ? (rExperiencia.Datos ?? new()).Where(x => x.Docente == Cedula).ToList() : new();
+        reconocimientos = rReconocimientos.Ok ? (rReconocimientos.Datos ?? new()).Where(x => x.Docente == Cedula).ToList() : new();
+        redesDocente = rRedDocente.Ok ? (rRedDocente.Datos ?? new()).Where(x => x.Docente == Cedula).ToList() : new();
+        redes = rRedes.Ok ? rRedes.Datos ?? new() : new();
+
+        var idsEstudios = estudios.Select(x => x.Id).ToHashSet();
+        apoyos = rApoyos.Ok ? (rApoyos.Datos ?? new()).Where(x => idsEstudios.Contains(x.Estudios)).ToList() : new();
+        becas = rBecas.Ok ? (rBecas.Datos ?? new()).Where(x => idsEstudios.Contains(x.Estudios)).ToList() : new();
+
+        cargando = false;
+    }
+
+    private string RutaAvatar(int cedula) => $"/images/docentes/{cedula}.svg";
+
+    private string NombrePrograma(int id) =>
+        programas.FirstOrDefault(x => x.Id == id)?.Nombre ?? $"Programa {id}";
+
+    private string NombreRed(int id) =>
+        redes.FirstOrDefault(x => x.Idr == id)?.Nombre ?? $"Red {id}";
+
+    private string TextoPromedio()
+    {
+        if (evaluaciones.Count == 0) return "—";
+        return evaluaciones.Average(x => x.Calificacion).ToString("0.0");
+    }
+
+    private static string RangoFechas(DateOnly? inicio, DateOnly? fin)
+    {
+        var desde = inicio?.ToString("yyyy") ?? "—";
+        var hasta = fin?.ToString("yyyy") ?? "Actualidad";
+        return $"{desde} – {hasta}";
+    }
+}

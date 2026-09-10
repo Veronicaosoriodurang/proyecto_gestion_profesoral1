@@ -1,37 +1,34 @@
-@*
-    El marco de todas las pantallas: la barra de arriba, el menú y el
-    contenido.
-
-    NO HAY AUTENTICACIÓN AQUÍ, y no es un olvido. La v1 construye el CRUD de
-    una tabla; el ingreso con usuario y el control de acceso por rol son de
-    otra versión, y anticiparlos contradice el Artículo 1.
-*@
 @inherits LayoutComponentBase
 
 <div class="pagina">
-
-    <header>
-        <div class="barra">
-            <div class="contenedor barra-interna">
-                <a class="marca" href="">Gestión profesoral</a>
-                <span class="dependencia">Universidad de Ejemplo</span>
+    <header class="premium-header">
+        <div class="contenedor premium-header-inner">
+            <a class="brand" href="">
+                <span class="brand-mark">GP</span>
+                <span class="brand-copy">
+                    <strong>Gestión Profesoral</strong>
+                    <small>Instituto Tecnológico Metropolitano</small>
+                </span>
+            </a>
+            <div class="header-meta">
+                <span>Aplicación y Servicios Web</span>
+                <span class="version-pill">v2</span>
             </div>
         </div>
         <NavMenu />
     </header>
 
-    <main class="contenedor">
+    <main class="contenedor app-main">
         @Body
     </main>
 
-    <footer class="contenedor">
-        <p>Sistema de gestión profesoral &mdash; ejemplo de referencia del curso</p>
+    <footer class="contenedor premium-footer">
+        <p>Gestión Profesoral · Proyecto académico ITM · Veronica Osorio Durango</p>
     </footer>
-
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
     Ocurrió un error inesperado.
     <a href="." class="reload">Recargar</a>
-    <span class="dismiss">🗙</span>
+    <span class="dismiss">×</span>
 </div>
