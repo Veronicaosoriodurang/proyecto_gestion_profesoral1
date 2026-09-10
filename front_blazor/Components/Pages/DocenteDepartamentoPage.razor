@@ -9,6 +9,7 @@
 <PageTitle>Docente - Departamento</PageTitle>
 
 <h1>Docente - Departamento</h1>
+<p class="nota">Selecciona un docente y vincúlalo con su programa o departamento académico.</p>
 
 @if (!string.IsNullOrWhiteSpace(mensaje))
 {
@@ -80,6 +81,32 @@
 
                 </select>
             </div>
+
+            @if (DocenteSeleccionado is not null)
+            {
+                var docente = DocenteSeleccionado;
+                <div class="col-12">
+                    <section class="docente-seleccionado" aria-label="Docente seleccionado">
+                        <object class="docente-foto"
+                                data="@RutaFoto(docente.Cedula)"
+                                type="image/jpeg"
+                                aria-label="Foto de @docente.Nombres @docente.Apellidos">
+                            <div class="docente-avatar-fallback">@Iniciales(docente)</div>
+                        </object>
+
+                        <div class="docente-info">
+                            <span class="docente-kicker">Docente seleccionado</span>
+                            <strong>@docente.Nombres @docente.Apellidos</strong>
+                            <div class="docente-detalles">
+                                <span>@docente.Cargo</span>
+                                <span>@docente.Correo</span>
+                            </div>
+                        </div>
+
+                        <span class="docente-check">Seleccionado</span>
+                    </section>
+                </div>
+            }
 
             <div class="col-md-6">
                 <label class="form-label">Dedicación</label>
@@ -219,6 +246,83 @@ else
     </div>
 }
 
+<style>
+    .docente-seleccionado {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 14px;
+        margin-top: 2px;
+        padding: 13px 15px;
+        border: 1px solid #D9E5EF;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #F8FBFE, #EEF7FA);
+    }
+
+    .docente-foto,
+    .docente-avatar-fallback {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+    }
+
+    .docente-foto {
+        display: block;
+        overflow: hidden;
+        border: 2px solid #fff;
+        box-shadow: 0 5px 14px rgba(16,45,105,.12);
+        background: #E7F0F7;
+        object-fit: cover;
+    }
+
+    .docente-avatar-fallback {
+        display: grid;
+        place-items: center;
+        background: linear-gradient(145deg, #102D69, #0B6FA4);
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: .03em;
+    }
+
+    .docente-info { min-width: 0; }
+    .docente-kicker {
+        display: block;
+        margin-bottom: 2px;
+        color: #0B6FA4;
+        font-size: .68rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .07em;
+    }
+    .docente-info > strong {
+        display: block;
+        color: #102D69;
+        font-size: 1rem;
+    }
+    .docente-detalles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        margin-top: 3px;
+        color: #667085;
+        font-size: .78rem;
+    }
+    .docente-check {
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: #E5F6EF;
+        color: #147A4B;
+        font-size: .68rem;
+        font-weight: 800;
+    }
+
+    @@media (max-width: 640px) {
+        .docente-seleccionado { grid-template-columns: auto 1fr; }
+        .docente-check { grid-column: 2; justify-self: start; }
+    }
+</style>
+
 @code {
 
     private List<DocenteDepartamento> relaciones = new();
@@ -235,6 +339,9 @@ else
 
     private string mensaje = string.Empty;
     private List<string> errores = new();
+
+    private Docente? DocenteSeleccionado =>
+        docentes.FirstOrDefault(x => x.Cedula == formulario.Docente);
 
     protected override async Task OnInitializedAsync()
     {
@@ -408,6 +515,22 @@ else
         return programa == null
             ? id.ToString()
             : $"{id} - {programa.Nombre}";
+    }
+
+    private static string RutaFoto(int cedula) =>
+        $"/images/docentes/{cedula}.jpg";
+
+    private static string Iniciales(Docente docente)
+    {
+        var nombre = string.IsNullOrWhiteSpace(docente.Nombres)
+            ? "D"
+            : docente.Nombres.Trim()[0].ToString();
+
+        var apellido = string.IsNullOrWhiteSpace(docente.Apellidos)
+            ? string.Empty
+            : docente.Apellidos.Trim()[0].ToString();
+
+        return (nombre + apellido).ToUpperInvariant();
     }
 
     private static DocenteDepartamento Nuevo()
