@@ -50,7 +50,7 @@ public class RepositorioReconocimientoSqlServer : IRepositorioReconocimiento
         reconocimiento.Nombre = guardada.Nombre;
         reconocimiento.Ambito = guardada.Ambito;
         reconocimiento.Docente = guardada.Docente;
-        return 1;
+        return guardada.Id;
     }
 
     public async Task<int> Reemplazar(int id, Reconocimiento reconocimiento)

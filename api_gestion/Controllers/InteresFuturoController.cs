@@ -86,7 +86,7 @@ public class InteresFuturoController : ControllerBase
 
             return Ok(new
             {
-                datos = peticion, estado = 200,
+                datos = await _servicio.ObtenerPorId(peticion.Docente!.Value, peticion.TerminoClave.Trim()), estado = 200,
                 mensaje = "Interés futuro creado exitosamente."
             });
         }

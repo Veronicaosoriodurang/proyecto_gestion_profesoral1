@@ -92,7 +92,7 @@ public class RedDocenteController : ControllerBase
 
             return Ok(new
             {
-                datos = peticion, estado = 200,
+                datos = await _servicio.ObtenerPorId(peticion.Red!.Value, peticion.Docente!.Value), estado = 200,
                 mensaje = "Relación red-docente creada exitosamente.",
                 filasAfectadas = filas
             });

@@ -9,12 +9,42 @@ namespace ApiGestion.Repositorios;
 
 public interface IRepositorioExpedientes
 {
+    Task<ExpedienteDocenteVista> ObtenerDocente(int cedula);
+    Task<ExpedienteEstudioVista> ObtenerEstudio(int id);
     Task<Docente> GuardarDocente(int? cedula, ExpedienteDocenteCrear peticion);
     Task<EstudioRealizado> GuardarEstudio(int? id, ExpedienteEstudioCrear peticion);
 }
 
 public class RepositorioExpedientes(IConfiguration configuracion) : IRepositorioExpedientes
 {
+    public async Task<ExpedienteDocenteVista> ObtenerDocente(int clave)
+    {
+        FechasSql.Configurar();
+        await using var conexion = new SqlConnection(configuracion.GetConnectionString("SqlServer"));
+        var maestro = await conexion.QuerySingleOrDefaultAsync<Docente>("dbo.sp_consultar_docente", new { Cedula = clave }, commandType: CommandType.StoredProcedure)
+            ?? throw new NoEncontradoExcepcion("El registro maestro no existe o está retirado.");
+        var vista = new ExpedienteDocenteVista { Maestro = maestro };
+        vista.Detalles.Estudios = (await conexion.QueryAsync<EstudioRealizado>("dbo.sp_listar_estudios_realizados", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Evaluaciones = (await conexion.QueryAsync<EvaluacionDocente>("dbo.sp_listar_evaluacion_docente", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Experiencias = (await conexion.QueryAsync<Experiecia>("dbo.sp_listar_experiecia", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Reconocimientos = (await conexion.QueryAsync<Reconocimiento>("dbo.sp_listar_reconocimiento", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Departamentos = (await conexion.QueryAsync<DocenteDepartamento>("dbo.sp_listar_docente_departamento", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Intereses = (await conexion.QueryAsync<InteresFuturo>("dbo.sp_listar_intereses_futuros", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Redes = (await conexion.QueryAsync<RedDocente>("dbo.sp_listar_red_docente", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        return vista;
+    }
+    public async Task<ExpedienteEstudioVista> ObtenerEstudio(int clave)
+    {
+        FechasSql.Configurar();
+        await using var conexion = new SqlConnection(configuracion.GetConnectionString("SqlServer"));
+        var maestro = await conexion.QuerySingleOrDefaultAsync<EstudioRealizado>("dbo.sp_consultar_estudios_realizados", new { Id = clave }, commandType: CommandType.StoredProcedure)
+            ?? throw new NoEncontradoExcepcion("El registro maestro no existe o está retirado.");
+        var vista = new ExpedienteEstudioVista { Maestro = maestro };
+        vista.Detalles.Areas = (await conexion.QueryAsync<EstudioAc>("dbo.sp_listar_estudio_ac", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Apoyos = (await conexion.QueryAsync<ApoyoProfesoral>("dbo.sp_listar_apoyo_profesoral", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        vista.Detalles.Becas = (await conexion.QueryAsync<Beca>("dbo.sp_listar_beca", new { Limite = int.MaxValue, Maestro = clave }, commandType: CommandType.StoredProcedure)).ToList();
+        return vista;
+    }
     // Una conexión y una transacción para el maestro y todos los renglones.
     public async Task<Docente> GuardarDocente(int? clave, ExpedienteDocenteCrear peticion)
     {

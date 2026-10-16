@@ -50,7 +50,7 @@ public class RepositorioExperieciaSqlServer : IRepositorioExperiecia
         experiencia.FechaInicio = guardada.FechaInicio;
         experiencia.FechaFin = guardada.FechaFin;
         experiencia.Docente = guardada.Docente;
-        return 1;
+        return guardada.Id;
     }
 
     public async Task<int> Reemplazar(int id, Experiecia experiencia)

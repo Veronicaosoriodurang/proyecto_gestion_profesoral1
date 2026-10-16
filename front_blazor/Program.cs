@@ -111,6 +111,8 @@ builder.Services.AddHttpClient<ServicioBeca>(cliente =>
 // habrá una línea por cada uno — no una que sirva para cualquier tabla.
 // ============================================================
 
+builder.Services.AddHttpClient<ServicioExpedientes>(cliente => { cliente.BaseAddress = new Uri(urlApi); });
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

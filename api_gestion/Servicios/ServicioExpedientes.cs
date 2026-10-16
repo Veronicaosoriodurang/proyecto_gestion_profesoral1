@@ -5,11 +5,15 @@ namespace ApiGestion.Servicios;
 
 public interface IServicioExpedientes
 {
+    Task<ExpedienteDocenteVista> ObtenerDocente(int cedula);
+    Task<ExpedienteEstudioVista> ObtenerEstudio(int id);
     Task<Docente> GuardarDocente(int? cedula, ExpedienteDocenteCrear peticion);
     Task<EstudioRealizado> GuardarEstudio(int? id, ExpedienteEstudioCrear peticion);
 }
 public class ServicioExpedientes(IRepositorioExpedientes repositorio) : IServicioExpedientes
 {
+    public Task<ExpedienteDocenteVista> ObtenerDocente(int cedula) => repositorio.ObtenerDocente(cedula);
+    public Task<ExpedienteEstudioVista> ObtenerEstudio(int id) => repositorio.ObtenerEstudio(id);
     public Task<Docente> GuardarDocente(int? cedula, ExpedienteDocenteCrear p)
     {
         if (p.Detalles.Estudios.Any(x => x.InsAcreditada > 1)) throw new ArgumentException("La acreditación debe ser sí o no.");

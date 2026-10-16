@@ -9,6 +9,7 @@ namespace FrontGestion.Servicios;
 /// </summary>
 public class Docente
 {
+    public int TotalEstudios { get; set; }
     public int Cedula { get; set; }
     public string Nombres { get; set; } = string.Empty;
     public string Apellidos { get; set; } = string.Empty;

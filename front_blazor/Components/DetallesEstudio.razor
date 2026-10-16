@@ -1,0 +1,137 @@
+@inject ServicioExpedientes Expedientes
+@inject ServicioEstudioAc ServicioAreas
+@inject ServicioApoyoProfesoral ServicioApoyos
+@inject ServicioBeca ServicioBecas
+@inject ServicioAreaConocimiento CatalogoAreaConocimiento
+<section class="tarjeta-formulario">
+<h2>Expediente del estudio</h2>
+<p>Agregue los renglones y pulse «Guardar expediente completo». Si alguno falla, no se guarda ninguno de este envío.</p>
+@foreach (var error in errores) { <p class="aviso error">@error</p> }
+@if (!string.IsNullOrEmpty(mensaje)) { <p class="aviso exito">@mensaje</p> }
+<details><summary>Áreas de conocimiento (@existentes.Areas.Count guardados, @pendientes.Areas.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Areas)
+{
+<li>@areas.FirstOrDefault(x => x.Id == fila.AreaConocimiento)?.Disciplina <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarAreas(fila)">Retirar</button></li>
+}
+</ul>
+<label>Área de conocimiento<select @bind="borradorAreas.AreaConocimiento"><option value="">— seleccione —</option>
+@foreach (var opcion in areas) { <option value="@opcion.Id">@opcion.Disciplina</option> }
+</select></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarAreas">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Areas) { <li>Renglón preparado <button class="boton" disabled="@guardando" @onclick="() => pendientes.Areas.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Apoyo profesoral (@existentes.Apoyos.Count guardados, @pendientes.Apoyos.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Apoyos)
+{
+<li>@fila.ConApoyo <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarApoyos(fila)">Retirar</button></li>
+}
+</ul>
+<label>Con apoyo<select @bind="borradorApoyos.ConApoyo"><option value="0">No</option><option value="1">Sí</option></select></label>
+<label>Institución<input type="text" maxlength="45" @bind="borradorApoyos.Institucion" /></label>
+<label>Tipo<input type="text" maxlength="45" @bind="borradorApoyos.Tipo" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarApoyos">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Apoyos) { <li>Renglón preparado <button class="boton" disabled="@guardando" @onclick="() => pendientes.Apoyos.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Becas (@existentes.Becas.Count guardados, @pendientes.Becas.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Becas)
+{
+<li>@fila.Tipo <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarBecas(fila)">Retirar</button></li>
+}
+</ul>
+<label>Tipo<input type="text" maxlength="45" @bind="borradorBecas.Tipo" /></label>
+<label>Institución<input type="text" maxlength="80" @bind="borradorBecas.Institucion" /></label>
+<label>Fecha de inicio<input type="date" @bind="borradorBecas.FechaInicio" /></label>
+<label>Fecha final (opcional)<input type="date" @bind="borradorBecas.FechaFin" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarBecas">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Becas) { <li>Renglón preparado <button class="boton" disabled="@guardando" @onclick="() => pendientes.Becas.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<button class="boton primario" disabled="@(guardando || !catalogosListos)" @onclick="Guardar">Guardar expediente completo</button>
+</section>
+@code {
+    [Parameter, EditorRequired] public EstudioRealizado Maestro { get; set; } = new();
+    [Parameter] public bool Nuevo { get; set; }
+    [Parameter] public EventCallback Guardado { get; set; }
+    private DetallesEstudioVista existentes = new();
+    private DetallesEstudioVista pendientes = new();
+    private int? claveCargada;
+    private bool? nuevoCargado;
+    private bool guardando;
+    private bool catalogosListos;
+    private string mensaje = "";
+    private List<string> errores = new();
+    private EstudioAc borradorAreas = new();
+    private ApoyoProfesoral borradorApoyos = new();
+    private Beca borradorBecas = new();
+    private List<AreaConocimiento> areas = new();
+    protected override async Task OnParametersSetAsync()
+    {
+        if (claveCargada == Maestro.Id && nuevoCargado == Nuevo) return;
+        claveCargada = Maestro.Id; nuevoCargado = Nuevo;
+        pendientes = new(); errores = new();
+        catalogosListos = true;
+        var listaAreaConocimiento = await CatalogoAreaConocimiento.Listar(int.MaxValue);
+        if (listaAreaConocimiento.Ok) areas = listaAreaConocimiento.Datos!; else { catalogosListos = false; errores.AddRange(listaAreaConocimiento.Errores); }
+        await Cargar();
+    }
+    private async Task Cargar()
+    {
+        if (Nuevo) { existentes = new(); return; }
+        var r = await Expedientes.ObtenerEstudio(Maestro.Id);
+        if (r.Ok) { existentes = r.Datos!.Detalles; }
+        else errores = r.Errores;
+    }
+    private void AgregarAreas()
+    {
+        borradorAreas.Estudio = Maestro.Id;
+        if (string.IsNullOrWhiteSpace(borradorAreas.AreaConocimiento)) { errores = new() { "Seleccione una opción de la lista." }; return; }
+        pendientes.Areas.Add(borradorAreas); borradorAreas = new(); errores = new();
+    }
+    private async Task RetirarAreas(EstudioAc fila)
+    {
+        guardando = true;
+        try { var r = await ServicioAreas.Eliminar(fila.Estudio, fila.AreaConocimiento); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarApoyos()
+    {
+        borradorApoyos.Estudios = Maestro.Id;
+        pendientes.Apoyos.Add(borradorApoyos); borradorApoyos = new(); errores = new();
+    }
+    private async Task RetirarApoyos(ApoyoProfesoral fila)
+    {
+        guardando = true;
+        try { var r = await ServicioApoyos.Eliminar(fila.Estudios); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarBecas()
+    {
+        borradorBecas.Estudios = Maestro.Id;
+        pendientes.Becas.Add(borradorBecas); borradorBecas = new(); errores = new();
+    }
+    private async Task RetirarBecas(Beca fila)
+    {
+        guardando = true;
+        try { var r = await ServicioBecas.Eliminar(fila.Estudios); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private async Task Guardar()
+    {
+        guardando = true; errores = new(); mensaje = "";
+        try
+        {
+            foreach (var fila in pendientes.Areas) fila.Estudio = Maestro.Id;
+            foreach (var fila in pendientes.Apoyos) fila.Estudios = Maestro.Id;
+            foreach (var fila in pendientes.Becas) fila.Estudios = Maestro.Id;
+            var r = await Expedientes.GuardarEstudio(Maestro, pendientes, Nuevo);
+            if (r.Ok) { pendientes = new(); mensaje = "Se guardó el expediente completo."; await Cargar(); await Guardado.InvokeAsync(); }
+            else errores = r.Errores;
+        }
+        finally { guardando = false; }
+    }
+}

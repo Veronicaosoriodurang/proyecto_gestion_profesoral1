@@ -44,7 +44,7 @@ public class RepositorioEvaluacionDocenteSqlServer : IRepositorioEvaluacionDocen
         evaluacion.Calificacion = guardada.Calificacion;
         evaluacion.Semestre = guardada.Semestre;
         evaluacion.Docente = guardada.Docente;
-        return 1;
+        return guardada.Id;
     }
 
     public async Task<int> Reemplazar(int id, EvaluacionDocente evaluacion)

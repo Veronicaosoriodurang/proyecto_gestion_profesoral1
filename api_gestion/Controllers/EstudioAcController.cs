@@ -91,7 +91,7 @@ public class EstudioAcController : ControllerBase
 
             return Ok(new
             {
-                datos = peticion, estado = 200,
+                datos = await _servicio.ObtenerPorId(peticion.Estudio!.Value, peticion.AreaConocimiento.Trim()), estado = 200,
                 mensaje = "Relación estudio-área creada exitosamente.",
                 filasAfectadas = filas
             });

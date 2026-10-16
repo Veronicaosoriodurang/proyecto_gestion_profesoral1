@@ -21,6 +21,11 @@ public class ExpedientesController(IServicioExpedientes servicio) : ControllerBa
     [HttpPost("estudios-realizados/{id:int}/detalles")]
     public Task<IActionResult> AgregarEstudio(int id, ExpedienteEstudioCrear p) => Ejecutar(async () => await servicio.GuardarEstudio(id, p));
 
+    [HttpGet("docente/{cedula:int}/expediente")]
+    public Task<IActionResult> ObtenerDocente(int cedula) => Ejecutar(async () => await servicio.ObtenerDocente(cedula));
+    [HttpGet("estudios-realizados/{id:int}/expediente")]
+    public Task<IActionResult> ObtenerEstudio(int id) => Ejecutar(async () => await servicio.ObtenerEstudio(id));
+
     private async Task<IActionResult> Ejecutar(Func<Task<object>> operacion)
     {
         try { return Ok(new { estado = 200, mensaje = "Expediente guardado completo.", datos = await operacion() }); }

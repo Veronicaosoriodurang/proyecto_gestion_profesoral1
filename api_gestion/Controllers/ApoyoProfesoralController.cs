@@ -88,7 +88,7 @@ public class ApoyoProfesoralController : ControllerBase
 
             return Ok(new
             {
-                datos = peticion, estado = 200,
+                datos = await _servicio.ObtenerPorId(peticion.Estudios!.Value), estado = 200,
                 mensaje = "Apoyo profesoral creado exitosamente.",
                 filasAfectadas = filas
             });

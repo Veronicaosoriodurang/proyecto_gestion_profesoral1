@@ -103,6 +103,8 @@
             <input type="text" maxlength="45" @bind="campoPais" />
         </label>
 
+        <DetallesEstudio Maestro="Construir()" Nuevo="@(!editando)" Guardado="ExpedienteGuardado" />
+
         <div class="pareja">
 
             @if (editando)
@@ -301,6 +303,8 @@ else
         errores.Clear();
         exito = string.Empty;
     }
+
+    private async Task ExpedienteGuardado() { if (!editando) mostrandoFormulario = false; await Cargar(); }
 
     private async Task Crear()
     {

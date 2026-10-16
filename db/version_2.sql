@@ -624,12 +624,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_estudios_realizados
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) id AS Id, titulo AS Titulo, universidad AS Universidad, fecha AS Fecha, tipo AS Tipo, ciudad AS Ciudad, docente AS Docente, ins_acreditada AS InsAcreditada, metodologia AS Metodologia, perfil_egresado AS PerfilEgresado, pais AS Pais FROM dbo.estudios_realizados WHERE activo=1 ORDER BY id;
+SELECT TOP (@Limite) id AS Id, titulo AS Titulo, universidad AS Universidad, fecha AS Fecha, tipo AS Tipo, ciudad AS Ciudad, docente AS Docente, ins_acreditada AS InsAcreditada, metodologia AS Metodologia, perfil_egresado AS PerfilEgresado, pais AS Pais FROM dbo.estudios_realizados WHERE activo=1 AND (@Maestro IS NULL OR docente=@Maestro) ORDER BY id;
 END;
 GO
 
@@ -739,12 +739,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_docente_departamento
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) docente AS Docente, departamento AS Departamento, dedicacion AS Dedicacion, modalidad AS Modalidad, fecha_ingreso AS FechaIngreso, fecha_salida AS FechaSalida FROM dbo.docente_departamento WHERE activo=1 ORDER BY docente,departamento;
+SELECT TOP (@Limite) docente AS Docente, departamento AS Departamento, dedicacion AS Dedicacion, modalidad AS Modalidad, fecha_ingreso AS FechaIngreso, fecha_salida AS FechaSalida FROM dbo.docente_departamento WHERE activo=1 AND (@Maestro IS NULL OR docente=@Maestro) ORDER BY docente,departamento;
 END;
 GO
 
@@ -842,12 +842,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_intereses_futuros
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) docente AS Docente, termino_clave AS TerminoClave FROM dbo.intereses_futuros WHERE activo=1 ORDER BY docente,termino_clave;
+SELECT TOP (@Limite) docente AS Docente, termino_clave AS TerminoClave FROM dbo.intereses_futuros WHERE activo=1 AND (@Maestro IS NULL OR docente=@Maestro) ORDER BY docente,termino_clave;
 END;
 GO
 
@@ -933,12 +933,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_evaluacion_docente
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) id AS Id, calificacion AS Calificacion, semestre AS Semestre, docente AS Docente FROM dbo.evaluacion_docente WHERE activo=1 ORDER BY id;
+SELECT TOP (@Limite) id AS Id, calificacion AS Calificacion, semestre AS Semestre, docente AS Docente FROM dbo.evaluacion_docente WHERE activo=1 AND (@Maestro IS NULL OR docente=@Maestro) ORDER BY id;
 END;
 GO
 
@@ -1023,12 +1023,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_reconocimiento
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) id AS Id, tipo AS Tipo, fecha AS Fecha, institucion AS Institucion, nombre AS Nombre, ambito AS Ambito, docente AS Docente FROM dbo.reconocimiento WHERE activo=1 ORDER BY id;
+SELECT TOP (@Limite) id AS Id, tipo AS Tipo, fecha AS Fecha, institucion AS Institucion, nombre AS Nombre, ambito AS Ambito, docente AS Docente FROM dbo.reconocimiento WHERE activo=1 AND (@Maestro IS NULL OR docente=@Maestro) ORDER BY id;
 END;
 GO
 
@@ -1122,12 +1122,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_experiecia
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) id AS Id, nombre_cargo AS NombreCargo, institucion AS Institucion, tipo AS Tipo, fecha_inicio AS FechaInicio, fecha_fin AS FechaFin, docente AS Docente FROM dbo.experiecia WHERE activo=1 ORDER BY id;
+SELECT TOP (@Limite) id AS Id, nombre_cargo AS NombreCargo, institucion AS Institucion, tipo AS Tipo, fecha_inicio AS FechaInicio, fecha_fin AS FechaFin, docente AS Docente FROM dbo.experiecia WHERE activo=1 AND (@Maestro IS NULL OR docente=@Maestro) ORDER BY id;
 END;
 GO
 
@@ -1221,12 +1221,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_red_docente
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) red AS Red, docente AS Docente, fecha_inicio AS FechaInicio, fecha_fin AS FechaFin, act_destacadas AS ActDestacadas FROM dbo.red_docente WHERE activo=1 ORDER BY red,docente;
+SELECT TOP (@Limite) red AS Red, docente AS Docente, fecha_inicio AS FechaInicio, fecha_fin AS FechaFin, act_destacadas AS ActDestacadas FROM dbo.red_docente WHERE activo=1 AND (@Maestro IS NULL OR docente=@Maestro) ORDER BY red,docente;
 END;
 GO
 
@@ -1321,12 +1321,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_estudio_ac
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) estudio AS Estudio, area_conocimiento AS AreaConocimiento FROM dbo.estudio_ac WHERE activo=1 ORDER BY estudio,area_conocimiento;
+SELECT TOP (@Limite) estudio AS Estudio, area_conocimiento AS AreaConocimiento FROM dbo.estudio_ac WHERE activo=1 AND (@Maestro IS NULL OR estudio=@Maestro) ORDER BY estudio,area_conocimiento;
 END;
 GO
 
@@ -1412,12 +1412,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_apoyo_profesoral
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) estudios AS Estudios, con_apoyo AS ConApoyo, institucion AS Institucion, tipo AS Tipo FROM dbo.apoyo_profesoral WHERE activo=1 ORDER BY estudios;
+SELECT TOP (@Limite) estudios AS Estudios, con_apoyo AS ConApoyo, institucion AS Institucion, tipo AS Tipo FROM dbo.apoyo_profesoral WHERE activo=1 AND (@Maestro IS NULL OR estudios=@Maestro) ORDER BY estudios;
 END;
 GO
 
@@ -1504,12 +1504,12 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_beca
- @Limite INT = 1000
+ @Limite INT = 1000, @Maestro INT = NULL
 AS
 BEGIN
  SET NOCOUNT ON;
  SET XACT_ABORT ON;
-SELECT TOP (@Limite) estudios AS Estudios, tipo AS Tipo, institucion AS Institucion, fecha_inicio AS FechaInicio, fecha_fin AS FechaFin FROM dbo.beca WHERE activo=1 ORDER BY estudios;
+SELECT TOP (@Limite) estudios AS Estudios, tipo AS Tipo, institucion AS Institucion, fecha_inicio AS FechaInicio, fecha_fin AS FechaFin FROM dbo.beca WHERE activo=1 AND (@Maestro IS NULL OR estudios=@Maestro) ORDER BY estudios;
 END;
 GO
 

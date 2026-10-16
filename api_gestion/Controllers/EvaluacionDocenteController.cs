@@ -85,7 +85,7 @@ public class EvaluacionDocenteController : ControllerBase
 
             return Ok(new
             {
-                datos = peticion, estado = 200,
+                datos = await _servicio.ObtenerPorId(id), estado = 200,
                 mensaje = "Evaluación docente creada exitosamente.",
                 id
             });
