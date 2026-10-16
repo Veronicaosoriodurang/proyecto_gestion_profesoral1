@@ -18,6 +18,13 @@ GO
 -- Inicializa también los docentes que ya existían antes de instalar el trigger.
 UPDATE d SET total_estudios=(SELECT COUNT(*) FROM dbo.estudios_realizados e WHERE e.docente=d.cedula AND e.activo=1) FROM dbo.docente d;
 GO
+-- También admite la columna nullable que pudo crearse en avances locales.
+IF EXISTS(SELECT 1 FROM sys.columns WHERE object_id=OBJECT_ID('dbo.docente') AND name='total_estudios' AND is_nullable=1)
+    ALTER TABLE dbo.docente ALTER COLUMN total_estudios INT NOT NULL;
+IF NOT EXISTS(SELECT 1 FROM sys.default_constraints dc JOIN sys.columns c ON dc.parent_object_id=c.object_id AND dc.parent_column_id=c.column_id
+              WHERE c.object_id=OBJECT_ID('dbo.docente') AND c.name='total_estudios')
+    ALTER TABLE dbo.docente ADD CONSTRAINT DF_docente_total_estudios DEFAULT 0 FOR total_estudios;
+GO
 
 CREATE OR ALTER PROCEDURE dbo.sp_listar_area_conocimiento
  @Limite INT = 1000

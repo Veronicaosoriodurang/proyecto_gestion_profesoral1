@@ -1,4 +1,4 @@
-﻿@page "/evaluacion-docente"
+@page "/evaluacion-docente"
 @rendermode InteractiveServer
 @inject ServicioEvaluacionDocente Servicio
 @inject ServicioDocente ServicioDocentes
@@ -71,7 +71,6 @@
                 @foreach (var docente in docentes)
                 {
                     <option value="@docente.Cedula">
-                        @docente.Cedula -
                         @docente.Nombres
                         @docente.Apellidos
                     </option>

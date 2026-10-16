@@ -5,7 +5,7 @@
 @inject ServicioAreaConocimiento CatalogoAreaConocimiento
 <section class="tarjeta-formulario">
 <h2>Expediente del estudio</h2>
-<p>Agregue los renglones y pulse «Guardar expediente completo». Si alguno falla, no se guarda ninguno de este envío.</p>
+<p>Este botón guarda la ficha y todos los renglones pendientes juntos. Agregue los renglones y pulse «Guardar expediente completo». Si alguno falla, no se guarda ninguno de este envío.</p>
 @foreach (var error in errores) { <p class="aviso error">@error</p> }
 @if (!string.IsNullOrEmpty(mensaje)) { <p class="aviso exito">@mensaje</p> }
 <details><summary>Áreas de conocimiento (@existentes.Areas.Count guardados, @pendientes.Areas.Count pendientes)</summary>
@@ -20,7 +20,7 @@
 </select></label>
 <button class="boton" disabled="@guardando" @onclick="AgregarAreas">Preparar renglón</button>
 <ul>
-@foreach (var fila in pendientes.Areas) { <li>Renglón preparado <button class="boton" disabled="@guardando" @onclick="() => pendientes.Areas.Remove(fila)">Quitar del envío</button></li> }
+@foreach (var fila in pendientes.Areas) { <li>@areas.FirstOrDefault(x => x.Id == fila.AreaConocimiento)?.Disciplina — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Areas.Remove(fila)">Quitar del envío</button></li> }
 </ul></details>
 <details><summary>Apoyo profesoral (@existentes.Apoyos.Count guardados, @pendientes.Apoyos.Count pendientes)</summary>
 <ul>
@@ -34,7 +34,7 @@
 <label>Tipo<input type="text" maxlength="45" @bind="borradorApoyos.Tipo" /></label>
 <button class="boton" disabled="@guardando" @onclick="AgregarApoyos">Preparar renglón</button>
 <ul>
-@foreach (var fila in pendientes.Apoyos) { <li>Renglón preparado <button class="boton" disabled="@guardando" @onclick="() => pendientes.Apoyos.Remove(fila)">Quitar del envío</button></li> }
+@foreach (var fila in pendientes.Apoyos) { <li>@fila.Institucion — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Apoyos.Remove(fila)">Quitar del envío</button></li> }
 </ul></details>
 <details><summary>Becas (@existentes.Becas.Count guardados, @pendientes.Becas.Count pendientes)</summary>
 <ul>
@@ -49,7 +49,7 @@
 <label>Fecha final (opcional)<input type="date" @bind="borradorBecas.FechaFin" /></label>
 <button class="boton" disabled="@guardando" @onclick="AgregarBecas">Preparar renglón</button>
 <ul>
-@foreach (var fila in pendientes.Becas) { <li>Renglón preparado <button class="boton" disabled="@guardando" @onclick="() => pendientes.Becas.Remove(fila)">Quitar del envío</button></li> }
+@foreach (var fila in pendientes.Becas) { <li>@fila.Institucion — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Becas.Remove(fila)">Quitar del envío</button></li> }
 </ul></details>
 <button class="boton primario" disabled="@(guardando || !catalogosListos)" @onclick="Guardar">Guardar expediente completo</button>
 </section>

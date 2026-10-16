@@ -60,6 +60,9 @@ public class RepositorioExpedientes(IConfiguration configuracion) : IRepositorio
                 entidad.Cedula = clave.Value;
                 var existe = await conexion.QuerySingleOrDefaultAsync<Docente>("dbo.sp_consultar_docente", new { Cedula = clave.Value }, tx, commandType: CommandType.StoredProcedure);
                 if (existe == null) throw new NoEncontradoExcepcion("El registro maestro no existe o está retirado.");
+                var cambios = RepositorioDocenteSqlServer.Parametros(entidad);
+                cambios.Add("OriginalCedula", clave.Value);
+                await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_docente", cambios, tx, commandType: CommandType.StoredProcedure);
             }
             else
                 entidad = await conexion.QuerySingleAsync<Docente>("dbo.sp_crear_docente", RepositorioDocenteSqlServer.Parametros(entidad), tx, commandType: CommandType.StoredProcedure);
@@ -126,6 +129,9 @@ public class RepositorioExpedientes(IConfiguration configuracion) : IRepositorio
                 entidad.Id = clave.Value;
                 var existe = await conexion.QuerySingleOrDefaultAsync<EstudioRealizado>("dbo.sp_consultar_estudios_realizados", new { Id = clave.Value }, tx, commandType: CommandType.StoredProcedure);
                 if (existe == null) throw new NoEncontradoExcepcion("El registro maestro no existe o está retirado.");
+                var cambios = RepositorioEstudioRealizadoSqlServer.Parametros(entidad);
+                cambios.Add("OriginalId", clave.Value);
+                await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_estudios_realizados", cambios, tx, commandType: CommandType.StoredProcedure);
             }
             else
                 entidad = await conexion.QuerySingleAsync<EstudioRealizado>("dbo.sp_crear_estudios_realizados", RepositorioEstudioRealizadoSqlServer.Parametros(entidad), tx, commandType: CommandType.StoredProcedure);
