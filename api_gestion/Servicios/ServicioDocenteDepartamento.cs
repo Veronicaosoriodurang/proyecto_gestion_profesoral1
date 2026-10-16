@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Peticiones;
 using ApiGestion.Repositorios;
@@ -162,7 +162,7 @@ public class ServicioDocenteDepartamento : IServicioDocenteDepartamento
 
         if (docente == null)
         {
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El docente con cédula {cedula} no existe o no está activo.");
         }
     }
@@ -173,7 +173,7 @@ public class ServicioDocenteDepartamento : IServicioDocenteDepartamento
 
         if (programa == null)
         {
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El departamento/programa con id {id} no existe o no está activo.");
         }
     }

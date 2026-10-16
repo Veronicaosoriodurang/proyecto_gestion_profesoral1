@@ -1,4 +1,5 @@
-﻿using ApiGestion.Excepciones;
+using Microsoft.Data.SqlClient;
+using ApiGestion.Excepciones;
 using ApiGestion.Peticiones;
 using ApiGestion.Servicios;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,10 @@ public class ExperieciaController : ControllerBase
                 datos
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException e)
         {
             return BadRequest(new
@@ -54,6 +59,10 @@ public class ExperieciaController : ControllerBase
         {
             return Ok(await _servicio.ObtenerPorId(id));
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion e)
         {
             return NotFound(new
@@ -75,11 +84,15 @@ public class ExperieciaController : ControllerBase
 
             return Ok(new
             {
-                estado = 200,
+                datos = peticion, estado = 200,
                 mensaje = "Experiencia creada exitosamente.",
                 id
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException e)
         {
             return BadRequest(new
@@ -108,6 +121,10 @@ public class ExperieciaController : ControllerBase
                 filasAfectadas = filas
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException e)
         {
             return BadRequest(new
@@ -145,6 +162,10 @@ public class ExperieciaController : ControllerBase
                 filasAfectadas = filas
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException e)
         {
             return BadRequest(new
@@ -179,6 +200,10 @@ public class ExperieciaController : ControllerBase
                 filasAfectadas = filas
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion e)
         {
             return NotFound(new

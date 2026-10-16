@@ -1,4 +1,4 @@
-﻿# Plan — Versión 2: relaciones y claves foráneas
+# Plan — Versión 2: relaciones y claves foráneas
 
 ## Objetivo
 
@@ -19,14 +19,14 @@ El frontend Blazor consume únicamente la API por HTTP.
 
 1. No crear servicios, controladores ni repositorios genéricos.
 2. Cada tabla tendrá sus propias clases.
-3. Mantener SQL escrito a mano y parametrizado con Dapper.
+3. Llamar procedimientos almacenados con Dapper y CommandType.StoredProcedure.
 4. Mantener borrado lógico con `activo = 0`.
 5. Los GET solo muestran registros activos.
 6. Las claves foráneas deben validarse antes de guardar.
 7. Una FK debe apuntar a un registro existente y activo.
 8. En el frontend las FK se seleccionan mediante listas desplegables.
 9. Los desplegables obtienen sus opciones desde la API.
-10. No modificar los CRUD de v1 salvo que sea estrictamente necesario para consultar sus catálogos.
+10. Migrar los repositorios de v1 a procedimientos preservando sus contratos.
 11. No implementar JWT, usuarios, roles, dashboard ni funciones de v3/v4.
 
 ## Orden de trabajo

@@ -51,6 +51,10 @@ public class ProgramaController : ControllerBase
                 datos = lista
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new { estado = 400, mensaje = "Parámetros inválidos.", detalle = ex.Message });
@@ -70,6 +74,10 @@ public class ProgramaController : ControllerBase
             var programa = await _servicio.ObtenerPorId(id);
             return Ok(programa);
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion ex)
         {
             return NotFound(new { estado = 404, mensaje = "Programa no encontrado.", detalle = ex.Message });
@@ -103,8 +111,12 @@ public class ProgramaController : ControllerBase
             };
 
             await _servicio.Crear(programa);
-            return Ok(new { estado = 200, mensaje = "Programa creado exitosamente." });
+            return Ok(new { datos = programa, estado = 200, mensaje = "Programa creado exitosamente." });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (SqlException ex)
         {
             // Código duplicado: la llave la defiende la base, no la API (C11)
@@ -140,6 +152,10 @@ public class ProgramaController : ControllerBase
             var filas = await _servicio.Reemplazar(id, programa);
             return Ok(new { estado = 200, mensaje = "Programa reemplazado.", filasAfectadas = filas });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion ex)
         {
             return NotFound(new { estado = 404, mensaje = "Programa no encontrado.", detalle = ex.Message });
@@ -164,6 +180,10 @@ public class ProgramaController : ControllerBase
             var filas = await _servicio.ActualizarParcial(id, campos);
             return Ok(new { estado = 200, mensaje = "Programa actualizado.", filasAfectadas = filas });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new { estado = 400, mensaje = "Parámetros inválidos.", detalle = ex.Message });
@@ -187,6 +207,10 @@ public class ProgramaController : ControllerBase
             var filas = await _servicio.Eliminar(id);
             return Ok(new { estado = 200, mensaje = "Programa eliminado.", filasAfectadas = filas });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion ex)
         {
             return NotFound(new { estado = 404, mensaje = "Programa no encontrado.", detalle = ex.Message });

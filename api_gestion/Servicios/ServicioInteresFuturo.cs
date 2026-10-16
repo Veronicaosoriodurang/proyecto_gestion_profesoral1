@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Peticiones;
 using ApiGestion.Repositorios;
@@ -151,14 +151,14 @@ public class ServicioInteresFuturo : IServicioInteresFuturo
     private async Task ValidarDocente(int cedula)
     {
         if (await _docentes.ObtenerPorId(cedula) == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El docente con cédula {cedula} no existe o no está activo.");
     }
 
     private async Task ValidarTermino(string termino)
     {
         if (await _terminos.ObtenerPorTermino(termino) == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El término clave '{termino}' no existe o no está activo.");
     }
 }

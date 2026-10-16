@@ -10,13 +10,15 @@ namespace ApiGestion.Servicios;
 /// </summary>
 public class ServicioDocente : IServicioDocente
 {
+    private readonly IReglasRetiro? reglasRetiro;
     private readonly IRepositorioDocente _repositorio;
     private readonly IRepositorioLineaInvestigacion _lineas;
 
     public ServicioDocente(
         IRepositorioDocente repositorio,
-        IRepositorioLineaInvestigacion lineas)
+        IRepositorioLineaInvestigacion lineas, IReglasRetiro? reglasRetiro = null)
     {
+        this.reglasRetiro = reglasRetiro;
         _repositorio = repositorio;
         _lineas = lineas;
     }
@@ -82,6 +84,7 @@ public class ServicioDocente : IServicioDocente
 
     public async Task<int> Eliminar(int cedula)
     {
+        if (reglasRetiro != null) await reglasRetiro.Comprobar("docente", new { Cedula = cedula });
         var filasAfectadas = await _repositorio.EliminarLogico(cedula);
         if (filasAfectadas == 0)
         {
@@ -101,7 +104,7 @@ public class ServicioDocente : IServicioDocente
         var linea = await _lineas.ObtenerPorId(lineaId.Value);
         if (linea == null)
         {
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"La línea de investigación {lineaId.Value} no existe o no está activa.");
         }
     }

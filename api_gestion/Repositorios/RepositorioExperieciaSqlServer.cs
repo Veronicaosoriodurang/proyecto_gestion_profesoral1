@@ -1,228 +1,86 @@
-﻿using System.Data;
+using System.Data;
 using ApiGestion.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
-public class RepositorioExperieciaSqlServer
-    : IRepositorioExperiecia
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
+public class RepositorioExperieciaSqlServer : IRepositorioExperiecia
 {
-    private readonly string _cadenaConexion;
+    static RepositorioExperieciaSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioExperieciaSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
 
-    public RepositorioExperieciaSqlServer(
-        IConfiguration configuracion)
+    internal static DynamicParameters Parametros(Experiecia entidad)
     {
-        _cadenaConexion =
-            configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException(
-                "No se encontró la cadena de conexión 'SqlServer'.");
+        var p = new DynamicParameters();
+        p.Add("NombreCargo", entidad.NombreCargo);
+        p.Add("Institucion", entidad.Institucion);
+        p.Add("Tipo", entidad.Tipo);
+        p.Add("FechaInicio", entidad.FechaInicio.ToDateTime(TimeOnly.MinValue));
+        p.Add("FechaFin", entidad.FechaFin?.ToDateTime(TimeOnly.MinValue));
+        p.Add("Docente", entidad.Docente);
+        return p;
     }
 
-    private IDbConnection CrearConexion() =>
-        new SqlConnection(_cadenaConexion);
-
-    public async Task<IEnumerable<Experiecia>> ObtenerTodos(
-        int limite)
+    public async Task<IEnumerable<Experiecia>> ObtenerTodos(int limite)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT TOP (@Limite)
-                id AS Id,
-                nombre_cargo AS NombreCargo,
-                institucion AS Institucion,
-                tipo AS Tipo,
-                fecha_inicio AS FechaInicio,
-                fecha_fin AS FechaFin,
-                docente AS Docente
-            FROM experiecia
-            WHERE activo = 1
-            ORDER BY id";
-
-        return await conexion.QueryAsync<Experiecia>(
-            sql,
-            new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<Experiecia>("dbo.sp_listar_experiecia", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<Experiecia?> ObtenerPorId(int id)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT
-                id AS Id,
-                nombre_cargo AS NombreCargo,
-                institucion AS Institucion,
-                tipo AS Tipo,
-                fecha_inicio AS FechaInicio,
-                fecha_fin AS FechaFin,
-                docente AS Docente
-            FROM experiecia
-            WHERE id = @Id
-              AND activo = 1";
-
-        return await conexion.QueryFirstOrDefaultAsync<Experiecia>(
-            sql,
-            new { Id = id });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Id", id);
+        return await conexion.QuerySingleOrDefaultAsync<Experiecia>("dbo.sp_consultar_experiecia", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> Crear(Experiecia experiencia)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            INSERT INTO experiecia
-                (
-                    nombre_cargo,
-                    institucion,
-                    tipo,
-                    fecha_inicio,
-                    fecha_fin,
-                    docente,
-                    activo
-                )
-            OUTPUT INSERTED.id
-            VALUES
-                (
-                    @NombreCargo,
-                    @Institucion,
-                    @Tipo,
-                    @FechaInicio,
-                    @FechaFin,
-                    @Docente,
-                    1
-                )";
-
-        return await conexion.ExecuteScalarAsync<int>(
-            sql,
-            new
-            {
-                experiencia.NombreCargo,
-                experiencia.Institucion,
-                experiencia.Tipo,
-                FechaInicio =
-                    experiencia.FechaInicio.ToDateTime(
-                        TimeOnly.MinValue),
-                FechaFin =
-                    experiencia.FechaFin?.ToDateTime(
-                        TimeOnly.MinValue),
-                experiencia.Docente
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<Experiecia>("dbo.sp_crear_experiecia", Parametros(experiencia), commandType: CommandType.StoredProcedure);
+        experiencia.Id = guardada.Id;
+        experiencia.NombreCargo = guardada.NombreCargo;
+        experiencia.Institucion = guardada.Institucion;
+        experiencia.Tipo = guardada.Tipo;
+        experiencia.FechaInicio = guardada.FechaInicio;
+        experiencia.FechaFin = guardada.FechaFin;
+        experiencia.Docente = guardada.Docente;
+        return 1;
     }
 
-    public async Task<int> Reemplazar(
-        int id,
-        Experiecia experiencia)
+    public async Task<int> Reemplazar(int id, Experiecia experiencia)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE experiecia
-            SET nombre_cargo = @NombreCargo,
-                institucion = @Institucion,
-                tipo = @Tipo,
-                fecha_inicio = @FechaInicio,
-                fecha_fin = @FechaFin,
-                docente = @Docente
-            WHERE id = @Id
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new
-            {
-                Id = id,
-                experiencia.NombreCargo,
-                experiencia.Institucion,
-                experiencia.Tipo,
-                FechaInicio =
-                    experiencia.FechaInicio.ToDateTime(
-                        TimeOnly.MinValue),
-                FechaFin =
-                    experiencia.FechaFin?.ToDateTime(
-                        TimeOnly.MinValue),
-                experiencia.Docente
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(experiencia);
+        p.Add("OriginalId", id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_experiecia", p, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> ActualizarParcial(
-        int id,
-        ExperieciaCampos campos)
+    public async Task<int> ActualizarParcial(int id, ExperieciaCampos campos)
     {
-        using var conexion = CrearConexion();
-
-        var sets = new List<string>();
+        await using var conexion = new SqlConnection(cadena);
         var p = new DynamicParameters();
-
-        p.Add("Id", id);
-
-        if (campos.NombreCargo != null)
-        {
-            sets.Add("nombre_cargo = @NombreCargo");
-            p.Add("NombreCargo", campos.NombreCargo);
-        }
-
-        if (campos.Institucion != null)
-        {
-            sets.Add("institucion = @Institucion");
-            p.Add("Institucion", campos.Institucion);
-        }
-
-        if (campos.Tipo != null)
-        {
-            sets.Add("tipo = @Tipo");
-            p.Add("Tipo", campos.Tipo);
-        }
-
-        if (campos.FechaInicio.HasValue)
-        {
-            sets.Add("fecha_inicio = @FechaInicio");
-            p.Add(
-                "FechaInicio",
-                campos.FechaInicio.Value.ToDateTime(
-                    TimeOnly.MinValue));
-        }
-
-        if (campos.FechaFin.HasValue)
-        {
-            sets.Add("fecha_fin = @FechaFin");
-            p.Add(
-                "FechaFin",
-                campos.FechaFin.Value.ToDateTime(
-                    TimeOnly.MinValue));
-        }
-
-        if (campos.Docente.HasValue)
-        {
-            sets.Add("docente = @Docente");
-            p.Add("Docente", campos.Docente.Value);
-        }
-
-        if (sets.Count == 0)
-            return 0;
-
-        var sql = $@"
-            UPDATE experiecia
-            SET {string.Join(", ", sets)}
-            WHERE id = @Id
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, p);
+        p.Add("NombreCargo", campos.NombreCargo);
+        p.Add("Institucion", campos.Institucion);
+        p.Add("Tipo", campos.Tipo);
+        p.Add("FechaInicio", campos.FechaInicio?.ToDateTime(TimeOnly.MinValue));
+        p.Add("FechaFin", campos.FechaFin?.ToDateTime(TimeOnly.MinValue));
+        p.Add("Docente", campos.Docente);
+        p.Add("Parcial", true);
+        p.Add("OriginalId", id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_experiecia", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> EliminarLogico(int id)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE experiecia
-            SET activo = 0
-            WHERE id = @Id
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new { Id = id });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Id", id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_experiecia", p, commandType: CommandType.StoredProcedure);
     }
 }

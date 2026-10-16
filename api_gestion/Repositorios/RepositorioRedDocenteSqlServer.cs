@@ -1,225 +1,86 @@
-﻿using System.Data;
+using System.Data;
 using ApiGestion.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
-public class RepositorioRedDocenteSqlServer
-    : IRepositorioRedDocente
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
+public class RepositorioRedDocenteSqlServer : IRepositorioRedDocente
 {
-    private readonly string _cadenaConexion;
+    static RepositorioRedDocenteSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioRedDocenteSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
 
-    public RepositorioRedDocenteSqlServer(
-        IConfiguration configuracion)
+    internal static DynamicParameters Parametros(RedDocente entidad)
     {
-        _cadenaConexion =
-            configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException(
-                "No se encontró la cadena de conexión 'SqlServer'.");
+        var p = new DynamicParameters();
+        p.Add("Red", entidad.Red);
+        p.Add("Docente", entidad.Docente);
+        p.Add("FechaInicio", entidad.FechaInicio.ToDateTime(TimeOnly.MinValue));
+        p.Add("FechaFin", entidad.FechaFin);
+        p.Add("ActDestacadas", entidad.ActDestacadas);
+        return p;
     }
 
-    private IDbConnection CrearConexion() =>
-        new SqlConnection(_cadenaConexion);
-
-    public async Task<IEnumerable<RedDocente>> ObtenerTodos(
-        int limite)
+    public async Task<IEnumerable<RedDocente>> ObtenerTodos(int limite)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT TOP (@Limite)
-                red AS Red,
-                docente AS Docente,
-                fecha_inicio AS FechaInicio,
-                fecha_fin AS FechaFin,
-                act_destacadas AS ActDestacadas
-            FROM red_docente
-            WHERE activo = 1
-            ORDER BY red, docente";
-
-        return await conexion.QueryAsync<RedDocente>(
-            sql,
-            new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<RedDocente>("dbo.sp_listar_red_docente", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<RedDocente?> ObtenerPorId(
-        int red,
-        int docente)
+    public async Task<RedDocente?> ObtenerPorId(int red, int docente)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT
-                red AS Red,
-                docente AS Docente,
-                fecha_inicio AS FechaInicio,
-                fecha_fin AS FechaFin,
-                act_destacadas AS ActDestacadas
-            FROM red_docente
-            WHERE red = @Red
-              AND docente = @Docente
-              AND activo = 1";
-
-        return await conexion.QueryFirstOrDefaultAsync<RedDocente>(
-            sql,
-            new
-            {
-                Red = red,
-                Docente = docente
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Red", red);
+        p.Add("Docente", docente);
+        return await conexion.QuerySingleOrDefaultAsync<RedDocente>("dbo.sp_consultar_red_docente", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> Crear(RedDocente entidad)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            INSERT INTO red_docente
-                (
-                    red,
-                    docente,
-                    fecha_inicio,
-                    fecha_fin,
-                    act_destacadas,
-                    activo
-                )
-            VALUES
-                (
-                    @Red,
-                    @Docente,
-                    @FechaInicio,
-                    @FechaFin,
-                    @ActDestacadas,
-                    1
-                )";
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new
-            {
-                entidad.Red,
-                entidad.Docente,
-                FechaInicio =
-                    entidad.FechaInicio.ToDateTime(
-                        TimeOnly.MinValue),
-                entidad.FechaFin,
-                entidad.ActDestacadas
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<RedDocente>("dbo.sp_crear_red_docente", Parametros(entidad), commandType: CommandType.StoredProcedure);
+        entidad.Red = guardada.Red;
+        entidad.Docente = guardada.Docente;
+        entidad.FechaInicio = guardada.FechaInicio;
+        entidad.FechaFin = guardada.FechaFin;
+        entidad.ActDestacadas = guardada.ActDestacadas;
+        return 1;
     }
 
-    public async Task<int> Reemplazar(
-        int redActual,
-        int docenteActual,
-        RedDocente entidad)
+    public async Task<int> Reemplazar(int redActual, int docenteActual, RedDocente entidad)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE red_docente
-            SET red = @RedNueva,
-                docente = @DocenteNuevo,
-                fecha_inicio = @FechaInicio,
-                fecha_fin = @FechaFin,
-                act_destacadas = @ActDestacadas
-            WHERE red = @RedActual
-              AND docente = @DocenteActual
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new
-            {
-                RedActual = redActual,
-                DocenteActual = docenteActual,
-                RedNueva = entidad.Red,
-                DocenteNuevo = entidad.Docente,
-                FechaInicio =
-                    entidad.FechaInicio.ToDateTime(
-                        TimeOnly.MinValue),
-                entidad.FechaFin,
-                entidad.ActDestacadas
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(entidad);
+        p.Add("OriginalRed", redActual);
+        p.Add("OriginalDocente", docenteActual);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_red_docente", p, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> ActualizarParcial(
-        int redActual,
-        int docenteActual,
-        RedDocenteCampos campos)
+    public async Task<int> ActualizarParcial(int redActual, int docenteActual, RedDocenteCampos campos)
     {
-        using var conexion = CrearConexion();
-
-        var sets = new List<string>();
+        await using var conexion = new SqlConnection(cadena);
         var p = new DynamicParameters();
-
-        p.Add("RedActual", redActual);
-        p.Add("DocenteActual", docenteActual);
-
-        if (campos.Red.HasValue)
-        {
-            sets.Add("red = @RedNueva");
-            p.Add("RedNueva", campos.Red.Value);
-        }
-
-        if (campos.Docente.HasValue)
-        {
-            sets.Add("docente = @DocenteNuevo");
-            p.Add("DocenteNuevo", campos.Docente.Value);
-        }
-
-        if (campos.FechaInicio.HasValue)
-        {
-            sets.Add("fecha_inicio = @FechaInicio");
-            p.Add(
-                "FechaInicio",
-                campos.FechaInicio.Value.ToDateTime(
-                    TimeOnly.MinValue));
-        }
-
-        if (campos.FechaFin != null)
-        {
-            sets.Add("fecha_fin = @FechaFin");
-            p.Add("FechaFin", campos.FechaFin);
-        }
-
-        if (campos.ActDestacadas != null)
-        {
-            sets.Add("act_destacadas = @ActDestacadas");
-            p.Add("ActDestacadas", campos.ActDestacadas);
-        }
-
-        if (sets.Count == 0)
-            return 0;
-
-        var sql = $@"
-            UPDATE red_docente
-            SET {string.Join(", ", sets)}
-            WHERE red = @RedActual
-              AND docente = @DocenteActual
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, p);
+        p.Add("Red", campos.Red);
+        p.Add("Docente", campos.Docente);
+        p.Add("FechaInicio", campos.FechaInicio?.ToDateTime(TimeOnly.MinValue));
+        p.Add("FechaFin", campos.FechaFin);
+        p.Add("ActDestacadas", campos.ActDestacadas);
+        p.Add("Parcial", true);
+        p.Add("OriginalRed", redActual);
+        p.Add("OriginalDocente", docenteActual);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_red_docente", p, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> EliminarLogico(
-        int red,
-        int docente)
+    public async Task<int> EliminarLogico(int red, int docente)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE red_docente
-            SET activo = 0
-            WHERE red = @Red
-              AND docente = @Docente
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new
-            {
-                Red = red,
-                Docente = docente
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Red", red);
+        p.Add("Docente", docente);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_red_docente", p, commandType: CommandType.StoredProcedure);
     }
 }

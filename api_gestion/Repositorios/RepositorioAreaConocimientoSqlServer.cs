@@ -1,157 +1,78 @@
-﻿using ApiGestion.Modelos;
+using System.Data;
+using ApiGestion.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
 public class RepositorioAreaConocimientoSqlServer : IRepositorioAreaConocimiento
 {
-    private readonly string _cadenaConexion;
+    static RepositorioAreaConocimientoSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioAreaConocimientoSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
 
-    public RepositorioAreaConocimientoSqlServer(IConfiguration configuracion)
+    internal static DynamicParameters Parametros(AreaConocimiento entidad)
     {
-        _cadenaConexion =
-            configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException(
-                "No se encontró la cadena de conexión 'SqlServer'.");
+        var p = new DynamicParameters();
+        p.Add("Id", entidad.Id);
+        p.Add("GranArea", entidad.GranArea);
+        p.Add("Area", entidad.Area);
+        p.Add("Disciplina", entidad.Disciplina);
+        return p;
     }
 
     public async Task<IEnumerable<AreaConocimiento>> ObtenerTodos(int limite)
     {
-        const string sql = """
-            SELECT TOP (@Limite)
-                id AS Id,
-                gran_area AS GranArea,
-                area AS Area,
-                disciplina AS Disciplina
-            FROM area_conocimiento
-            WHERE activo = 1
-            ORDER BY id;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.QueryAsync<AreaConocimiento>(
-            sql,
-            new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<AreaConocimiento>("dbo.sp_listar_area_conocimiento", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<AreaConocimiento?> ObtenerPorId(string id)
     {
-        const string sql = """
-            SELECT
-                id AS Id,
-                gran_area AS GranArea,
-                area AS Area,
-                disciplina AS Disciplina
-            FROM area_conocimiento
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.QuerySingleOrDefaultAsync<AreaConocimiento>(
-            sql,
-            new { Id = id });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Id", id);
+        return await conexion.QuerySingleOrDefaultAsync<AreaConocimiento>("dbo.sp_consultar_area_conocimiento", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task Crear(AreaConocimiento areaConocimiento)
     {
-        const string sql = """
-            INSERT INTO area_conocimiento
-            (
-                id,
-                gran_area,
-                area,
-                disciplina,
-                activo
-            )
-            VALUES
-            (
-                @Id,
-                @GranArea,
-                @Area,
-                @Disciplina,
-                1
-            );
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        await conexion.ExecuteAsync(sql, areaConocimiento);
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<AreaConocimiento>("dbo.sp_crear_area_conocimiento", Parametros(areaConocimiento), commandType: CommandType.StoredProcedure);
+        areaConocimiento.Id = guardada.Id;
+        areaConocimiento.GranArea = guardada.GranArea;
+        areaConocimiento.Area = guardada.Area;
+        areaConocimiento.Disciplina = guardada.Disciplina;
     }
 
     public async Task<int> Reemplazar(AreaConocimiento areaConocimiento)
     {
-        const string sql = """
-            UPDATE area_conocimiento
-            SET
-                gran_area = @GranArea,
-                area = @Area,
-                disciplina = @Disciplina
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(sql, areaConocimiento);
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(areaConocimiento);
+        p.Add("OriginalId", areaConocimiento.Id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_area_conocimiento", p, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> ActualizarParcial(
-        string id,
-        AreaConocimientoCampos campos)
+    public async Task<int> ActualizarParcial(string id, AreaConocimientoCampos campos)
     {
-        var cambios = new List<string>();
-
-        var parametros = new DynamicParameters();
-        parametros.Add("Id", id);
-
-        if (campos.GranArea != null)
-        {
-            cambios.Add("gran_area = @GranArea");
-            parametros.Add("GranArea", campos.GranArea);
-        }
-
-        if (campos.Area != null)
-        {
-            cambios.Add("area = @Area");
-            parametros.Add("Area", campos.Area);
-        }
-
-        if (campos.Disciplina != null)
-        {
-            cambios.Add("disciplina = @Disciplina");
-            parametros.Add("Disciplina", campos.Disciplina);
-        }
-
-        if (cambios.Count == 0)
-            return 0;
-
-        var sql = $"""
-            UPDATE area_conocimiento
-            SET {string.Join(", ", cambios)}
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(sql, parametros);
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("GranArea", campos.GranArea);
+        p.Add("Area", campos.Area);
+        p.Add("Disciplina", campos.Disciplina);
+        p.Add("Id", id);
+        p.Add("Parcial", true);
+        p.Add("OriginalId", id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_area_conocimiento", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> EliminarLogico(string id)
     {
-        const string sql = """
-            UPDATE area_conocimiento
-            SET activo = 0
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(sql, new { Id = id });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Id", id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_area_conocimiento", p, commandType: CommandType.StoredProcedure);
     }
 }

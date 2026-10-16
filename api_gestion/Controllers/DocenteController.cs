@@ -44,6 +44,10 @@ public class DocenteController : ControllerBase
                 datos = lista
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new { estado = 400, mensaje = "Parámetros inválidos.", detalle = ex.Message });
@@ -62,6 +66,10 @@ public class DocenteController : ControllerBase
             var docente = await _servicio.ObtenerPorId(cedula);
             return Ok(docente);
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion ex)
         {
             return NotFound(new { estado = 404, mensaje = "Docente no encontrado.", detalle = ex.Message });
@@ -98,8 +106,12 @@ public class DocenteController : ControllerBase
             };
 
             await _servicio.Crear(docente);
-            return Ok(new { estado = 200, mensaje = "Docente creado exitosamente." });
+            return Ok(new { datos = docente, estado = 200, mensaje = "Docente creado exitosamente." });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new { estado = 400, mensaje = "Parámetros inválidos.", detalle = ex.Message });
@@ -142,6 +154,10 @@ public class DocenteController : ControllerBase
             var filas = await _servicio.Reemplazar(cedula, docente);
             return Ok(new { estado = 200, mensaje = "Docente reemplazado.", filasAfectadas = filas });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new { estado = 400, mensaje = "Parámetros inválidos.", detalle = ex.Message });
@@ -171,6 +187,10 @@ public class DocenteController : ControllerBase
             var filas = await _servicio.ActualizarParcial(cedula, campos);
             return Ok(new { estado = 200, mensaje = "Docente actualizado.", filasAfectadas = filas });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new { estado = 400, mensaje = "Parámetros inválidos.", detalle = ex.Message });
@@ -193,6 +213,10 @@ public class DocenteController : ControllerBase
             var filas = await _servicio.Eliminar(cedula);
             return Ok(new { estado = 200, mensaje = "Docente eliminado.", filasAfectadas = filas });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion ex)
         {
             return NotFound(new { estado = 404, mensaje = "Docente no encontrado.", detalle = ex.Message });

@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Repositorios;
 
@@ -10,13 +10,15 @@ namespace ApiGestion.Servicios;
 /// </summary>
 public class ServicioEstudioRealizado : IServicioEstudioRealizado
 {
+    private readonly IReglasRetiro? reglasRetiro;
     private readonly IRepositorioEstudioRealizado _repositorio;
     private readonly IRepositorioDocente _docentes;
 
     public ServicioEstudioRealizado(
         IRepositorioEstudioRealizado repositorio,
-        IRepositorioDocente docentes)
+        IRepositorioDocente docentes, IReglasRetiro? reglasRetiro = null)
     {
+        this.reglasRetiro = reglasRetiro;
         _repositorio = repositorio;
         _docentes = docentes;
     }
@@ -100,6 +102,7 @@ public class ServicioEstudioRealizado : IServicioEstudioRealizado
 
     public async Task<int> Eliminar(int id)
     {
+        if (reglasRetiro != null) await reglasRetiro.Comprobar("estudios_realizados", new { Id = id });
         var filasAfectadas =
             await _repositorio.EliminarLogico(id);
 
@@ -118,7 +121,7 @@ public class ServicioEstudioRealizado : IServicioEstudioRealizado
 
         if (docente == null)
         {
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El docente con cédula {cedula} no existe o no está activo.");
         }
     }

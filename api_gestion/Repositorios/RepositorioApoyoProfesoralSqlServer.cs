@@ -1,178 +1,79 @@
-﻿using System.Data;
+using System.Data;
 using ApiGestion.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
-public class RepositorioApoyoProfesoralSqlServer
-    : IRepositorioApoyoProfesoral
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
+public class RepositorioApoyoProfesoralSqlServer : IRepositorioApoyoProfesoral
 {
-    private readonly string _cadenaConexion;
+    static RepositorioApoyoProfesoralSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioApoyoProfesoralSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
 
-    public RepositorioApoyoProfesoralSqlServer(
-        IConfiguration configuracion)
+    internal static DynamicParameters Parametros(ApoyoProfesoral entidad)
     {
-        _cadenaConexion =
-            configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException(
-                "No se encontró la cadena de conexión 'SqlServer'.");
+        var p = new DynamicParameters();
+        p.Add("Estudios", entidad.Estudios);
+        p.Add("ConApoyo", entidad.ConApoyo);
+        p.Add("Institucion", entidad.Institucion);
+        p.Add("Tipo", entidad.Tipo);
+        return p;
     }
 
-    private IDbConnection CrearConexion() =>
-        new SqlConnection(_cadenaConexion);
-
-    public async Task<IEnumerable<ApoyoProfesoral>> ObtenerTodos(
-        int limite)
+    public async Task<IEnumerable<ApoyoProfesoral>> ObtenerTodos(int limite)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT TOP (@Limite)
-                estudios AS Estudios,
-                con_apoyo AS ConApoyo,
-                institucion AS Institucion,
-                tipo AS Tipo
-            FROM apoyo_profesoral
-            WHERE activo = 1
-            ORDER BY estudios";
-
-        return await conexion.QueryAsync<ApoyoProfesoral>(
-            sql,
-            new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<ApoyoProfesoral>("dbo.sp_listar_apoyo_profesoral", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<ApoyoProfesoral?> ObtenerPorId(
-        int estudios)
+    public async Task<ApoyoProfesoral?> ObtenerPorId(int estudios)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT
-                estudios AS Estudios,
-                con_apoyo AS ConApoyo,
-                institucion AS Institucion,
-                tipo AS Tipo
-            FROM apoyo_profesoral
-            WHERE estudios = @Estudios
-              AND activo = 1";
-
-        return await conexion.QueryFirstOrDefaultAsync<ApoyoProfesoral>(
-            sql,
-            new { Estudios = estudios });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Estudios", estudios);
+        return await conexion.QuerySingleOrDefaultAsync<ApoyoProfesoral>("dbo.sp_consultar_apoyo_profesoral", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> Crear(ApoyoProfesoral entidad)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            INSERT INTO apoyo_profesoral
-                (
-                    estudios,
-                    con_apoyo,
-                    institucion,
-                    tipo,
-                    activo
-                )
-            VALUES
-                (
-                    @Estudios,
-                    @ConApoyo,
-                    @Institucion,
-                    @Tipo,
-                    1
-                )";
-
-        return await conexion.ExecuteAsync(sql, entidad);
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<ApoyoProfesoral>("dbo.sp_crear_apoyo_profesoral", Parametros(entidad), commandType: CommandType.StoredProcedure);
+        entidad.Estudios = guardada.Estudios;
+        entidad.ConApoyo = guardada.ConApoyo;
+        entidad.Institucion = guardada.Institucion;
+        entidad.Tipo = guardada.Tipo;
+        return 1;
     }
 
-    public async Task<int> Reemplazar(
-        int estudiosActual,
-        ApoyoProfesoral entidad)
+    public async Task<int> Reemplazar(int estudiosActual, ApoyoProfesoral entidad)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE apoyo_profesoral
-            SET estudios = @EstudiosNuevo,
-                con_apoyo = @ConApoyo,
-                institucion = @Institucion,
-                tipo = @Tipo
-            WHERE estudios = @EstudiosActual
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new
-            {
-                EstudiosActual = estudiosActual,
-                EstudiosNuevo = entidad.Estudios,
-                entidad.ConApoyo,
-                entidad.Institucion,
-                entidad.Tipo
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(entidad);
+        p.Add("OriginalEstudios", estudiosActual);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_apoyo_profesoral", p, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> ActualizarParcial(
-        int estudiosActual,
-        ApoyoProfesoralCampos campos)
+    public async Task<int> ActualizarParcial(int estudiosActual, ApoyoProfesoralCampos campos)
     {
-        using var conexion = CrearConexion();
-
-        var sets = new List<string>();
+        await using var conexion = new SqlConnection(cadena);
         var p = new DynamicParameters();
-
-        p.Add("EstudiosActual", estudiosActual);
-
-        if (campos.Estudios.HasValue)
-        {
-            sets.Add("estudios = @EstudiosNuevo");
-            p.Add("EstudiosNuevo", campos.Estudios.Value);
-        }
-
-        if (campos.ConApoyo.HasValue)
-        {
-            sets.Add("con_apoyo = @ConApoyo");
-            p.Add("ConApoyo", campos.ConApoyo.Value);
-        }
-
-        if (campos.Institucion != null)
-        {
-            sets.Add("institucion = @Institucion");
-            p.Add("Institucion", campos.Institucion);
-        }
-
-        if (campos.Tipo != null)
-        {
-            sets.Add("tipo = @Tipo");
-            p.Add("Tipo", campos.Tipo);
-        }
-
-        if (sets.Count == 0)
-            return 0;
-
-        var sql = $@"
-            UPDATE apoyo_profesoral
-            SET {string.Join(", ", sets)}
-            WHERE estudios = @EstudiosActual
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, p);
+        p.Add("Estudios", campos.Estudios);
+        p.Add("ConApoyo", campos.ConApoyo);
+        p.Add("Institucion", campos.Institucion);
+        p.Add("Tipo", campos.Tipo);
+        p.Add("Parcial", true);
+        p.Add("OriginalEstudios", estudiosActual);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_apoyo_profesoral", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> EliminarLogico(int estudios)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE apoyo_profesoral
-            SET activo = 0
-            WHERE estudios = @Estudios
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new { Estudios = estudios });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Estudios", estudios);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_apoyo_profesoral", p, commandType: CommandType.StoredProcedure);
     }
 }

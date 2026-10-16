@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Peticiones;
 using ApiGestion.Repositorios;
@@ -132,7 +132,7 @@ public class ServicioReconocimiento : IServicioReconocimiento
     private async Task ValidarDocente(int cedula)
     {
         if (await _docentes.ObtenerPorId(cedula) == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El docente con cédula {cedula} no existe o no está activo.");
     }
 }
