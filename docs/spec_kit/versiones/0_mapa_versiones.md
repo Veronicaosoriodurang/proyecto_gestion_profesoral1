@@ -62,3 +62,7 @@ a `main` y cerrada con el tag `v1`.
 3. **Regresión obligatoria**: al cerrar la vN, los criterios de todas las
    versiones anteriores deben seguir pasando.
 4. El repositorio siempre muestra la **versión en curso, funcionando**.
+
+## Avance de esta continuación (2026-10-16)
+
+V2 está implementada en una rama de trabajo: [spec kit V2](v2_relaciones/2_spec.md), migración no destructiva, procedimientos de los 16 recursos, expedientes atómicos, trigger y pruebas. El estado de entrega verificable está en [RESULTADOS.md](v2_relaciones/RESULTADOS.md). La etiqueta v2 queda pendiente del cierre humano; no se incorporó código de acceso de v3 ni dashboard de v4.

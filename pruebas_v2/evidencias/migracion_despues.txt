@@ -1,0 +1,16 @@
+area_conocimiento 220 218
+termino_clave 2 0
+linea_investigacion 2 0
+programa 2 0
+red 2 0
+docente 4 0
+estudios_realizados 6 0
+docente_departamento 1 0
+intereses_futuros 2 0
+evaluacion_docente 1 0
+reconocimiento 1 0
+experiecia 1 0
+red_docente 1 0
+estudio_ac 3 0
+apoyo_profesoral 1 0
+beca 2 0

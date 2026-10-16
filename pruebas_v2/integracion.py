@@ -83,6 +83,11 @@ def run():
             c=next(c for c in m['cols'] if c['col']==fk);bad[c['prop'][0].lower()+c['prop'][1:]]='NOEX' if c['sql'].startswith('VARCHAR') else -987654
             r=req('POST',route(t),bad,status=409);check(bool(r.get('mensaje')),f'{t}.{fk}: conflicto con mensaje en español')
     check(req('GET',paths['docente'])['totalEstudios']==1,'Trigger: crear estudio incrementa contador')
+    req('POST',route('docente')+'/expediente',{'docente':rows['docente'],'detalles':{'estudios':[None]}},status=422)
+    sinlinea=copy.deepcopy(rows['docente']);sinlinea['lineaInvestigacionPrincipal']=None
+    req('PUT',paths['docente'],sinlinea)
+    check(req('GET',paths['docente'])['lineaInvestigacionPrincipal'] is None,'PUT: limpiar la relación opcional conserva null')
+    req('PUT',paths['docente'],rows['docente'])
     for t in ['programa','area_conocimiento','termino_clave','linea_investigacion','red','docente','estudios_realizados']:
         req('DELETE',paths[t],status=409)
     # Move an active study between teachers: both totals must change.
@@ -96,10 +101,13 @@ def run():
     # All rows in a multi-row submission roll back, including trigger effects.
     study=copy.deepcopy(rows['estudios_realizados']);study['id']=base+2
     badstudy=copy.deepcopy(study)
-    aggregate={'docente':rows['docente'],'detalles':{'estudios':[study,badstudy]}}
+    aggregate={'docente':copy.deepcopy(rows['docente']),'detalles':{'estudios':[study,badstudy]}}
+    aggregate['docente']['nombres']='Cambio que debe revertirse'
     req('POST',paths['docente']+'/detalles',aggregate,status=409)
     req('GET',route('estudios_realizados')+'/'+str(base+2),status=404)
     check(req('GET',paths['docente'])['totalEstudios']==1,'Atomicidad: rollback también revierte contador')
+    check(req('GET',paths['docente'])['nombres']==rows['docente']['nombres'],'Atomicidad: fallo del detalle revierte cambios de la ficha')
+    aggregate['docente']=copy.deepcopy(rows['docente'])
     aggregate['detalles']['estudios'][1]['id']=base+3
     req('POST',paths['docente']+'/detalles',aggregate)
     check(req('GET',paths['docente'])['totalEstudios']==3,'Atomicidad: dos renglones guardados en un solo envío')
@@ -145,7 +153,7 @@ error=None
 try:run()
 except Exception as e:error=str(e);traceback.print_exc()
 finally:
-    report={'fecha':datetime.now(timezone.utc).isoformat(),'api':a.api,'identificador':base,'marca':mark,'comprobaciones':asserts,'peticiones':records,'error':error}
+    report={'fecha':datetime.now(timezone.utc).isoformat(),'api':a.api,'identificador':base,'marca':mark,'filas':rows,'claves':paths,'comprobaciones':asserts,'peticiones':records,'error':error}
     pathlib.Path(a.salida).write_text(json.dumps(report,ensure_ascii=False,indent=2))
     collection={'info':{'name':'Gestión Profesoral V2 — peticiones reales de integración','schema':'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'},'variable':[{'key':'baseUrl','value':a.api}], 'item':[]}
     for i,x in enumerate(records):
