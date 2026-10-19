@@ -493,3 +493,16 @@ Aplicación y Servicios Web
 Veronica Osorio Durango
 
 </div>
+
+## Continuación V2: relaciones, procedimientos y expedientes
+
+La implementación V2 conserva las rutas y pantallas de las cinco tablas V1 y completa las once tablas relacionadas. Incluye procedimientos de todos los CRUD, conflictos 409 en español, expedientes con guardado conjunto y `trg_contar_estudios`.
+
+Para actualizar una base existente, aplicar **solo `db/version_2.sql`**. El inicializador actualizado lo hace sin recrear tablas ni semillas. No ejecutar el script base ni eliminar volúmenes sobre datos que se quieran conservar.
+
+- [Instrucciones V2 y pruebas](docs/spec_kit/versiones/v2_relaciones/7_quickstart.md)
+- [Contratos y atomicidad](docs/spec_kit/versiones/v2_relaciones/6_contracts.md)
+- [Resultados y límites reales](docs/spec_kit/versiones/v2_relaciones/RESULTADOS.md)
+- [Colección de pruebas](pruebas_v2/coleccion.postman.json)
+
+El tag v2 requiere revisión humana y cierre de los doce criterios; no se declara cerrado por compilar.

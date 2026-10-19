@@ -1,108 +1,17 @@
-﻿# Plan — Versión 2: relaciones y claves foráneas
+# Plan de implementación — V2
 
-## Objetivo
+Se conserva Controller → IServicio → Servicio → IRepositorio → RepositorioSqlServer. Blazor consume únicamente la API. Los contratos de v1 se conservan; los cinco repositorios se migran a procedimientos porque V2 exige SQL almacenado en todas las operaciones.
 
-Implementar la v2 sin modificar el comportamiento ya terminado de la v1.
+## Bloques
 
-La arquitectura debe conservar exactamente el patrón existente:
+1. Revisar código, documentos y requisitos del profesor. Contrastar el main remoto con el checkout local y recuperar avances. Crear rama de trabajo basada en el main observado.
+2. Especificar el delta. Escribir migración no destructiva, 80 procedimientos CRUD, reglas de relaciones activas/retiro, procedimientos auxiliares de consulta de retiro y trigger. Adaptar repositorios y errores HTTP sin cambiar rutas.
+3. Implementar expedientes concretos de docente/estudio, lecturas filtradas por maestro y escrituras con una conexión/transacción serializable. Validar cuerpos y reglas de fechas antes de escribir. SQL refuerza relaciones dentro de la transacción.
+4. Conservar las once pantallas individuales; agregar detalles dentro del maestro con borradores y un botón de envío conjunto. Las relaciones adicionales se eligen de catálogos de API; el padre contextual lo fija el maestro.
+5. Compilar, ejecutar prueba heredada de capas, matriz HTTP de los 16 recursos, eventos del trigger y recorridos en Chromium. Registrar resultados reales, correcciones y límites. Completar documentos, colección y prompts.
 
-Controller
-→ IServicio
-→ Servicio
-→ IRepositorio
-→ RepositorioSqlServer
-→ SQL Server
+## Regresión y cierre
 
-El frontend Blazor consume únicamente la API por HTTP.
+Los errores esperados son 400/404/409/422, nunca 500 por integridad o duplicados. Verificar identidades generadas, opcionales nulos, ambas claves de los puentes, maestro con detalle activo, retiro lógico y filtrado. Probar fallos intermedios tanto con maestro nuevo como existente y comprobar que el trigger también se revierte.
 
-## Reglas para implementar
-
-1. No crear servicios, controladores ni repositorios genéricos.
-2. Cada tabla tendrá sus propias clases.
-3. Mantener SQL escrito a mano y parametrizado con Dapper.
-4. Mantener borrado lógico con `activo = 0`.
-5. Los GET solo muestran registros activos.
-6. Las claves foráneas deben validarse antes de guardar.
-7. Una FK debe apuntar a un registro existente y activo.
-8. En el frontend las FK se seleccionan mediante listas desplegables.
-9. Los desplegables obtienen sus opciones desde la API.
-10. No modificar los CRUD de v1 salvo que sea estrictamente necesario para consultar sus catálogos.
-11. No implementar JWT, usuarios, roles, dashboard ni funciones de v3/v4.
-
-## Orden de trabajo
-
-### Fase 1 — Docente
-
-Implementar completamente:
-
-- modelo
-- peticiones
-- repositorio
-- servicio
-- controlador
-- registro de dependencias
-- servicio frontend
-- pantalla Blazor
-- selector de línea de investigación
-- pruebas CRUD y FK
-
-No continuar con la siguiente tabla hasta que docente funcione de extremo a extremo.
-
-### Fase 2 — Estudios realizados
-
-Implementar CRUD y selector de docente.
-
-### Fase 3 — Relaciones directas con docente
-
-- `docente_departamento`
-- `intereses_futuros`
-- `evaluacion_docente`
-- `reconocimiento`
-- `experiecia`
-- `red_docente`
-
-### Fase 4 — Relaciones con estudios
-
-- `estudio_ac`
-- `apoyo_profesoral`
-- `beca`
-
-## Validaciones mínimas
-
-Para cada recurso:
-
-- POST inválido → 422
-- PUT incompleto → 422
-- PATCH vacío → 400
-- registro inexistente/inactivo → 404
-- `limite <= 0` → 400
-- segundo DELETE → 404
-- DELETE → borrado lógico
-- FK inexistente → error controlado
-- FK inactiva → error controlado
-
-## Regresión
-
-Antes de cerrar la v2 deben continuar funcionando:
-
-- `/programas`
-- `/redes`
-- `/areas-conocimiento`
-- `/terminos-clave`
-- `/lineas-investigacion`
-
-## Estrategia con Cursor
-
-Cursor debe trabajar una tabla a la vez.
-
-Antes de escribir código debe leer:
-
-- `docs/spec_kit/1_constitution.md`
-- `docs/spec_kit/versiones/v2_relaciones/2_spec.md`
-- este archivo
-- los archivos existentes de `Programa`
-- un CRUD de v1 con patrón similar
-
-No debe reemplazar archivos existentes de v1 ni cambiar convenciones sin autorización.
-
-La primera implementación será únicamente `docente`.
+La comprobación automática no firma el checklist humano. La revisión individual, la revisión del PR y el tag v2 corresponden al cierre del equipo. No se implementan recursos de v3/v4.

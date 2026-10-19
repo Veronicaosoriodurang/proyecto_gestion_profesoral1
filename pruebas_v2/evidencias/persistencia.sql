@@ -1,0 +1,18 @@
+SET NOCOUNT ON;
+IF NOT EXISTS(SELECT 1 FROM dbo.area_conocimiento WHERE id=N'VB81D' AND activo=0) THROW 51110, N'No se conservó retirado: area_conocimiento', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.termino_clave WHERE termino=N'Prueba VB81D' AND activo=0) THROW 51110, N'No se conservó retirado: termino_clave', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.linea_investigacion WHERE id=1 AND activo=0) THROW 51110, N'No se conservó retirado: linea_investigacion', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.programa WHERE id=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: programa', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.red WHERE idr=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: red', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.docente WHERE cedula=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: docente', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.estudios_realizados WHERE id=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: estudios_realizados', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.docente_departamento WHERE docente=242587781 AND departamento=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: docente_departamento', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.intereses_futuros WHERE docente=242587781 AND termino_clave=N'Prueba VB81D' AND activo=0) THROW 51110, N'No se conservó retirado: intereses_futuros', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.evaluacion_docente WHERE id=1 AND activo=0) THROW 51110, N'No se conservó retirado: evaluacion_docente', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.reconocimiento WHERE id=1 AND activo=0) THROW 51110, N'No se conservó retirado: reconocimiento', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.experiecia WHERE id=1 AND activo=0) THROW 51110, N'No se conservó retirado: experiecia', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.red_docente WHERE red=242587781 AND docente=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: red_docente', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.estudio_ac WHERE estudio=242587781 AND area_conocimiento=N'VB81D' AND activo=0) THROW 51110, N'No se conservó retirado: estudio_ac', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.apoyo_profesoral WHERE estudios=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: apoyo_profesoral', 1;
+IF NOT EXISTS(SELECT 1 FROM dbo.beca WHERE estudios=242587781 AND activo=0) THROW 51110, N'No se conservó retirado: beca', 1;
+PRINT N'OK: las 16 filas retiradas permanecen físicamente en SQL Server.';

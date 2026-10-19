@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Peticiones;
 using ApiGestion.Servicios;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +36,10 @@ public class InteresFuturoController : ControllerBase
                 datos
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new
@@ -57,6 +61,10 @@ public class InteresFuturoController : ControllerBase
             return Ok(
                 await _servicio.ObtenerPorId(docente, terminoClave));
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion ex)
         {
             return NotFound(new
@@ -78,10 +86,14 @@ public class InteresFuturoController : ControllerBase
 
             return Ok(new
             {
-                estado = 200,
+                datos = await _servicio.ObtenerPorId(peticion.Docente!.Value, peticion.TerminoClave.Trim()), estado = 200,
                 mensaje = "Interés futuro creado exitosamente."
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new
@@ -122,6 +134,10 @@ public class InteresFuturoController : ControllerBase
                 filasAfectadas = filas
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new
@@ -162,6 +178,10 @@ public class InteresFuturoController : ControllerBase
                 filasAfectadas = filas
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (ArgumentException ex)
         {
             return BadRequest(new
@@ -198,6 +218,10 @@ public class InteresFuturoController : ControllerBase
                 filasAfectadas = filas
             });
         }
+        catch (SqlException conflicto) when (conflicto.Number is 547 or 2601 or 2627 or 51001 or 51002)
+        { return Conflict(new { estado = 409, mensaje = "La relación no existe, está retirada, tiene registros activos o ya está registrada." }); }
+        catch (ApiGestion.Excepciones.ConflictoExcepcion conflicto)
+        { return Conflict(new { estado = 409, mensaje = conflicto.Message }); }
         catch (NoEncontradoExcepcion ex)
         {
             return NotFound(new

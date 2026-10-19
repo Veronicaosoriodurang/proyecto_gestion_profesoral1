@@ -7,6 +7,7 @@ namespace ApiGestion.Modelos;
 /// </summary>
 public class Docente
 {
+    public int TotalEstudios { get; set; }
     /// <summary>Cédula del docente. Es la llave primaria (no Identity).</summary>
     public int Cedula { get; set; }
 

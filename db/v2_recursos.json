@@ -1,0 +1,887 @@
+{
+  "area_conocimiento": {
+    "name": "AreaConocimiento",
+    "cols": [
+      {
+        "col": "id",
+        "prop": "Id",
+        "sql": "VARCHAR(6)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "gran_area",
+        "prop": "GranArea",
+        "sql": "VARCHAR(60)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "area",
+        "prop": "Area",
+        "sql": "VARCHAR(60)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "disciplina",
+        "prop": "Disciplina",
+        "sql": "VARCHAR(150)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "id"
+    ],
+    "fks": []
+  },
+  "termino_clave": {
+    "name": "TerminoClave",
+    "cols": [
+      {
+        "col": "termino",
+        "prop": "Termino",
+        "sql": "VARCHAR(30)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "termino_ingles",
+        "prop": "TerminoIngles",
+        "sql": "VARCHAR(30)",
+        "identity": false,
+        "required": false
+      }
+    ],
+    "keys": [
+      "termino"
+    ],
+    "fks": []
+  },
+  "linea_investigacion": {
+    "name": "LineaInvestigacion",
+    "cols": [
+      {
+        "col": "id",
+        "prop": "Id",
+        "sql": "INT",
+        "identity": true,
+        "required": true
+      },
+      {
+        "col": "nombre",
+        "prop": "Nombre",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "descripcion",
+        "prop": "Descripcion",
+        "sql": "VARCHAR(256)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "id"
+    ],
+    "fks": []
+  },
+  "programa": {
+    "name": "Programa",
+    "cols": [
+      {
+        "col": "id",
+        "prop": "Id",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "nombre",
+        "prop": "Nombre",
+        "sql": "VARCHAR(60)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "tipo",
+        "prop": "Tipo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "nivel",
+        "prop": "Nivel",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_creacion",
+        "prop": "FechaCreacion",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_cierre",
+        "prop": "FechaCierre",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": false
+      },
+      {
+        "col": "numero_cohortes",
+        "prop": "NumeroCohortes",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "cant_graduados",
+        "prop": "CantGraduados",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_actualizacion",
+        "prop": "FechaActualizacion",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "ciudad",
+        "prop": "Ciudad",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "facultad",
+        "prop": "Facultad",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "id"
+    ],
+    "fks": []
+  },
+  "red": {
+    "name": "Red",
+    "cols": [
+      {
+        "col": "idr",
+        "prop": "Idr",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "nombre",
+        "prop": "Nombre",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "url",
+        "prop": "Url",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "pais",
+        "prop": "Pais",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "idr"
+    ],
+    "fks": []
+  },
+  "docente": {
+    "name": "Docente",
+    "cols": [
+      {
+        "col": "cedula",
+        "prop": "Cedula",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "nombres",
+        "prop": "Nombres",
+        "sql": "VARCHAR(60)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "apellidos",
+        "prop": "Apellidos",
+        "sql": "VARCHAR(60)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "genero",
+        "prop": "Genero",
+        "sql": "VARCHAR(12)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "cargo",
+        "prop": "Cargo",
+        "sql": "VARCHAR(30)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_nacimiento",
+        "prop": "FechaNacimiento",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "correo",
+        "prop": "Correo",
+        "sql": "VARCHAR(70)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "telefono",
+        "prop": "Telefono",
+        "sql": "VARCHAR(20)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "url_cvlac",
+        "prop": "UrlCvlac",
+        "sql": "VARCHAR(128)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_actualizacion",
+        "prop": "FechaActualizacion",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "escalafon",
+        "prop": "Escalafon",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "perfil",
+        "prop": "Perfil",
+        "sql": "VARCHAR(MAX)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "cat_minciencia",
+        "prop": "CatMinciencia",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": false
+      },
+      {
+        "col": "conv_minciencia",
+        "prop": "ConvMinciencia",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "nacionalidaad",
+        "prop": "Nacionalidaad",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "linea_investigacion_principal",
+        "prop": "LineaInvestigacionPrincipal",
+        "sql": "INT",
+        "identity": false,
+        "required": false
+      }
+    ],
+    "keys": [
+      "cedula"
+    ],
+    "fks": [
+      [
+        "linea_investigacion_principal",
+        "linea_investigacion",
+        "id"
+      ]
+    ]
+  },
+  "estudios_realizados": {
+    "name": "EstudioRealizado",
+    "cols": [
+      {
+        "col": "id",
+        "prop": "Id",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "titulo",
+        "prop": "Titulo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "universidad",
+        "prop": "Universidad",
+        "sql": "VARCHAR(50)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha",
+        "prop": "Fecha",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "tipo",
+        "prop": "Tipo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "ciudad",
+        "prop": "Ciudad",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "docente",
+        "prop": "Docente",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "ins_acreditada",
+        "prop": "InsAcreditada",
+        "sql": "TINYINT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "metodologia",
+        "prop": "Metodologia",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "perfil_egresado",
+        "prop": "PerfilEgresado",
+        "sql": "VARCHAR(MAX)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "pais",
+        "prop": "Pais",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "id"
+    ],
+    "fks": [
+      [
+        "docente",
+        "docente",
+        "cedula"
+      ]
+    ]
+  },
+  "docente_departamento": {
+    "name": "DocenteDepartamento",
+    "cols": [
+      {
+        "col": "docente",
+        "prop": "Docente",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "departamento",
+        "prop": "Departamento",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "dedicacion",
+        "prop": "Dedicacion",
+        "sql": "VARCHAR(15)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "modalidad",
+        "prop": "Modalidad",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_ingreso",
+        "prop": "FechaIngreso",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_salida",
+        "prop": "FechaSalida",
+        "sql": "DATE",
+        "identity": false,
+        "required": false
+      }
+    ],
+    "keys": [
+      "docente",
+      "departamento"
+    ],
+    "fks": [
+      [
+        "docente",
+        "docente",
+        "cedula"
+      ],
+      [
+        "departamento",
+        "programa",
+        "id"
+      ]
+    ]
+  },
+  "intereses_futuros": {
+    "name": "InteresFuturo",
+    "cols": [
+      {
+        "col": "docente",
+        "prop": "Docente",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "termino_clave",
+        "prop": "TerminoClave",
+        "sql": "VARCHAR(30)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "docente",
+      "termino_clave"
+    ],
+    "fks": [
+      [
+        "docente",
+        "docente",
+        "cedula"
+      ],
+      [
+        "termino_clave",
+        "termino_clave",
+        "termino"
+      ]
+    ]
+  },
+  "evaluacion_docente": {
+    "name": "EvaluacionDocente",
+    "cols": [
+      {
+        "col": "id",
+        "prop": "Id",
+        "sql": "INT",
+        "identity": true,
+        "required": true
+      },
+      {
+        "col": "calificacion",
+        "prop": "Calificacion",
+        "sql": "REAL",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "semestre",
+        "prop": "Semestre",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "docente",
+        "prop": "Docente",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "id"
+    ],
+    "fks": [
+      [
+        "docente",
+        "docente",
+        "cedula"
+      ]
+    ]
+  },
+  "reconocimiento": {
+    "name": "Reconocimiento",
+    "cols": [
+      {
+        "col": "id",
+        "prop": "Id",
+        "sql": "INT",
+        "identity": true,
+        "required": true
+      },
+      {
+        "col": "tipo",
+        "prop": "Tipo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha",
+        "prop": "Fecha",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "institucion",
+        "prop": "Institucion",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "nombre",
+        "prop": "Nombre",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "ambito",
+        "prop": "Ambito",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "docente",
+        "prop": "Docente",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "id"
+    ],
+    "fks": [
+      [
+        "docente",
+        "docente",
+        "cedula"
+      ]
+    ]
+  },
+  "experiecia": {
+    "name": "Experiecia",
+    "cols": [
+      {
+        "col": "id",
+        "prop": "Id",
+        "sql": "INT",
+        "identity": true,
+        "required": true
+      },
+      {
+        "col": "nombre_cargo",
+        "prop": "NombreCargo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "institucion",
+        "prop": "Institucion",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "tipo",
+        "prop": "Tipo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_inicio",
+        "prop": "FechaInicio",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_fin",
+        "prop": "FechaFin",
+        "sql": "DATE",
+        "identity": false,
+        "required": false
+      },
+      {
+        "col": "docente",
+        "prop": "Docente",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "id"
+    ],
+    "fks": [
+      [
+        "docente",
+        "docente",
+        "cedula"
+      ]
+    ]
+  },
+  "red_docente": {
+    "name": "RedDocente",
+    "cols": [
+      {
+        "col": "red",
+        "prop": "Red",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "docente",
+        "prop": "Docente",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_inicio",
+        "prop": "FechaInicio",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_fin",
+        "prop": "FechaFin",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": false
+      },
+      {
+        "col": "act_destacadas",
+        "prop": "ActDestacadas",
+        "sql": "VARCHAR(MAX)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "red",
+      "docente"
+    ],
+    "fks": [
+      [
+        "red",
+        "red",
+        "idr"
+      ],
+      [
+        "docente",
+        "docente",
+        "cedula"
+      ]
+    ]
+  },
+  "estudio_ac": {
+    "name": "EstudioAc",
+    "cols": [
+      {
+        "col": "estudio",
+        "prop": "Estudio",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "area_conocimiento",
+        "prop": "AreaConocimiento",
+        "sql": "VARCHAR(6)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "estudio",
+      "area_conocimiento"
+    ],
+    "fks": [
+      [
+        "estudio",
+        "estudios_realizados",
+        "id"
+      ],
+      [
+        "area_conocimiento",
+        "area_conocimiento",
+        "id"
+      ]
+    ]
+  },
+  "apoyo_profesoral": {
+    "name": "ApoyoProfesoral",
+    "cols": [
+      {
+        "col": "estudios",
+        "prop": "Estudios",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "con_apoyo",
+        "prop": "ConApoyo",
+        "sql": "TINYINT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "institucion",
+        "prop": "Institucion",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "tipo",
+        "prop": "Tipo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      }
+    ],
+    "keys": [
+      "estudios"
+    ],
+    "fks": [
+      [
+        "estudios",
+        "estudios_realizados",
+        "id"
+      ]
+    ]
+  },
+  "beca": {
+    "name": "Beca",
+    "cols": [
+      {
+        "col": "estudios",
+        "prop": "Estudios",
+        "sql": "INT",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "tipo",
+        "prop": "Tipo",
+        "sql": "VARCHAR(45)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "institucion",
+        "prop": "Institucion",
+        "sql": "VARCHAR(80)",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_inicio",
+        "prop": "FechaInicio",
+        "sql": "DATE",
+        "identity": false,
+        "required": true
+      },
+      {
+        "col": "fecha_fin",
+        "prop": "FechaFin",
+        "sql": "DATE",
+        "identity": false,
+        "required": false
+      }
+    ],
+    "keys": [
+      "estudios"
+    ],
+    "fks": [
+      [
+        "estudios",
+        "estudios_realizados",
+        "id"
+      ]
+    ]
+  }
+}

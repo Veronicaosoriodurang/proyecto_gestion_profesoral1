@@ -1,0 +1,277 @@
+@inject ServicioExpedientes Expedientes
+@inject ServicioEstudioRealizado ServicioEstudios
+@inject ServicioEvaluacionDocente ServicioEvaluaciones
+@inject ServicioExperiecia ServicioExperiencias
+@inject ServicioReconocimiento ServicioReconocimientos
+@inject ServicioDocenteDepartamento ServicioDepartamentos
+@inject ServicioInteresFuturo ServicioIntereses
+@inject ServicioRedDocente ServicioRedes
+@inject ServicioRed CatalogoRed
+@inject ServicioTerminoClave CatalogoTerminoClave
+@inject ServicioPrograma CatalogoPrograma
+<section class="tarjeta-formulario">
+<h2>Expediente del docente</h2>
+<p>Este botón guarda la ficha y todos los renglones pendientes juntos. Agregue los renglones y pulse «Guardar expediente completo». Si alguno falla, no se guarda ninguno de este envío.</p>
+<p>Estudios activos: @totalEstudios</p>
+@foreach (var error in errores) { <p class="aviso error">@error</p> }
+@if (!string.IsNullOrEmpty(mensaje)) { <p class="aviso exito">@mensaje</p> }
+<details><summary>Estudios realizados (@existentes.Estudios.Count guardados, @pendientes.Estudios.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Estudios)
+{
+<li>@fila.Titulo <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarEstudios(fila)">Retirar</button><DetallesEstudio Maestro="fila" Guardado="Cargar" /></li>
+}
+</ul>
+<label>Código del estudio<input type="number" @bind="borradorEstudios.Id" /></label>
+<label>Título<input type="text" maxlength="45" @bind="borradorEstudios.Titulo" /></label>
+<label>Universidad<input type="text" maxlength="50" @bind="borradorEstudios.Universidad" /></label>
+<label>Fecha<input type="date" @bind="borradorEstudios.Fecha" /></label>
+<label>Tipo<input type="text" maxlength="45" @bind="borradorEstudios.Tipo" /></label>
+<label>Ciudad<input type="text" maxlength="45" @bind="borradorEstudios.Ciudad" /></label>
+<label>Institución acreditada<select @bind="borradorEstudios.InsAcreditada"><option value="0">No</option><option value="1">Sí</option></select></label>
+<label>Metodología<input type="text" maxlength="45" @bind="borradorEstudios.Metodologia" /></label>
+<label>Perfil de egreso<input type="text" @bind="borradorEstudios.PerfilEgresado" /></label>
+<label>País<input type="text" maxlength="45" @bind="borradorEstudios.Pais" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarEstudios">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Estudios) { <li>@fila.Titulo — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Estudios.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Evaluaciones (@existentes.Evaluaciones.Count guardados, @pendientes.Evaluaciones.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Evaluaciones)
+{
+<li>@fila.Calificacion <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarEvaluaciones(fila)">Retirar</button></li>
+}
+</ul>
+<label>Calificación<input type="number" step="any" @bind="borradorEvaluaciones.Calificacion" /></label>
+<label>Semestre<input type="text" maxlength="45" @bind="borradorEvaluaciones.Semestre" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarEvaluaciones">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Evaluaciones) { <li>@fila.Semestre — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Evaluaciones.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Experiencias (@existentes.Experiencias.Count guardados, @pendientes.Experiencias.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Experiencias)
+{
+<li>@fila.NombreCargo <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarExperiencias(fila)">Retirar</button></li>
+}
+</ul>
+<label>Cargo<input type="text" maxlength="45" @bind="borradorExperiencias.NombreCargo" /></label>
+<label>Institución<input type="text" maxlength="45" @bind="borradorExperiencias.Institucion" /></label>
+<label>Tipo<input type="text" maxlength="45" @bind="borradorExperiencias.Tipo" /></label>
+<label>Fecha de inicio<input type="date" @bind="borradorExperiencias.FechaInicio" /></label>
+<label>Fecha final (opcional)<input type="date" @bind="borradorExperiencias.FechaFin" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarExperiencias">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Experiencias) { <li>@fila.NombreCargo — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Experiencias.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Reconocimientos (@existentes.Reconocimientos.Count guardados, @pendientes.Reconocimientos.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Reconocimientos)
+{
+<li>@fila.Tipo <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarReconocimientos(fila)">Retirar</button></li>
+}
+</ul>
+<label>Tipo<input type="text" maxlength="45" @bind="borradorReconocimientos.Tipo" /></label>
+<label>Fecha<input type="date" @bind="borradorReconocimientos.Fecha" /></label>
+<label>Institución<input type="text" maxlength="45" @bind="borradorReconocimientos.Institucion" /></label>
+<label>Nombre<input type="text" maxlength="45" @bind="borradorReconocimientos.Nombre" /></label>
+<label>Ámbito<input type="text" maxlength="45" @bind="borradorReconocimientos.Ambito" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarReconocimientos">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Reconocimientos) { <li>@fila.Nombre — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Reconocimientos.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Departamentos (@existentes.Departamentos.Count guardados, @pendientes.Departamentos.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Departamentos)
+{
+<li>@programas.FirstOrDefault(x => x.Id == fila.Departamento)?.Nombre <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarDepartamentos(fila)">Retirar</button></li>
+}
+</ul>
+<label>Programa<select @bind="borradorDepartamentos.Departamento"><option value="0">— seleccione —</option>
+@foreach (var opcion in programas) { <option value="@opcion.Id">@opcion.Nombre</option> }
+</select></label>
+<label>Dedicación<input type="text" maxlength="15" @bind="borradorDepartamentos.Dedicacion" /></label>
+<label>Modalidad<input type="text" maxlength="45" @bind="borradorDepartamentos.Modalidad" /></label>
+<label>Fecha de ingreso<input type="date" @bind="borradorDepartamentos.FechaIngreso" /></label>
+<label>Fecha de salida (opcional)<input type="date" @bind="borradorDepartamentos.FechaSalida" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarDepartamentos">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Departamentos) { <li>@fila.Dedicacion — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Departamentos.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Intereses futuros (@existentes.Intereses.Count guardados, @pendientes.Intereses.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Intereses)
+{
+<li>@fila.TerminoClave <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarIntereses(fila)">Retirar</button></li>
+}
+</ul>
+<label>Término clave<select @bind="borradorIntereses.TerminoClave"><option value="">— seleccione —</option>
+@foreach (var opcion in terminos) { <option value="@opcion.Termino">@opcion.Termino</option> }
+</select></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarIntereses">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Intereses) { <li>@fila.TerminoClave — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Intereses.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<details><summary>Redes (@existentes.Redes.Count guardados, @pendientes.Redes.Count pendientes)</summary>
+<ul>
+@foreach (var fila in existentes.Redes)
+{
+<li>@redes.FirstOrDefault(x => x.Idr == fila.Red)?.Nombre <button class="boton peligro" disabled="@guardando" @onclick="() => RetirarRedes(fila)">Retirar</button></li>
+}
+</ul>
+<label>Red<select @bind="borradorRedes.Red"><option value="0">— seleccione —</option>
+@foreach (var opcion in redes) { <option value="@opcion.Idr">@opcion.Nombre</option> }
+</select></label>
+<label>Fecha de inicio<input type="date" @bind="borradorRedes.FechaInicio" /></label>
+<label>Fecha final (opcional)<input type="text" maxlength="45" @bind="borradorRedes.FechaFin" /></label>
+<label>Actividades destacadas<input type="text" @bind="borradorRedes.ActDestacadas" /></label>
+<button class="boton" disabled="@guardando" @onclick="AgregarRedes">Preparar renglón</button>
+<ul>
+@foreach (var fila in pendientes.Redes) { <li>@fila.ActDestacadas — pendiente <button class="boton" disabled="@guardando" @onclick="() => pendientes.Redes.Remove(fila)">Quitar del envío</button></li> }
+</ul></details>
+<button class="boton primario" disabled="@(guardando || !catalogosListos)" @onclick="Guardar">Guardar expediente completo</button>
+</section>
+@code {
+    [Parameter, EditorRequired] public Docente Maestro { get; set; } = new();
+    [Parameter] public bool Nuevo { get; set; }
+    [Parameter] public EventCallback Guardado { get; set; }
+    private DetallesDocenteVista existentes = new();
+    private DetallesDocenteVista pendientes = new();
+    private int? claveCargada;
+    private bool? nuevoCargado;
+    private bool guardando;
+    private bool catalogosListos;
+    private int totalEstudios;
+    private string mensaje = "";
+    private List<string> errores = new();
+    private EstudioRealizado borradorEstudios = new();
+    private EvaluacionDocente borradorEvaluaciones = new();
+    private Experiecia borradorExperiencias = new();
+    private Reconocimiento borradorReconocimientos = new();
+    private DocenteDepartamento borradorDepartamentos = new();
+    private InteresFuturo borradorIntereses = new();
+    private RedDocente borradorRedes = new();
+    private List<Red> redes = new();
+    private List<TerminoClave> terminos = new();
+    private List<Programa> programas = new();
+    protected override async Task OnParametersSetAsync()
+    {
+        if (claveCargada == Maestro.Cedula && nuevoCargado == Nuevo) return;
+        claveCargada = Maestro.Cedula; nuevoCargado = Nuevo;
+        pendientes = new(); errores = new();
+        catalogosListos = true;
+        var listaRed = await CatalogoRed.Listar(int.MaxValue);
+        if (listaRed.Ok) redes = listaRed.Datos!; else { catalogosListos = false; errores.AddRange(listaRed.Errores); }
+        var listaTerminoClave = await CatalogoTerminoClave.Listar(int.MaxValue);
+        if (listaTerminoClave.Ok) terminos = listaTerminoClave.Datos!; else { catalogosListos = false; errores.AddRange(listaTerminoClave.Errores); }
+        var listaPrograma = await CatalogoPrograma.Listar(int.MaxValue);
+        if (listaPrograma.Ok) programas = listaPrograma.Datos!; else { catalogosListos = false; errores.AddRange(listaPrograma.Errores); }
+        await Cargar();
+    }
+    private async Task Cargar()
+    {
+        if (Nuevo) { existentes = new(); return; }
+        var r = await Expedientes.ObtenerDocente(Maestro.Cedula);
+        if (r.Ok) { existentes = r.Datos!.Detalles; totalEstudios = r.Datos!.Maestro.TotalEstudios; }
+        else errores = r.Errores;
+    }
+    private void AgregarEstudios()
+    {
+        borradorEstudios.Docente = Maestro.Cedula;
+        pendientes.Estudios.Add(borradorEstudios); borradorEstudios = new(); errores = new();
+    }
+    private async Task RetirarEstudios(EstudioRealizado fila)
+    {
+        guardando = true;
+        try { var r = await ServicioEstudios.Eliminar(fila.Id); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarEvaluaciones()
+    {
+        borradorEvaluaciones.Docente = Maestro.Cedula;
+        pendientes.Evaluaciones.Add(borradorEvaluaciones); borradorEvaluaciones = new(); errores = new();
+    }
+    private async Task RetirarEvaluaciones(EvaluacionDocente fila)
+    {
+        guardando = true;
+        try { var r = await ServicioEvaluaciones.Eliminar(fila.Id); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarExperiencias()
+    {
+        borradorExperiencias.Docente = Maestro.Cedula;
+        pendientes.Experiencias.Add(borradorExperiencias); borradorExperiencias = new(); errores = new();
+    }
+    private async Task RetirarExperiencias(Experiecia fila)
+    {
+        guardando = true;
+        try { var r = await ServicioExperiencias.Eliminar(fila.Id); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarReconocimientos()
+    {
+        borradorReconocimientos.Docente = Maestro.Cedula;
+        pendientes.Reconocimientos.Add(borradorReconocimientos); borradorReconocimientos = new(); errores = new();
+    }
+    private async Task RetirarReconocimientos(Reconocimiento fila)
+    {
+        guardando = true;
+        try { var r = await ServicioReconocimientos.Eliminar(fila.Id); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarDepartamentos()
+    {
+        borradorDepartamentos.Docente = Maestro.Cedula;
+        if (borradorDepartamentos.Departamento == 0) { errores = new() { "Seleccione una opción de la lista." }; return; }
+        pendientes.Departamentos.Add(borradorDepartamentos); borradorDepartamentos = new(); errores = new();
+    }
+    private async Task RetirarDepartamentos(DocenteDepartamento fila)
+    {
+        guardando = true;
+        try { var r = await ServicioDepartamentos.Eliminar(fila.Docente, fila.Departamento); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarIntereses()
+    {
+        borradorIntereses.Docente = Maestro.Cedula;
+        if (string.IsNullOrWhiteSpace(borradorIntereses.TerminoClave)) { errores = new() { "Seleccione una opción de la lista." }; return; }
+        pendientes.Intereses.Add(borradorIntereses); borradorIntereses = new(); errores = new();
+    }
+    private async Task RetirarIntereses(InteresFuturo fila)
+    {
+        guardando = true;
+        try { var r = await ServicioIntereses.Eliminar(fila.Docente, fila.TerminoClave); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private void AgregarRedes()
+    {
+        borradorRedes.Docente = Maestro.Cedula;
+        if (borradorRedes.Red == 0) { errores = new() { "Seleccione una opción de la lista." }; return; }
+        pendientes.Redes.Add(borradorRedes); borradorRedes = new(); errores = new();
+    }
+    private async Task RetirarRedes(RedDocente fila)
+    {
+        guardando = true;
+        try { var r = await ServicioRedes.Eliminar(fila.Red, fila.Docente); if (r.Ok) { await Cargar(); await Guardado.InvokeAsync(); } else errores = r.Errores; }
+        finally { guardando = false; }
+    }
+    private async Task Guardar()
+    {
+        guardando = true; errores = new(); mensaje = "";
+        try
+        {
+            foreach (var fila in pendientes.Estudios) fila.Docente = Maestro.Cedula;
+            foreach (var fila in pendientes.Evaluaciones) fila.Docente = Maestro.Cedula;
+            foreach (var fila in pendientes.Experiencias) fila.Docente = Maestro.Cedula;
+            foreach (var fila in pendientes.Reconocimientos) fila.Docente = Maestro.Cedula;
+            foreach (var fila in pendientes.Departamentos) fila.Docente = Maestro.Cedula;
+            foreach (var fila in pendientes.Intereses) fila.Docente = Maestro.Cedula;
+            foreach (var fila in pendientes.Redes) fila.Docente = Maestro.Cedula;
+            var r = await Expedientes.GuardarDocente(Maestro, pendientes, Nuevo);
+            if (r.Ok) { pendientes = new(); mensaje = "Se guardó el expediente completo."; await Cargar(); await Guardado.InvokeAsync(); }
+            else errores = r.Errores;
+        }
+        finally { guardando = false; }
+    }
+}

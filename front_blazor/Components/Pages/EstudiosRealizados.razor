@@ -1,4 +1,4 @@
-﻿@page "/estudios-realizados"
+@page "/estudios-realizados"
 @rendermode InteractiveServer
 @inject ServicioEstudioRealizado Servicio
 @inject ServicioDocente ServicioDocentes
@@ -74,7 +74,7 @@
                 @foreach (var docente in docentes)
                 {
                     <option value="@docente.Cedula">
-                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                        @docente.Nombres @docente.Apellidos
                     </option>
                 }
             </select>
@@ -102,6 +102,8 @@
             País
             <input type="text" maxlength="45" @bind="campoPais" />
         </label>
+
+        <DetallesEstudio Maestro="Construir()" Nuevo="@(!editando)" Guardado="ExpedienteGuardado" />
 
         <div class="pareja">
 
@@ -301,6 +303,8 @@ else
         errores.Clear();
         exito = string.Empty;
     }
+
+    private async Task ExpedienteGuardado() { if (!editando) mostrandoFormulario = false; await Cargar(); }
 
     private async Task Crear()
     {

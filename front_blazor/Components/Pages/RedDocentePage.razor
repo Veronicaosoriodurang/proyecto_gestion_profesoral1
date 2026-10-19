@@ -1,4 +1,4 @@
-﻿@page "/red-docente"
+@page "/red-docente"
 @rendermode InteractiveServer
 @inject ServicioRedDocente Servicio
 @inject ServicioDocente ServicioDocentes
@@ -52,7 +52,7 @@
                 @foreach (var red in redes)
                 {
                     <option value="@red.Idr">
-                        @red.Idr - @red.Nombre
+                        @red.Nombre
                     </option>
                 }
             </select>
@@ -66,7 +66,7 @@
                 @foreach (var docente in docentes)
                 {
                     <option value="@docente.Cedula">
-                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                        @docente.Nombres @docente.Apellidos
                     </option>
                 }
             </select>

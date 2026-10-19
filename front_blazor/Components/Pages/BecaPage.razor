@@ -1,4 +1,4 @@
-﻿@page "/becas"
+@page "/becas"
 @rendermode InteractiveServer
 @inject ServicioBeca Servicio
 @inject ServicioEstudioRealizado ServicioEstudios
@@ -48,7 +48,7 @@
                 @foreach (var estudio in estudios)
                 {
                     <option value="@estudio.Id">
-                        @estudio.Id - @estudio.Titulo
+                        @estudio.Titulo
                     </option>
                 }
             </select>

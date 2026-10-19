@@ -50,6 +50,9 @@ builder.Services.AddScoped<IServicioApoyoProfesoral, ServicioApoyoProfesoral>();
 builder.Services.AddScoped<IRepositorioBeca, RepositorioBecaSqlServer>();
 builder.Services.AddScoped<IServicioBeca, ServicioBeca>();
 
+builder.Services.AddScoped<IReglasRetiro, ReglasRetiroSqlServer>();
+builder.Services.AddScoped<IRepositorioExpedientes, RepositorioExpedientes>();
+builder.Services.AddScoped<IServicioExpedientes, ServicioExpedientes>();
 builder.Services.AddControllers();
 
 // ============================================================
@@ -89,7 +92,7 @@ app.UseSwaggerUI();
 app.MapGet("/", () => Results.Ok(new
 {
     mensaje = "API Gestión Profesoral — módulo de programas",
-    version = "v1",
+    version = "v2",
     contratos = "/swagger"
 }));
 

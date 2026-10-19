@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Peticiones;
 using ApiGestion.Repositorios;
@@ -128,7 +128,7 @@ public class ServicioEvaluacionDocente
         var docente = await _docentes.ObtenerPorId(cedula);
 
         if (docente == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El docente con cédula {cedula} no existe o no está activo.");
     }
 }

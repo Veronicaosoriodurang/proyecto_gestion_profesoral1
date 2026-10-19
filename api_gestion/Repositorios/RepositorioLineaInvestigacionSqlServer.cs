@@ -1,147 +1,73 @@
-﻿using ApiGestion.Modelos;
+using System.Data;
+using ApiGestion.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
 public class RepositorioLineaInvestigacionSqlServer : IRepositorioLineaInvestigacion
 {
-    private readonly string _cadenaConexion;
+    static RepositorioLineaInvestigacionSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioLineaInvestigacionSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
 
-    public RepositorioLineaInvestigacionSqlServer(IConfiguration configuracion)
+    internal static DynamicParameters Parametros(LineaInvestigacion entidad)
     {
-        _cadenaConexion =
-            configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException(
-                "No se encontró la cadena de conexión 'SqlServer'.");
+        var p = new DynamicParameters();
+        p.Add("Nombre", entidad.Nombre);
+        p.Add("Descripcion", entidad.Descripcion);
+        return p;
     }
 
     public async Task<IEnumerable<LineaInvestigacion>> ObtenerTodos(int limite)
     {
-        const string sql = """
-            SELECT TOP (@Limite)
-                id AS Id,
-                nombre AS Nombre,
-                descripcion AS Descripcion
-            FROM linea_investigacion
-            WHERE activo = 1
-            ORDER BY id;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.QueryAsync<LineaInvestigacion>(
-            sql,
-            new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<LineaInvestigacion>("dbo.sp_listar_linea_investigacion", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<LineaInvestigacion?> ObtenerPorId(int id)
     {
-        const string sql = """
-            SELECT
-                id AS Id,
-                nombre AS Nombre,
-                descripcion AS Descripcion
-            FROM linea_investigacion
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.QuerySingleOrDefaultAsync<LineaInvestigacion>(
-            sql,
-            new { Id = id });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Id", id);
+        return await conexion.QuerySingleOrDefaultAsync<LineaInvestigacion>("dbo.sp_consultar_linea_investigacion", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task Crear(LineaInvestigacion linea)
     {
-        const string sql = """
-            INSERT INTO linea_investigacion
-            (
-                nombre,
-                descripcion,
-                activo
-            )
-            VALUES
-            (
-                @Nombre,
-                @Descripcion,
-                1
-            );
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        await conexion.ExecuteAsync(sql, linea);
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<LineaInvestigacion>("dbo.sp_crear_linea_investigacion", Parametros(linea), commandType: CommandType.StoredProcedure);
+        linea.Id = guardada.Id;
+        linea.Nombre = guardada.Nombre;
+        linea.Descripcion = guardada.Descripcion;
     }
 
     public async Task<int> Reemplazar(LineaInvestigacion linea)
     {
-        const string sql = """
-            UPDATE linea_investigacion
-            SET
-                nombre = @Nombre,
-                descripcion = @Descripcion
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(sql, linea);
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(linea);
+        p.Add("OriginalId", linea.Id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_linea_investigacion", p, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> ActualizarParcial(
-        int id,
-        LineaInvestigacionCampos campos)
+    public async Task<int> ActualizarParcial(int id, LineaInvestigacionCampos campos)
     {
-        var cambios = new List<string>();
-
-        var parametros = new DynamicParameters();
-        parametros.Add("Id", id);
-
-        if (campos.Nombre != null)
-        {
-            cambios.Add("nombre = @Nombre");
-            parametros.Add("Nombre", campos.Nombre);
-        }
-
-        if (campos.Descripcion != null)
-        {
-            cambios.Add("descripcion = @Descripcion");
-            parametros.Add("Descripcion", campos.Descripcion);
-        }
-
-        if (cambios.Count == 0)
-            return 0;
-
-        var sql = $"""
-            UPDATE linea_investigacion
-            SET {string.Join(", ", cambios)}
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(sql, parametros);
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Nombre", campos.Nombre);
+        p.Add("Descripcion", campos.Descripcion);
+        p.Add("Parcial", true);
+        p.Add("OriginalId", id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_linea_investigacion", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> EliminarLogico(int id)
     {
-        const string sql = """
-            UPDATE linea_investigacion
-            SET activo = 0
-            WHERE id = @Id
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new { Id = id });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Id", id);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_linea_investigacion", p, commandType: CommandType.StoredProcedure);
     }
 }
-

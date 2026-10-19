@@ -130,6 +130,8 @@
             </select>
         </label>
 
+        <DetallesDocente Maestro="ArmarFicha()" Nuevo="@(!editando)" Guardado="ExpedienteGuardado" />
+
         <div class="pareja">
             @if (editando)
             {
@@ -138,12 +140,6 @@
                 </button>
                 <button class="boton" @onclick="GuardarLoQueCambio" disabled="@guardando">
                     Guardar solo lo que cambié
-                </button>
-            }
-            else
-            {
-                <button class="boton primario" @onclick="Crear" disabled="@guardando">
-                    Agregar
                 </button>
             }
             <button class="boton" @onclick="Cancelar" disabled="@guardando">Cancelar</button>
@@ -173,7 +169,7 @@ else if (filas.Count > 0)
                     <th>Apellidos</th>
                     <th>Cargo</th>
                     <th>Correo</th>
-                    <th>Línea principal</th>
+                    <th>Línea principal</th><th>Estudios activos</th>
                     <th></th>
                 </tr>
             </thead>
@@ -186,7 +182,7 @@ else if (filas.Count > 0)
                         <td>@fila.Apellidos</td>
                         <td>@fila.Cargo</td>
                         <td>@fila.Correo</td>
-                        <td>@NombreLinea(fila.LineaInvestigacionPrincipal)</td>
+                        <td>@NombreLinea(fila.LineaInvestigacionPrincipal)</td><td>@fila.TotalEstudios</td>
                         <td>
                             <div class="acciones">
                                 <button class="boton" @onclick="() => Editar(fila)">Editar</button>
@@ -358,6 +354,8 @@ else
         Nacionalidaad = campoNacionalidaad.Trim(),
         LineaInvestigacionPrincipal = LineaSeleccionada()
     };
+
+    private async Task ExpedienteGuardado() { if (!editando) mostrandoFormulario = false; await Cargar(); }
 
     private async Task Crear()
     {

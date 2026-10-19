@@ -13,10 +13,13 @@ DB=gestion_local
 echo "[init] ¿Existe ya la base $DB?"
 EXISTE=$($SQLCMD -S $SERVER -U sa -P "$MSSQL_SA_PASSWORD" -C -h -1 -W   -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name = '$DB'")
 if [ "$EXISTE" = "1" ]; then
-    echo "[init] Ya existe. No se hace nada."; exit 0
+    echo "[init] Aplicando migración V2 sin recrear datos."
+    $SQLCMD -S $SERVER -U sa -P "$MSSQL_SA_PASSWORD" -C -b -d $DB -i /scripts/version_2.sql
+    exit 0
 fi
 echo "[init] Creando la base $DB..."
 $SQLCMD -S $SERVER -U sa -P "$MSSQL_SA_PASSWORD" -C -Q "CREATE DATABASE $DB"
 echo "[init] Ejecutando gestion_profesoral.sql (19 tablas y el catálogo)..."
-$SQLCMD -S $SERVER -U sa -P "$MSSQL_SA_PASSWORD" -C -d $DB -i /scripts/gestion_profesoral.sql
+$SQLCMD -S $SERVER -U sa -P "$MSSQL_SA_PASSWORD" -C -b -d $DB -i /scripts/gestion_profesoral.sql
+$SQLCMD -S $SERVER -U sa -P "$MSSQL_SA_PASSWORD" -C -b -d $DB -i /scripts/version_2.sql
 echo "[init] Listo: la base quedó creada y sembrada."

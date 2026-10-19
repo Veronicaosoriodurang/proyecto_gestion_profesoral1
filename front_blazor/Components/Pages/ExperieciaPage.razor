@@ -1,4 +1,4 @@
-﻿@page "/experiecia"
+@page "/experiecia"
 @rendermode InteractiveServer
 @inject ServicioExperiecia Servicio
 @inject ServicioDocente ServicioDocentes
@@ -81,7 +81,7 @@
                 @foreach (var docente in docentes)
                 {
                     <option value="@docente.Cedula">
-                        @docente.Cedula - @docente.Nombres @docente.Apellidos
+                        @docente.Nombres @docente.Apellidos
                     </option>
                 }
             </select>

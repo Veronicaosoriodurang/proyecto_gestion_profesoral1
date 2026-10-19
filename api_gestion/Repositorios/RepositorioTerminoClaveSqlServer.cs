@@ -1,128 +1,70 @@
-﻿using ApiGestion.Modelos;
+using System.Data;
+using ApiGestion.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
 public class RepositorioTerminoClaveSqlServer : IRepositorioTerminoClave
 {
-    private readonly string _cadenaConexion;
+    static RepositorioTerminoClaveSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioTerminoClaveSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
 
-    public RepositorioTerminoClaveSqlServer(IConfiguration configuracion)
+    internal static DynamicParameters Parametros(TerminoClave entidad)
     {
-        _cadenaConexion =
-            configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException(
-                "No se encontró la cadena de conexión 'SqlServer'.");
+        var p = new DynamicParameters();
+        p.Add("Termino", entidad.Termino);
+        p.Add("TerminoIngles", entidad.TerminoIngles);
+        return p;
     }
 
     public async Task<IEnumerable<TerminoClave>> ObtenerTodos(int limite)
     {
-        const string sql = """
-            SELECT TOP (@Limite)
-                termino AS Termino,
-                termino_ingles AS TerminoIngles
-            FROM termino_clave
-            WHERE activo = 1
-            ORDER BY termino;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.QueryAsync<TerminoClave>(
-            sql,
-            new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<TerminoClave>("dbo.sp_listar_termino_clave", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<TerminoClave?> ObtenerPorTermino(string termino)
     {
-        const string sql = """
-            SELECT
-                termino AS Termino,
-                termino_ingles AS TerminoIngles
-            FROM termino_clave
-            WHERE termino = @Termino
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.QuerySingleOrDefaultAsync<TerminoClave>(
-            sql,
-            new { Termino = termino });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QuerySingleOrDefaultAsync<TerminoClave>("dbo.sp_consultar_termino_clave", new { Termino = termino }, commandType: CommandType.StoredProcedure);
     }
 
     public async Task Crear(TerminoClave terminoClave)
     {
-        const string sql = """
-            INSERT INTO termino_clave
-            (
-                termino,
-                termino_ingles,
-                activo
-            )
-            VALUES
-            (
-                @Termino,
-                @TerminoIngles,
-                1
-            );
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        await conexion.ExecuteAsync(sql, terminoClave);
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<TerminoClave>("dbo.sp_crear_termino_clave", Parametros(terminoClave), commandType: CommandType.StoredProcedure);
+        terminoClave.Termino = guardada.Termino;
+        terminoClave.TerminoIngles = guardada.TerminoIngles;
     }
 
     public async Task<int> Reemplazar(TerminoClave terminoClave)
     {
-        const string sql = """
-            UPDATE termino_clave
-            SET termino_ingles = @TerminoIngles
-            WHERE termino = @Termino
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(sql, terminoClave);
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(terminoClave);
+        p.Add("OriginalTermino", terminoClave.Termino);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_termino_clave", p, commandType: CommandType.StoredProcedure);
     }
 
-    public async Task<int> ActualizarParcial(
-        string termino,
-        TerminoClaveCampos campos)
+    public async Task<int> ActualizarParcial(string termino, TerminoClaveCampos campos)
     {
-        const string sql = """
-            UPDATE termino_clave
-            SET termino_ingles = @TerminoIngles
-            WHERE termino = @Termino
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new
-            {
-                Termino = termino,
-                campos.TerminoIngles
-            });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("TerminoIngles", campos.TerminoIngles);
+        p.Add("Termino", termino);
+        p.Add("Parcial", true);
+        p.Add("OriginalTermino", termino);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_termino_clave", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> EliminarLogico(string termino)
     {
-        const string sql = """
-            UPDATE termino_clave
-            SET activo = 0
-            WHERE termino = @Termino
-              AND activo = 1;
-            """;
-
-        await using var conexion = new SqlConnection(_cadenaConexion);
-
-        return await conexion.ExecuteAsync(
-            sql,
-            new { Termino = termino });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Termino", termino);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_termino_clave", p, commandType: CommandType.StoredProcedure);
     }
 }

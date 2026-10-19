@@ -1,0 +1,15 @@
+Base aislada: gestion_v2_validacion en contenedor gestion-v2-pruebas.
+Comandos ejecutados con sqlcmd -b; todos finalizaron con código 0.
+
+Persistencia (evidencias/persistencia.sql):
+OK: las 16 filas retiradas permanecen físicamente en SQL Server.
+
+Trigger (pruebas_v2/trigger.sql):
+OK: INSERT múltiple, traslado, retiro lógico, reactivación y DELETE múltiple. Todo revertido.
+
+Migración:
+Se convirtió total_estudios en nullable y se retiró su default SOLO en la base aislada.
+Se reaplicó db/version_2.sql.
+cmp migracion_antes.txt migracion_despues.txt terminó con código 0.
+Se comprobó is_nullable=0 y default_object_id distinto de 0.
+OK: migración reaplicada conserva filas y activos y normaliza columna existente.

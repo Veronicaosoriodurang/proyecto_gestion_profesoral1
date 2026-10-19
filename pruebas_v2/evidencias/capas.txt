@@ -1,0 +1,12 @@
+=== Prueba de capas — SIN base de datos ===
+[OK] El sistema arranca vacío: sin programas.
+[OK] Programa creado y listado: Ingenieria de Sistemas
+[OK] fechaCierre admite nulos: el programa está abierto.
+[OK] Buscar un código inexistente lanza NoEncontradoExcepcion.
+[OK] Límite menor o igual a cero rechazado con ArgumentException.
+[OK] Cuerpo vacío en actualización parcial rechazado con ArgumentException.
+[OK] La actualización parcial cambió solo la ciudad.
+[OK] Primera eliminación realizada.
+[OK] Segunda eliminación rechazada: para la API ya no existe.
+[OK] Tras el borrado, el sistema vuelve a estar vacío.
+=== Prueba de capas completada CON ÉXITO ===

@@ -1,4 +1,4 @@
-﻿@page "/estudio-ac"
+@page "/estudio-ac"
 @rendermode InteractiveServer
 @inject ServicioEstudioAc Servicio
 @inject ServicioEstudioRealizado ServicioEstudios
@@ -51,7 +51,7 @@
                 @foreach (var estudio in estudios)
                 {
                     <option value="@estudio.Id">
-                        @estudio.Id - @estudio.Titulo
+                        @estudio.Titulo
                     </option>
                 }
             </select>
@@ -65,7 +65,7 @@
                 @foreach (var area in areas)
                 {
                     <option value="@area.Id">
-                        @area.Id - @area.Area
+                        @area.Area
                     </option>
                 }
             </select>

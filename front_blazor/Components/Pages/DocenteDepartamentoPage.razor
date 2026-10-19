@@ -1,4 +1,4 @@
-﻿@page "/docente-departamento"
+@page "/docente-departamento"
 @rendermode InteractiveServer
 @using FrontGestion.Servicios
 @inject ServicioDocenteDepartamento Servicio
@@ -49,7 +49,6 @@
                     @foreach (var docente in docentes)
                     {
                         <option value="@docente.Cedula">
-                            @docente.Cedula -
                             @docente.Nombres
                             @docente.Apellidos
                         </option>
@@ -74,7 +73,7 @@
                     @foreach (var programa in programas)
                     {
                         <option value="@programa.Id">
-                            @programa.Id - @programa.Nombre
+                            @programa.Nombre
                         </option>
                     }
 

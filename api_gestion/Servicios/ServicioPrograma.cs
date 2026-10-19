@@ -11,10 +11,12 @@ namespace ApiGestion.Servicios;
 /// </summary>
 public class ServicioPrograma : IServicioPrograma
 {
+    private readonly IReglasRetiro? reglasRetiro;
     private readonly IRepositorioPrograma _repositorio;
 
-    public ServicioPrograma(IRepositorioPrograma repositorio)
+    public ServicioPrograma(IRepositorioPrograma repositorio, IReglasRetiro? reglasRetiro = null)
     {
+        this.reglasRetiro = reglasRetiro;
         _repositorio = repositorio;
     }
 
@@ -81,6 +83,7 @@ public class ServicioPrograma : IServicioPrograma
 
     public async Task<int> Eliminar(int id)
     {
+        if (reglasRetiro != null) await reglasRetiro.Comprobar("programa", new { Id = id });
         var filasAfectadas = await _repositorio.EliminarLogico(id);
         if (filasAfectadas == 0)
         {

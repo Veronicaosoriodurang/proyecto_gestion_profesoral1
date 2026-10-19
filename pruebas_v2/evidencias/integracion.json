@@ -1,0 +1,4699 @@
+{
+  "fecha": "2026-10-16T07:55:58.088314+00:00",
+  "api": "http://localhost:8074",
+  "identificador": 242587781,
+  "marca": "VB81D",
+  "filas": {
+    "area_conocimiento": {
+      "id": "VB81D",
+      "granArea": "Prueba VB81D",
+      "area": "Prueba VB81D",
+      "disciplina": "Prueba VB81D"
+    },
+    "termino_clave": {
+      "termino": "Prueba VB81D",
+      "terminoIngles": null
+    },
+    "linea_investigacion": {
+      "id": 1,
+      "nombre": "Prueba VB81D",
+      "descripcion": "Prueba VB81D"
+    },
+    "programa": {
+      "id": 242587781,
+      "nombre": "Prueba VB81D",
+      "tipo": "Prueba VB81D",
+      "nivel": "Prueba VB81D",
+      "fechaCreacion": "Prueba VB81D",
+      "fechaCierre": null,
+      "numeroCohortes": "Prueba VB81D",
+      "cantGraduados": "Prueba VB81D",
+      "fechaActualizacion": "Prueba VB81D",
+      "ciudad": "Prueba VB81D",
+      "facultad": 242587781
+    },
+    "red": {
+      "idr": 242587781,
+      "nombre": "Prueba VB81D",
+      "url": "https://universidad.edu/pruebas",
+      "pais": "Prueba VB81D"
+    },
+    "docente": {
+      "totalEstudios": 0,
+      "cedula": 242587781,
+      "nombres": "Prueba VB81D",
+      "apellidos": "Prueba VB81D",
+      "genero": "Prueba VB81D",
+      "cargo": "Prueba VB81D",
+      "fechaNacimiento": "2026-01-02",
+      "correo": "VB81D@universidad.edu",
+      "telefono": "Prueba VB81D",
+      "urlCvlac": "https://universidad.edu/pruebas",
+      "fechaActualizacion": "2026-01-02",
+      "escalafon": "Prueba VB81D",
+      "perfil": "Prueba VB81D",
+      "catMinciencia": null,
+      "convMinciencia": "Prueba VB81D",
+      "nacionalidaad": "Prueba VB81D",
+      "lineaInvestigacionPrincipal": 1
+    },
+    "estudios_realizados": {
+      "id": 242587781,
+      "titulo": "Prueba VB81D",
+      "universidad": "Prueba VB81D",
+      "fecha": "2026-01-02",
+      "tipo": "Prueba VB81D",
+      "ciudad": "Prueba VB81D",
+      "docente": 242587781,
+      "insAcreditada": 1,
+      "metodologia": "Prueba VB81D",
+      "perfilEgresado": "Prueba VB81D",
+      "pais": "Prueba VB81D"
+    },
+    "docente_departamento": {
+      "docente": 242587781,
+      "departamento": 242587781,
+      "dedicacion": "Prueba VB81D",
+      "modalidad": "Prueba VB81D",
+      "fechaIngreso": "2026-01-02",
+      "fechaSalida": null
+    },
+    "intereses_futuros": {
+      "docente": 242587781,
+      "terminoClave": "Prueba VB81D"
+    },
+    "evaluacion_docente": {
+      "id": 1,
+      "calificacion": 4.5,
+      "semestre": "Prueba VB81D",
+      "docente": 242587781
+    },
+    "reconocimiento": {
+      "id": 1,
+      "tipo": "Prueba VB81D",
+      "fecha": "2026-01-02",
+      "institucion": "Prueba VB81D",
+      "nombre": "Prueba VB81D",
+      "ambito": "Prueba VB81D",
+      "docente": 242587781
+    },
+    "experiecia": {
+      "id": 1,
+      "nombreCargo": "Prueba VB81D",
+      "institucion": "Prueba VB81D",
+      "tipo": "Prueba VB81D",
+      "fechaInicio": "2026-01-02",
+      "fechaFin": null,
+      "docente": 242587781
+    },
+    "red_docente": {
+      "red": 242587781,
+      "docente": 242587781,
+      "fechaInicio": "2026-01-02",
+      "fechaFin": null,
+      "actDestacadas": "Prueba VB81D"
+    },
+    "estudio_ac": {
+      "estudio": 242587781,
+      "areaConocimiento": "VB81D"
+    },
+    "apoyo_profesoral": {
+      "estudios": 242587781,
+      "conApoyo": 1,
+      "institucion": "Prueba VB81D",
+      "tipo": "Prueba VB81D"
+    },
+    "beca": {
+      "estudios": 242587781,
+      "tipo": "Prueba VB81D",
+      "institucion": "Prueba VB81D",
+      "fechaInicio": "2026-01-02",
+      "fechaFin": null
+    }
+  },
+  "claves": {
+    "area_conocimiento": "/api/area-conocimiento/VB81D",
+    "termino_clave": "/api/termino-clave/Prueba%20VB81D",
+    "linea_investigacion": "/api/linea-investigacion/1",
+    "programa": "/api/programa/242587781",
+    "red": "/api/red/242587781",
+    "docente": "/api/docente/242587781",
+    "estudios_realizados": "/api/estudios-realizados/242587781",
+    "docente_departamento": "/api/docente-departamento/242587781/242587781",
+    "intereses_futuros": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+    "evaluacion_docente": "/api/evaluacion-docente/1",
+    "reconocimiento": "/api/reconocimiento/1",
+    "experiecia": "/api/experiecia/1",
+    "red_docente": "/api/red-docente/242587781/242587781",
+    "estudio_ac": "/api/estudio-ac/242587781/VB81D",
+    "apoyo_profesoral": "/api/apoyo-profesoral/242587781",
+    "beca": "/api/beca/242587781"
+  },
+  "comprobaciones": [
+    {
+      "prueba": "POST /api/area-conocimiento: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/area-conocimiento?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "area_conocimiento: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "area_conocimiento: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/area-conocimiento/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/area-conocimiento?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/area-conocimiento: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/area-conocimiento/VB81D: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/area-conocimiento/VB81D: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/area-conocimiento/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/area-conocimiento/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "area_conocimiento: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/area-conocimiento/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/area-conocimiento/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "area_conocimiento: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/area-conocimiento: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/termino-clave: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/termino-clave?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "termino_clave: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "termino_clave: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/termino-clave/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/termino-clave?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/termino-clave: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/termino-clave/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/termino-clave/Prueba%20VB81D: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/termino-clave/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/termino-clave/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "termino_clave: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/termino-clave/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/termino-clave/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "termino_clave: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/termino-clave: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/linea-investigacion: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/linea-investigacion?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "linea_investigacion: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "linea_investigacion: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/linea-investigacion/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/linea-investigacion?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/linea-investigacion: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/linea-investigacion/1: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/linea-investigacion/1: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/linea-investigacion/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/linea-investigacion/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "linea_investigacion: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/linea-investigacion/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/linea-investigacion/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "linea_investigacion: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/programa: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/programa?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "programa: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "programa: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/programa/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/programa?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/programa: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/programa/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/programa/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/programa/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/programa/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "programa: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/programa/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/programa/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "programa: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/programa: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "red: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "red: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/red/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/red/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/red/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "red: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/red/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "red: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "docente: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/docente/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/docente/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente.linea_investigacion_principal: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudios-realizados: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudios_realizados: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "estudios_realizados: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudios-realizados: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/estudios-realizados/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/estudios-realizados/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudios_realizados: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudios_realizados: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudios-realizados: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudios-realizados: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudios_realizados.docente: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente-departamento: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente-departamento?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente_departamento: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "docente_departamento: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente-departamento/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente-departamento?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente-departamento: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/docente-departamento/242587781/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/docente-departamento/242587781/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/docente-departamento/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente-departamento/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente_departamento: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/docente-departamento/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente-departamento/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente_departamento: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente-departamento: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente-departamento: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente_departamento.docente: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente-departamento: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "docente_departamento.departamento: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/intereses-futuros: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/intereses-futuros?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "intereses_futuros: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "intereses_futuros: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/intereses-futuros?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/intereses-futuros: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "intereses_futuros: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "intereses_futuros: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/intereses-futuros: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/intereses-futuros: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "intereses_futuros.docente: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/intereses-futuros: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "intereses_futuros.termino_clave: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/evaluacion-docente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/evaluacion-docente?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "evaluacion_docente: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "evaluacion_docente: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/evaluacion-docente/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/evaluacion-docente?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/evaluacion-docente: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/evaluacion-docente/1: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/evaluacion-docente/1: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/evaluacion-docente/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/evaluacion-docente/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "evaluacion_docente: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/evaluacion-docente/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/evaluacion-docente/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "evaluacion_docente: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/evaluacion-docente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "evaluacion_docente.docente: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/reconocimiento: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/reconocimiento?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "reconocimiento: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "reconocimiento: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/reconocimiento/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/reconocimiento?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/reconocimiento: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/reconocimiento/1: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/reconocimiento/1: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/reconocimiento/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/reconocimiento/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "reconocimiento: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/reconocimiento/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/reconocimiento/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "reconocimiento: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/reconocimiento: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "reconocimiento.docente: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/experiecia: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/experiecia?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "experiecia: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "experiecia: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/experiecia/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/experiecia?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/experiecia: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/experiecia/1: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/experiecia/1: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/experiecia/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/experiecia/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "experiecia: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/experiecia/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/experiecia/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "experiecia: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/experiecia: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "experiecia.docente: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red-docente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red-docente?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "red_docente: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "red_docente: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red-docente/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red-docente?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red-docente: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/red-docente/242587781/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/red-docente/242587781/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/red-docente/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red-docente/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "red_docente: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/red-docente/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red-docente/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "red_docente: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red-docente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red-docente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "red_docente.red: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/red-docente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "red_docente.docente: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudio-ac: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudio-ac?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudio_ac: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "estudio_ac: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudio-ac/242587781/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudio-ac?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudio-ac: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/estudio-ac/242587781/VB81D: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/estudio-ac/242587781/VB81D: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/estudio-ac/242587781/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudio-ac/242587781/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudio_ac: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/estudio-ac/242587781/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudio-ac/242587781/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudio_ac: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudio-ac: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudio-ac: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudio_ac.estudio: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudio-ac: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "estudio_ac.area_conocimiento: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/apoyo-profesoral: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/apoyo-profesoral?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "apoyo_profesoral: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "apoyo_profesoral: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/apoyo-profesoral/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/apoyo-profesoral?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/apoyo-profesoral: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/apoyo-profesoral/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/apoyo-profesoral/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/apoyo-profesoral/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/apoyo-profesoral/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "apoyo_profesoral: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/apoyo-profesoral/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/apoyo-profesoral/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "apoyo_profesoral: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/apoyo-profesoral: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/apoyo-profesoral: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "apoyo_profesoral.estudios: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/beca: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/beca?limite=2147483647: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "beca: crear devuelve valores persistidos en listado",
+      "paso": true
+    },
+    {
+      "prueba": "beca: respuesta contiene la fila persistida y su identidad",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/beca/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/beca?limite=0: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/beca: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/beca/242587781: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/beca/242587781: esperado 400, recibido 400; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/beca/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/beca/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "beca: modificación parcial persistida",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/beca/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/beca/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "beca: reemplazo completo conserva valores y opcionales nulos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/beca: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/beca: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "beca.estudios: conflicto con mensaje en español",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Trigger: crear estudio incrementa contador",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente/expediente: esperado 422, recibido 422; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "PUT: limpiar la relación opcional conserva null",
+      "paso": true
+    },
+    {
+      "prueba": "PUT /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/programa/242587781: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/area-conocimiento/VB81D: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/termino-clave/Prueba%20VB81D: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/linea-investigacion/1: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/red/242587781: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/docente/242587781: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudios-realizados/242587781: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Trigger: traslado decrementa maestro anterior",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587782: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Trigger: traslado incrementa maestro nuevo",
+      "paso": true
+    },
+    {
+      "prueba": "PATCH /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/docente/242587782: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente/242587781/detalles: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados/242587783: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Atomicidad: rollback también revierte contador",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Atomicidad: fallo del detalle revierte cambios de la ficha",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente/242587781/detalles: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Atomicidad: dos renglones guardados en un solo envío",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781/expediente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Expediente muestra solo detalles del maestro",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudios-realizados/expediente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados/242587785: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudios-realizados/expediente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados/242587785/expediente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "Estudio maestro, beca y puente guardados juntos",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente/expediente: esperado 409, recibido 409; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587786: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/docente/expediente: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/intereses-futuros/242587786/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/docente/242587786: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudio-ac/242587785/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/beca/242587785: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudios-realizados/242587783: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudios-realizados/242587784: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudios-realizados/242587785: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/beca/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/beca/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/beca/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/beca: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/apoyo-profesoral/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/apoyo-profesoral/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/apoyo-profesoral/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/apoyo-profesoral: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudio-ac/242587781/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudio-ac/242587781/VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudio-ac/242587781/VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudio-ac: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/red-docente/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red-docente/242587781/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/red-docente/242587781/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red-docente: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/experiecia/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/experiecia/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/experiecia/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/experiecia: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/reconocimiento/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/reconocimiento/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/reconocimiento/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/reconocimiento: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/evaluacion-docente/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/evaluacion-docente/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/evaluacion-docente/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/evaluacion-docente: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/intereses-futuros/242587781/Prueba%20VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/intereses-futuros: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/docente-departamento/242587781/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente-departamento/242587781/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/docente-departamento/242587781/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente-departamento: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudios-realizados/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/estudios-realizados/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/estudios-realizados: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/docente/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/docente/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/red/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/red/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/red: esperado [200, 204], recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "red: listado excluye retirados",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/programa/242587781: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/programa/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/programa/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/programa: esperado [200, 204], recibido 204; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/linea-investigacion/1: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/linea-investigacion/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/linea-investigacion/1: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/linea-investigacion: esperado [200, 204], recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "linea_investigacion: listado excluye retirados",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/termino-clave/Prueba%20VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/termino-clave/Prueba%20VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/termino-clave/Prueba%20VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/termino-clave: esperado [200, 204], recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "termino_clave: listado excluye retirados",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/area-conocimiento/VB81D: esperado 200, recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/area-conocimiento/VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "DELETE /api/area-conocimiento/VB81D: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/area-conocimiento: esperado [200, 204], recibido 200; ",
+      "paso": true
+    },
+    {
+      "prueba": "area_conocimiento: listado excluye retirados",
+      "paso": true
+    },
+    {
+      "prueba": "GET /api/docente/242587781: esperado 404, recibido 404; ",
+      "paso": true
+    },
+    {
+      "prueba": "Docente retirado no consultable",
+      "paso": true
+    },
+    {
+      "prueba": "POST /api/estudios-realizados: esperado 409, recibido 409; ",
+      "paso": true
+    }
+  ],
+  "peticiones": [
+    {
+      "metodo": "POST",
+      "ruta": "/api/area-conocimiento",
+      "cuerpo": {
+        "id": "VB81D",
+        "granArea": "Prueba VB81D",
+        "area": "Prueba VB81D",
+        "disciplina": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/area-conocimiento?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/area-conocimiento?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/area-conocimiento",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": {
+        "granArea": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": {
+        "id": "VB81D",
+        "granArea": "Prueba VB81D",
+        "area": "Prueba VB81D",
+        "disciplina": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/area-conocimiento",
+      "cuerpo": {
+        "id": "VB81D",
+        "granArea": "Prueba VB81D",
+        "area": "Prueba VB81D",
+        "disciplina": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/termino-clave",
+      "cuerpo": {
+        "termino": "Prueba VB81D",
+        "terminoIngles": null
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/termino-clave?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/termino-clave?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/termino-clave",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": {},
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": {
+        "terminoIngles": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": {
+        "termino": "Prueba VB81D",
+        "terminoIngles": null
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/termino-clave",
+      "cuerpo": {
+        "termino": "Prueba VB81D",
+        "terminoIngles": null
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/linea-investigacion",
+      "cuerpo": {
+        "nombre": "Prueba VB81D",
+        "descripcion": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/linea-investigacion?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/linea-investigacion?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/linea-investigacion",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": {
+        "nombre": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": {
+        "nombre": "Prueba VB81D",
+        "descripcion": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/programa",
+      "cuerpo": {
+        "id": 242587781,
+        "nombre": "Prueba VB81D",
+        "tipo": "Prueba VB81D",
+        "nivel": "Prueba VB81D",
+        "fechaCreacion": "Prueba VB81D",
+        "fechaCierre": null,
+        "numeroCohortes": "Prueba VB81D",
+        "cantGraduados": "Prueba VB81D",
+        "fechaActualizacion": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "facultad": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/programa?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/programa?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/programa",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": {
+        "nombre": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": {
+        "id": 242587781,
+        "nombre": "Prueba VB81D",
+        "tipo": "Prueba VB81D",
+        "nivel": "Prueba VB81D",
+        "fechaCreacion": "Prueba VB81D",
+        "fechaCierre": null,
+        "numeroCohortes": "Prueba VB81D",
+        "cantGraduados": "Prueba VB81D",
+        "fechaActualizacion": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "facultad": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/programa",
+      "cuerpo": {
+        "id": 242587781,
+        "nombre": "Prueba VB81D",
+        "tipo": "Prueba VB81D",
+        "nivel": "Prueba VB81D",
+        "fechaCreacion": "Prueba VB81D",
+        "fechaCierre": null,
+        "numeroCohortes": "Prueba VB81D",
+        "cantGraduados": "Prueba VB81D",
+        "fechaActualizacion": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "facultad": 242587781
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red",
+      "cuerpo": {
+        "idr": 242587781,
+        "nombre": "Prueba VB81D",
+        "url": "https://universidad.edu/pruebas",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/red/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/red/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/red/242587781",
+      "cuerpo": {
+        "nombre": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/red/242587781",
+      "cuerpo": {
+        "idr": 242587781,
+        "nombre": "Prueba VB81D",
+        "url": "https://universidad.edu/pruebas",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red",
+      "cuerpo": {
+        "idr": 242587781,
+        "nombre": "Prueba VB81D",
+        "url": "https://universidad.edu/pruebas",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente",
+      "cuerpo": {
+        "cedula": 242587781,
+        "nombres": "Prueba VB81D",
+        "apellidos": "Prueba VB81D",
+        "genero": "Prueba VB81D",
+        "cargo": "Prueba VB81D",
+        "fechaNacimiento": "2026-01-02",
+        "correo": "VB81D@universidad.edu",
+        "telefono": "Prueba VB81D",
+        "urlCvlac": "https://universidad.edu/pruebas",
+        "fechaActualizacion": "2026-01-02",
+        "escalafon": "Prueba VB81D",
+        "perfil": "Prueba VB81D",
+        "catMinciencia": null,
+        "convMinciencia": "Prueba VB81D",
+        "nacionalidaad": "Prueba VB81D",
+        "lineaInvestigacionPrincipal": 1
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": {
+        "nombres": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": {
+        "cedula": 242587781,
+        "nombres": "Prueba VB81D",
+        "apellidos": "Prueba VB81D",
+        "genero": "Prueba VB81D",
+        "cargo": "Prueba VB81D",
+        "fechaNacimiento": "2026-01-02",
+        "correo": "VB81D@universidad.edu",
+        "telefono": "Prueba VB81D",
+        "urlCvlac": "https://universidad.edu/pruebas",
+        "fechaActualizacion": "2026-01-02",
+        "escalafon": "Prueba VB81D",
+        "perfil": "Prueba VB81D",
+        "catMinciencia": null,
+        "convMinciencia": "Prueba VB81D",
+        "nacionalidaad": "Prueba VB81D",
+        "lineaInvestigacionPrincipal": 1
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente",
+      "cuerpo": {
+        "cedula": 242587781,
+        "nombres": "Prueba VB81D",
+        "apellidos": "Prueba VB81D",
+        "genero": "Prueba VB81D",
+        "cargo": "Prueba VB81D",
+        "fechaNacimiento": "2026-01-02",
+        "correo": "VB81D@universidad.edu",
+        "telefono": "Prueba VB81D",
+        "urlCvlac": "https://universidad.edu/pruebas",
+        "fechaActualizacion": "2026-01-02",
+        "escalafon": "Prueba VB81D",
+        "perfil": "Prueba VB81D",
+        "catMinciencia": null,
+        "convMinciencia": "Prueba VB81D",
+        "nacionalidaad": "Prueba VB81D",
+        "lineaInvestigacionPrincipal": 1
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente",
+      "cuerpo": {
+        "cedula": 242587781,
+        "nombres": "Prueba VB81D",
+        "apellidos": "Prueba VB81D",
+        "genero": "Prueba VB81D",
+        "cargo": "Prueba VB81D",
+        "fechaNacimiento": "2026-01-02",
+        "correo": "VB81D@universidad.edu",
+        "telefono": "Prueba VB81D",
+        "urlCvlac": "https://universidad.edu/pruebas",
+        "fechaActualizacion": "2026-01-02",
+        "escalafon": "Prueba VB81D",
+        "perfil": "Prueba VB81D",
+        "catMinciencia": null,
+        "convMinciencia": "Prueba VB81D",
+        "nacionalidaad": "Prueba VB81D",
+        "lineaInvestigacionPrincipal": -987654
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudios-realizados",
+      "cuerpo": {
+        "id": 242587781,
+        "titulo": "Prueba VB81D",
+        "universidad": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "tipo": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "docente": 242587781,
+        "insAcreditada": 1,
+        "metodologia": "Prueba VB81D",
+        "perfilEgresado": "Prueba VB81D",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudios-realizados",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": {
+        "titulo": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": {
+        "id": 242587781,
+        "titulo": "Prueba VB81D",
+        "universidad": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "tipo": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "docente": 242587781,
+        "insAcreditada": 1,
+        "metodologia": "Prueba VB81D",
+        "perfilEgresado": "Prueba VB81D",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudios-realizados",
+      "cuerpo": {
+        "id": 242587781,
+        "titulo": "Prueba VB81D",
+        "universidad": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "tipo": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "docente": 242587781,
+        "insAcreditada": 1,
+        "metodologia": "Prueba VB81D",
+        "perfilEgresado": "Prueba VB81D",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudios-realizados",
+      "cuerpo": {
+        "id": 242587781,
+        "titulo": "Prueba VB81D",
+        "universidad": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "tipo": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "docente": -987654,
+        "insAcreditada": 1,
+        "metodologia": "Prueba VB81D",
+        "perfilEgresado": "Prueba VB81D",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente-departamento",
+      "cuerpo": {
+        "docente": 242587781,
+        "departamento": 242587781,
+        "dedicacion": "Prueba VB81D",
+        "modalidad": "Prueba VB81D",
+        "fechaIngreso": "2026-01-02",
+        "fechaSalida": null
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente-departamento?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente-departamento?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente-departamento",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": {
+        "dedicacion": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": {
+        "docente": 242587781,
+        "departamento": 242587781,
+        "dedicacion": "Prueba VB81D",
+        "modalidad": "Prueba VB81D",
+        "fechaIngreso": "2026-01-02",
+        "fechaSalida": null
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente-departamento",
+      "cuerpo": {
+        "docente": 242587781,
+        "departamento": 242587781,
+        "dedicacion": "Prueba VB81D",
+        "modalidad": "Prueba VB81D",
+        "fechaIngreso": "2026-01-02",
+        "fechaSalida": null
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente-departamento",
+      "cuerpo": {
+        "docente": -987654,
+        "departamento": 242587781,
+        "dedicacion": "Prueba VB81D",
+        "modalidad": "Prueba VB81D",
+        "fechaIngreso": "2026-01-02",
+        "fechaSalida": null
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente-departamento",
+      "cuerpo": {
+        "docente": 242587781,
+        "departamento": -987654,
+        "dedicacion": "Prueba VB81D",
+        "modalidad": "Prueba VB81D",
+        "fechaIngreso": "2026-01-02",
+        "fechaSalida": null
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/intereses-futuros",
+      "cuerpo": {
+        "docente": 242587781,
+        "terminoClave": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/intereses-futuros?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/intereses-futuros?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/intereses-futuros",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": {
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": {
+        "docente": 242587781,
+        "terminoClave": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/intereses-futuros",
+      "cuerpo": {
+        "docente": 242587781,
+        "terminoClave": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/intereses-futuros",
+      "cuerpo": {
+        "docente": -987654,
+        "terminoClave": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/intereses-futuros",
+      "cuerpo": {
+        "docente": 242587781,
+        "terminoClave": "NOEX"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/evaluacion-docente",
+      "cuerpo": {
+        "calificacion": 4.5,
+        "semestre": "Prueba VB81D",
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/evaluacion-docente?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/evaluacion-docente?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/evaluacion-docente",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": {
+        "semestre": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": {
+        "calificacion": 4.5,
+        "semestre": "Prueba VB81D",
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/evaluacion-docente",
+      "cuerpo": {
+        "calificacion": 4.5,
+        "semestre": "Prueba VB81D",
+        "docente": -987654
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/reconocimiento",
+      "cuerpo": {
+        "tipo": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "institucion": "Prueba VB81D",
+        "nombre": "Prueba VB81D",
+        "ambito": "Prueba VB81D",
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/reconocimiento?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/reconocimiento?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/reconocimiento",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": {
+        "tipo": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": {
+        "tipo": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "institucion": "Prueba VB81D",
+        "nombre": "Prueba VB81D",
+        "ambito": "Prueba VB81D",
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/reconocimiento",
+      "cuerpo": {
+        "tipo": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "institucion": "Prueba VB81D",
+        "nombre": "Prueba VB81D",
+        "ambito": "Prueba VB81D",
+        "docente": -987654
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/experiecia",
+      "cuerpo": {
+        "nombreCargo": "Prueba VB81D",
+        "institucion": "Prueba VB81D",
+        "tipo": "Prueba VB81D",
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/experiecia?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/experiecia?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/experiecia",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": {
+        "nombreCargo": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": {
+        "nombreCargo": "Prueba VB81D",
+        "institucion": "Prueba VB81D",
+        "tipo": "Prueba VB81D",
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/experiecia",
+      "cuerpo": {
+        "nombreCargo": "Prueba VB81D",
+        "institucion": "Prueba VB81D",
+        "tipo": "Prueba VB81D",
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "docente": -987654
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red-docente",
+      "cuerpo": {
+        "red": 242587781,
+        "docente": 242587781,
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "actDestacadas": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red-docente?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red-docente?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red-docente",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": {
+        "fechaFin": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": {
+        "red": 242587781,
+        "docente": 242587781,
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "actDestacadas": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red-docente",
+      "cuerpo": {
+        "red": 242587781,
+        "docente": 242587781,
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "actDestacadas": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red-docente",
+      "cuerpo": {
+        "red": -987654,
+        "docente": 242587781,
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "actDestacadas": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/red-docente",
+      "cuerpo": {
+        "red": 242587781,
+        "docente": -987654,
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null,
+        "actDestacadas": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudio-ac",
+      "cuerpo": {
+        "estudio": 242587781,
+        "areaConocimiento": "VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudio-ac?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudio-ac?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudio-ac",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": {
+        "estudio": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": {
+        "estudio": 242587781,
+        "areaConocimiento": "VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudio-ac",
+      "cuerpo": {
+        "estudio": 242587781,
+        "areaConocimiento": "VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudio-ac",
+      "cuerpo": {
+        "estudio": -987654,
+        "areaConocimiento": "VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudio-ac",
+      "cuerpo": {
+        "estudio": 242587781,
+        "areaConocimiento": "NOEX"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/apoyo-profesoral",
+      "cuerpo": {
+        "estudios": 242587781,
+        "conApoyo": 1,
+        "institucion": "Prueba VB81D",
+        "tipo": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/apoyo-profesoral?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/apoyo-profesoral?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/apoyo-profesoral",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": {
+        "institucion": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": {
+        "estudios": 242587781,
+        "conApoyo": 1,
+        "institucion": "Prueba VB81D",
+        "tipo": "Prueba VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/apoyo-profesoral",
+      "cuerpo": {
+        "estudios": 242587781,
+        "conApoyo": 1,
+        "institucion": "Prueba VB81D",
+        "tipo": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/apoyo-profesoral",
+      "cuerpo": {
+        "estudios": -987654,
+        "conApoyo": 1,
+        "institucion": "Prueba VB81D",
+        "tipo": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/beca",
+      "cuerpo": {
+        "estudios": 242587781,
+        "tipo": "Prueba VB81D",
+        "institucion": "Prueba VB81D",
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/beca?limite=2147483647",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/beca?limite=0",
+      "cuerpo": null,
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/beca",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": {},
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": {},
+      "esperado": 400,
+      "obtenido": 400
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": {
+        "tipo": "Cambio VB81D"
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": {
+        "estudios": 242587781,
+        "tipo": "Prueba VB81D",
+        "institucion": "Prueba VB81D",
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/beca",
+      "cuerpo": {
+        "estudios": 242587781,
+        "tipo": "Prueba VB81D",
+        "institucion": "Prueba VB81D",
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/beca",
+      "cuerpo": {
+        "estudios": -987654,
+        "tipo": "Prueba VB81D",
+        "institucion": "Prueba VB81D",
+        "fechaInicio": "2026-01-02",
+        "fechaFin": null
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente/expediente",
+      "cuerpo": {
+        "docente": {
+          "totalEstudios": 0,
+          "cedula": 242587781,
+          "nombres": "Prueba VB81D",
+          "apellidos": "Prueba VB81D",
+          "genero": "Prueba VB81D",
+          "cargo": "Prueba VB81D",
+          "fechaNacimiento": "2026-01-02",
+          "correo": "VB81D@universidad.edu",
+          "telefono": "Prueba VB81D",
+          "urlCvlac": "https://universidad.edu/pruebas",
+          "fechaActualizacion": "2026-01-02",
+          "escalafon": "Prueba VB81D",
+          "perfil": "Prueba VB81D",
+          "catMinciencia": null,
+          "convMinciencia": "Prueba VB81D",
+          "nacionalidaad": "Prueba VB81D",
+          "lineaInvestigacionPrincipal": 1
+        },
+        "detalles": {
+          "estudios": [
+            null
+          ]
+        }
+      },
+      "esperado": 422,
+      "obtenido": 422
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": {
+        "totalEstudios": 0,
+        "cedula": 242587781,
+        "nombres": "Prueba VB81D",
+        "apellidos": "Prueba VB81D",
+        "genero": "Prueba VB81D",
+        "cargo": "Prueba VB81D",
+        "fechaNacimiento": "2026-01-02",
+        "correo": "VB81D@universidad.edu",
+        "telefono": "Prueba VB81D",
+        "urlCvlac": "https://universidad.edu/pruebas",
+        "fechaActualizacion": "2026-01-02",
+        "escalafon": "Prueba VB81D",
+        "perfil": "Prueba VB81D",
+        "catMinciencia": null,
+        "convMinciencia": "Prueba VB81D",
+        "nacionalidaad": "Prueba VB81D",
+        "lineaInvestigacionPrincipal": null
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PUT",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": {
+        "totalEstudios": 0,
+        "cedula": 242587781,
+        "nombres": "Prueba VB81D",
+        "apellidos": "Prueba VB81D",
+        "genero": "Prueba VB81D",
+        "cargo": "Prueba VB81D",
+        "fechaNacimiento": "2026-01-02",
+        "correo": "VB81D@universidad.edu",
+        "telefono": "Prueba VB81D",
+        "urlCvlac": "https://universidad.edu/pruebas",
+        "fechaActualizacion": "2026-01-02",
+        "escalafon": "Prueba VB81D",
+        "perfil": "Prueba VB81D",
+        "catMinciencia": null,
+        "convMinciencia": "Prueba VB81D",
+        "nacionalidaad": "Prueba VB81D",
+        "lineaInvestigacionPrincipal": 1
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": null,
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": null,
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": null,
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/red/242587781",
+      "cuerpo": null,
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": null,
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente",
+      "cuerpo": {
+        "cedula": 242587782,
+        "nombres": "Prueba VB81D",
+        "apellidos": "Prueba VB81D",
+        "genero": "Prueba VB81D",
+        "cargo": "Prueba VB81D",
+        "fechaNacimiento": "2026-01-02",
+        "correo": "VB81D@universidad.edu",
+        "telefono": "Prueba VB81D",
+        "urlCvlac": "https://universidad.edu/pruebas",
+        "fechaActualizacion": "2026-01-02",
+        "escalafon": "Prueba VB81D",
+        "perfil": "Prueba VB81D",
+        "catMinciencia": null,
+        "convMinciencia": "Prueba VB81D",
+        "nacionalidaad": "Prueba VB81D",
+        "lineaInvestigacionPrincipal": 1
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": {
+        "docente": 242587782
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587782",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "PATCH",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": {
+        "docente": 242587781
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/docente/242587782",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente/242587781/detalles",
+      "cuerpo": {
+        "docente": {
+          "totalEstudios": 0,
+          "cedula": 242587781,
+          "nombres": "Prueba VB81D",
+          "apellidos": "Prueba VB81D",
+          "genero": "Prueba VB81D",
+          "cargo": "Prueba VB81D",
+          "fechaNacimiento": "2026-01-02",
+          "correo": "VB81D@universidad.edu",
+          "telefono": "Prueba VB81D",
+          "urlCvlac": "https://universidad.edu/pruebas",
+          "fechaActualizacion": "2026-01-02",
+          "escalafon": "Prueba VB81D",
+          "perfil": "Prueba VB81D",
+          "catMinciencia": null,
+          "convMinciencia": "Prueba VB81D",
+          "nacionalidaad": "Prueba VB81D",
+          "lineaInvestigacionPrincipal": 1
+        },
+        "detalles": {
+          "estudios": [
+            {
+              "id": 242587783,
+              "titulo": "Prueba VB81D",
+              "universidad": "Prueba VB81D",
+              "fecha": "2026-01-02",
+              "tipo": "Prueba VB81D",
+              "ciudad": "Prueba VB81D",
+              "docente": 242587781,
+              "insAcreditada": 1,
+              "metodologia": "Prueba VB81D",
+              "perfilEgresado": "Prueba VB81D",
+              "pais": "Prueba VB81D"
+            },
+            {
+              "id": 242587784,
+              "titulo": "Prueba VB81D",
+              "universidad": "Prueba VB81D",
+              "fecha": "2026-01-02",
+              "tipo": "Prueba VB81D",
+              "ciudad": "Prueba VB81D",
+              "docente": 242587781,
+              "insAcreditada": 1,
+              "metodologia": "Prueba VB81D",
+              "perfilEgresado": "Prueba VB81D",
+              "pais": "Prueba VB81D"
+            }
+          ]
+        }
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados/242587783",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente/242587781/detalles",
+      "cuerpo": {
+        "docente": {
+          "totalEstudios": 0,
+          "cedula": 242587781,
+          "nombres": "Prueba VB81D",
+          "apellidos": "Prueba VB81D",
+          "genero": "Prueba VB81D",
+          "cargo": "Prueba VB81D",
+          "fechaNacimiento": "2026-01-02",
+          "correo": "VB81D@universidad.edu",
+          "telefono": "Prueba VB81D",
+          "urlCvlac": "https://universidad.edu/pruebas",
+          "fechaActualizacion": "2026-01-02",
+          "escalafon": "Prueba VB81D",
+          "perfil": "Prueba VB81D",
+          "catMinciencia": null,
+          "convMinciencia": "Prueba VB81D",
+          "nacionalidaad": "Prueba VB81D",
+          "lineaInvestigacionPrincipal": 1
+        },
+        "detalles": {
+          "estudios": [
+            {
+              "id": 242587783,
+              "titulo": "Prueba VB81D",
+              "universidad": "Prueba VB81D",
+              "fecha": "2026-01-02",
+              "tipo": "Prueba VB81D",
+              "ciudad": "Prueba VB81D",
+              "docente": 242587781,
+              "insAcreditada": 1,
+              "metodologia": "Prueba VB81D",
+              "perfilEgresado": "Prueba VB81D",
+              "pais": "Prueba VB81D"
+            },
+            {
+              "id": 242587784,
+              "titulo": "Prueba VB81D",
+              "universidad": "Prueba VB81D",
+              "fecha": "2026-01-02",
+              "tipo": "Prueba VB81D",
+              "ciudad": "Prueba VB81D",
+              "docente": 242587781,
+              "insAcreditada": 1,
+              "metodologia": "Prueba VB81D",
+              "perfilEgresado": "Prueba VB81D",
+              "pais": "Prueba VB81D"
+            }
+          ]
+        }
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781/expediente",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudios-realizados/expediente",
+      "cuerpo": {
+        "estudio": {
+          "id": 242587785,
+          "titulo": "Prueba VB81D",
+          "universidad": "Prueba VB81D",
+          "fecha": "2026-01-02",
+          "tipo": "Prueba VB81D",
+          "ciudad": "Prueba VB81D",
+          "docente": 242587781,
+          "insAcreditada": 1,
+          "metodologia": "Prueba VB81D",
+          "perfilEgresado": "Prueba VB81D",
+          "pais": "Prueba VB81D"
+        },
+        "detalles": {
+          "becas": [
+            {
+              "estudios": 242587785,
+              "tipo": "Prueba VB81D",
+              "institucion": "Prueba VB81D",
+              "fechaInicio": "2026-01-02",
+              "fechaFin": null
+            }
+          ],
+          "areas": [
+            {
+              "estudio": 242587785,
+              "areaConocimiento": "VB81D"
+            }
+          ]
+        }
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados/242587785",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudios-realizados/expediente",
+      "cuerpo": {
+        "estudio": {
+          "id": 242587785,
+          "titulo": "Prueba VB81D",
+          "universidad": "Prueba VB81D",
+          "fecha": "2026-01-02",
+          "tipo": "Prueba VB81D",
+          "ciudad": "Prueba VB81D",
+          "docente": 242587781,
+          "insAcreditada": 1,
+          "metodologia": "Prueba VB81D",
+          "perfilEgresado": "Prueba VB81D",
+          "pais": "Prueba VB81D"
+        },
+        "detalles": {
+          "becas": [
+            {
+              "estudios": 242587785,
+              "tipo": "Prueba VB81D",
+              "institucion": "Prueba VB81D",
+              "fechaInicio": "2026-01-02",
+              "fechaFin": null
+            }
+          ],
+          "areas": [
+            {
+              "estudio": 242587785,
+              "areaConocimiento": "VB81D"
+            }
+          ]
+        }
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados/242587785/expediente",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente/expediente",
+      "cuerpo": {
+        "docente": {
+          "totalEstudios": 0,
+          "cedula": 242587786,
+          "nombres": "Prueba VB81D",
+          "apellidos": "Prueba VB81D",
+          "genero": "Prueba VB81D",
+          "cargo": "Prueba VB81D",
+          "fechaNacimiento": "2026-01-02",
+          "correo": "VB81D@universidad.edu",
+          "telefono": "Prueba VB81D",
+          "urlCvlac": "https://universidad.edu/pruebas",
+          "fechaActualizacion": "2026-01-02",
+          "escalafon": "Prueba VB81D",
+          "perfil": "Prueba VB81D",
+          "catMinciencia": null,
+          "convMinciencia": "Prueba VB81D",
+          "nacionalidaad": "Prueba VB81D",
+          "lineaInvestigacionPrincipal": 1
+        },
+        "detalles": {
+          "intereses": [
+            {
+              "docente": 242587786,
+              "terminoClave": "Prueba VB81D"
+            }
+          ]
+        }
+      },
+      "esperado": 409,
+      "obtenido": 409
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587786",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/docente/expediente",
+      "cuerpo": {
+        "docente": {
+          "totalEstudios": 0,
+          "cedula": 242587786,
+          "nombres": "Prueba VB81D",
+          "apellidos": "Prueba VB81D",
+          "genero": "Prueba VB81D",
+          "cargo": "Prueba VB81D",
+          "fechaNacimiento": "2026-01-02",
+          "correo": "VB81D@universidad.edu",
+          "telefono": "Prueba VB81D",
+          "urlCvlac": "https://universidad.edu/pruebas",
+          "fechaActualizacion": "2026-01-02",
+          "escalafon": "Prueba VB81D",
+          "perfil": "Prueba VB81D",
+          "catMinciencia": null,
+          "convMinciencia": "Prueba VB81D",
+          "nacionalidaad": "Prueba VB81D",
+          "lineaInvestigacionPrincipal": 1
+        },
+        "detalles": {
+          "intereses": [
+            {
+              "docente": 242587786,
+              "terminoClave": "Prueba VB81D"
+            }
+          ]
+        }
+      },
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/intereses-futuros/242587786/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/docente/242587786",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudio-ac/242587785/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/beca/242587785",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudios-realizados/242587783",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudios-realizados/242587784",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudios-realizados/242587785",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/beca/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/beca",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/apoyo-profesoral/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/apoyo-profesoral",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudio-ac/242587781/VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudio-ac",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/red-docente/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red-docente",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/experiecia/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/experiecia",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/reconocimiento/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/reconocimiento",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/evaluacion-docente/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/evaluacion-docente",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/intereses-futuros/242587781/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/intereses-futuros",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/docente-departamento/242587781/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente-departamento",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/estudios-realizados/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/estudios-realizados",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/red/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/red/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/red",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/programa/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/programa",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 204
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/linea-investigacion/1",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/linea-investigacion",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/termino-clave/Prueba%20VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/termino-clave",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 200
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": null,
+      "esperado": 200,
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "DELETE",
+      "ruta": "/api/area-conocimiento/VB81D",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/area-conocimiento",
+      "cuerpo": null,
+      "esperado": [
+        200,
+        204
+      ],
+      "obtenido": 200
+    },
+    {
+      "metodo": "GET",
+      "ruta": "/api/docente/242587781",
+      "cuerpo": null,
+      "esperado": 404,
+      "obtenido": 404
+    },
+    {
+      "metodo": "POST",
+      "ruta": "/api/estudios-realizados",
+      "cuerpo": {
+        "id": 242587787,
+        "titulo": "Prueba VB81D",
+        "universidad": "Prueba VB81D",
+        "fecha": "2026-01-02",
+        "tipo": "Prueba VB81D",
+        "ciudad": "Prueba VB81D",
+        "docente": 242587781,
+        "insAcreditada": 1,
+        "metodologia": "Prueba VB81D",
+        "perfilEgresado": "Prueba VB81D",
+        "pais": "Prueba VB81D"
+      },
+      "esperado": 409,
+      "obtenido": 409
+    }
+  ],
+  "error": null
+}

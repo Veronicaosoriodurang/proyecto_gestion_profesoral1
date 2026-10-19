@@ -5,124 +5,74 @@ using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
 public class RepositorioRedSqlServer : IRepositorioRed
 {
-    private readonly string _cadenaConexion;
+    static RepositorioRedSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioRedSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
 
-    public RepositorioRedSqlServer(IConfiguration configuracion)
+    internal static DynamicParameters Parametros(Red entidad)
     {
-        _cadenaConexion =
-            configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException("No se encontró la cadena de conexión.");
-    }
-
-    private IDbConnection CrearConexion()
-    {
-        return new SqlConnection(_cadenaConexion);
+        var p = new DynamicParameters();
+        p.Add("Idr", entidad.Idr);
+        p.Add("Nombre", entidad.Nombre);
+        p.Add("Url", entidad.Url);
+        p.Add("Pais", entidad.Pais);
+        return p;
     }
 
     public async Task<IEnumerable<Red>> ObtenerTodos(int limite)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT TOP (@Limite)
-                idr AS Idr,
-                nombre AS Nombre,
-                url AS Url,
-                pais AS Pais
-            FROM red
-            WHERE activo = 1
-            ORDER BY idr";
-
-        return await conexion.QueryAsync<Red>(sql, new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<Red>("dbo.sp_listar_red", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<Red?> ObtenerPorId(int idr)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            SELECT
-                idr AS Idr,
-                nombre AS Nombre,
-                url AS Url,
-                pais AS Pais
-            FROM red
-            WHERE idr = @Idr
-              AND activo = 1";
-
-        return await conexion.QueryFirstOrDefaultAsync<Red>(sql, new { Idr = idr });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Idr", idr);
+        return await conexion.QuerySingleOrDefaultAsync<Red>("dbo.sp_consultar_red", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task Crear(Red red)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            INSERT INTO red (idr, nombre, url, pais, activo)
-            VALUES (@Idr, @Nombre, @Url, @Pais, 1)";
-
-        await conexion.ExecuteAsync(sql, red);
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<Red>("dbo.sp_crear_red", Parametros(red), commandType: CommandType.StoredProcedure);
+        red.Idr = guardada.Idr;
+        red.Nombre = guardada.Nombre;
+        red.Url = guardada.Url;
+        red.Pais = guardada.Pais;
     }
 
     public async Task<int> Reemplazar(Red red)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE red
-            SET nombre = @Nombre,
-                url = @Url,
-                pais = @Pais
-            WHERE idr = @Idr
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, red);
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(red);
+        p.Add("OriginalIdr", red.Idr);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_red", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> ActualizarParcial(int idr, RedCampos campos)
     {
-        using var conexion = CrearConexion();
-
-        var asignaciones = new List<string>();
-        var parametros = new DynamicParameters();
-        parametros.Add("Idr", idr);
-
-        void Agregar(string columna, string parametro, object? valor)
-        {
-            if (valor == null) return;
-
-            asignaciones.Add($"{columna} = @{parametro}");
-            parametros.Add(parametro, valor);
-        }
-
-        Agregar("nombre", "Nombre", campos.Nombre);
-        Agregar("url", "Url", campos.Url);
-        Agregar("pais", "Pais", campos.Pais);
-
-        if (asignaciones.Count == 0)
-        {
-            return 0;
-        }
-
-        var sql =
-            $"UPDATE red SET {string.Join(", ", asignaciones)} " +
-            "WHERE idr = @Idr AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, parametros);
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Nombre", campos.Nombre);
+        p.Add("Url", campos.Url);
+        p.Add("Pais", campos.Pais);
+        p.Add("Idr", idr);
+        p.Add("Parcial", true);
+        p.Add("OriginalIdr", idr);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_red", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> EliminarLogico(int idr)
     {
-        using var conexion = CrearConexion();
-
-        const string sql = @"
-            UPDATE red
-            SET activo = 0
-            WHERE idr = @Idr
-              AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, new { Idr = idr });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Idr", idr);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_red", p, commandType: CommandType.StoredProcedure);
     }
 }

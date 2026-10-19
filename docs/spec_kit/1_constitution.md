@@ -258,3 +258,9 @@ o se corrige el plan, o se enmienda esto.
 ---
 
 *Versión 1.0.0 · Ratificada el 2026-08-29 · Última enmienda: ninguna*
+
+## Enmienda V2 — procedimientos almacenados (2026-10-16)
+
+Por requisito explícito de VERSION_2.md del profesor y de esta continuación, en V2 se sustituye la regla de SQL directo de la versión de referencia por procedimientos `sp_listar_`, `sp_consultar_`, `sp_crear_`, `sp_actualizar_` y `sp_eliminar_` para los 16 recursos. El SQL queda visible y versionado en `db/version_2.sql`; Dapper invoca procedimientos con parámetros. Las capas concretas por recurso y el resto de las reglas siguen vigentes. La decisión y sus consecuencias se documentan en `versiones/v2_relaciones/4_research.md`.
+
+*Versión 1.1.0 · Enmienda V2: 2026-10-16.*

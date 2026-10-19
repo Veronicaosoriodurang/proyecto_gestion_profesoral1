@@ -1,4 +1,4 @@
-﻿# Especificación — Versión 2: relaciones y claves foráneas
+# Especificación — Versión 2: relaciones y claves foráneas
 
 > **Versión 2** del módulo Gestión Profesoral.
 > La v1 ya está terminada. Esta versión agrega los CRUD de las tablas con
@@ -113,3 +113,11 @@ La v2 estará terminada cuando:
 8. La versión se integre a `main` mediante Pull Request.
 9. Se cree el tag `v2`.
 
+
+## Delta aprobado para esta continuación
+
+Los 16 recursos (cinco v1 y once v2) usan exclusivamente sp_listar_, sp_consultar_, sp_crear_, sp_actualizar_ y sp_eliminar_. Los procedimientos retornan la fila creada y los listados filtran activo. Las relaciones inexistentes o inactivas y parejas duplicadas responden 409 en español. Retirar un padre con hijos activos se rechaza con 409.
+
+Docente muestra estudios, evaluaciones, experiencias, reconocimientos y relaciones en su propia pantalla; estudio muestra apoyo, beca y áreas. Los renglones se preparan localmente y se envían juntos en una sola petición transaccional. trg_contar_estudios cuenta estudios activos después de INSERT, UPDATE y DELETE, incluidos cambios de padre y retiro lógico.
+
+PUT admite null para los campos opcionales. PATCH conserva la semántica heredada: null no modifica; para quitar un valor opcional se usa guardar ficha completa. No se agregan recursos de v3/v4.

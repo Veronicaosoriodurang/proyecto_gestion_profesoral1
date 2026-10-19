@@ -1,0 +1,115 @@
+{
+  "fecha": "2026-10-16T07:56:09.833783+00:00",
+  "identificador": 741048907,
+  "comprobaciones": [
+    {
+      "prueba": "Pantalla responde: /areas-conocimiento",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /lineas-investigacion",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /programas",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /redes",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /terminos-clave",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /docente-departamento",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /docentes",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /becas",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /estudios-realizados",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /apoyo-profesoral",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /evaluacion-docente",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /experiecia",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /intereses-futuros",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /red-docente",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /estudio-ac",
+      "paso": true
+    },
+    {
+      "prueba": "Pantalla responde: /reconocimientos",
+      "paso": true
+    },
+    {
+      "prueba": "UI: error en segundo renglón revierte maestro",
+      "paso": true
+    },
+    {
+      "prueba": "UI: error en segundo renglón revierte primer detalle",
+      "paso": true
+    },
+    {
+      "prueba": "UI: guardado maestro y dos estudios actualiza trigger",
+      "paso": true
+    },
+    {
+      "prueba": "UI: opción sin línea envía null",
+      "paso": true
+    },
+    {
+      "prueba": "UI: detalle visible desde maestro sin volver a elegir docente",
+      "paso": true
+    },
+    {
+      "prueba": "UI: desplegable de áreas cargado desde API",
+      "paso": true
+    },
+    {
+      "prueba": "UI: puente guardado desde estudio",
+      "paso": true
+    },
+    {
+      "prueba": "UI: retirar estudio actualiza contador sin enviarlo",
+      "paso": true
+    },
+    {
+      "prueba": "UI: segundo retiro deja contador cero",
+      "paso": true
+    },
+    {
+      "prueba": "UI: docente retirado desaparece",
+      "paso": true
+    },
+    {
+      "prueba": "Chromium no registró errores de JavaScript",
+      "paso": true
+    }
+  ],
+  "error": null
+}

@@ -5,198 +5,111 @@ using Microsoft.Data.SqlClient;
 
 namespace ApiGestion.Repositorios;
 
-/// <summary>
-/// Capa 3 contra SQL Server para docente: SQL a mano y siempre parametrizado.
-/// Todas las consultas filtran por activo = 1.
-/// </summary>
+// SQL vive en db/version_2.sql. Cada método llama un procedimiento explícito.
 public class RepositorioDocenteSqlServer : IRepositorioDocente
 {
-    private sealed class DateOnlyTypeHandler : SqlMapper.TypeHandler<DateOnly>
+    static RepositorioDocenteSqlServer() => FechasSql.Configurar();
+    private readonly string cadena;
+    public RepositorioDocenteSqlServer(IConfiguration configuracion) => cadena = configuracion.GetConnectionString("SqlServer")
+        ?? throw new InvalidOperationException("Falta la conexión SqlServer.");
+
+    internal static DynamicParameters Parametros(Docente entidad)
     {
-        public override void SetValue(IDbDataParameter parameter, DateOnly value)
-        {
-            parameter.Value = value.ToDateTime(TimeOnly.MinValue);
-            parameter.DbType = DbType.Date;
-        }
-
-        public override DateOnly Parse(object value)
-        {
-            return value switch
-            {
-                DateTime fecha => DateOnly.FromDateTime(fecha),
-                DateOnly fecha => fecha,
-                _ => throw new DataException($"No se puede convertir {value.GetType()} a DateOnly.")
-            };
-        }
+        var p = new DynamicParameters();
+        p.Add("Cedula", entidad.Cedula);
+        p.Add("Nombres", entidad.Nombres);
+        p.Add("Apellidos", entidad.Apellidos);
+        p.Add("Genero", entidad.Genero);
+        p.Add("Cargo", entidad.Cargo);
+        p.Add("FechaNacimiento", entidad.FechaNacimiento.ToDateTime(TimeOnly.MinValue));
+        p.Add("Correo", entidad.Correo);
+        p.Add("Telefono", entidad.Telefono);
+        p.Add("UrlCvlac", entidad.UrlCvlac);
+        p.Add("FechaActualizacion", entidad.FechaActualizacion.ToDateTime(TimeOnly.MinValue));
+        p.Add("Escalafon", entidad.Escalafon);
+        p.Add("Perfil", entidad.Perfil);
+        p.Add("CatMinciencia", entidad.CatMinciencia);
+        p.Add("ConvMinciencia", entidad.ConvMinciencia);
+        p.Add("Nacionalidaad", entidad.Nacionalidaad);
+        p.Add("LineaInvestigacionPrincipal", entidad.LineaInvestigacionPrincipal);
+        return p;
     }
-
-    static RepositorioDocenteSqlServer()
-    {
-        SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
-    }
-
-    private readonly string _cadenaConexion;
-
-    public RepositorioDocenteSqlServer(IConfiguration configuracion)
-    {
-        _cadenaConexion = configuracion.GetConnectionString("SqlServer")
-            ?? throw new InvalidOperationException("No se encontró la cadena de conexión 'SqlServer'.");
-    }
-
-    private IDbConnection CrearConexion() => new SqlConnection(_cadenaConexion);
-
-    private const string COLUMNAS = @"cedula AS Cedula, nombres AS Nombres, apellidos AS Apellidos,
-            genero AS Genero, cargo AS Cargo, fecha_nacimiento AS FechaNacimiento,
-            correo AS Correo, telefono AS Telefono, url_cvlac AS UrlCvlac,
-            fecha_actualizacion AS FechaActualizacion, escalafon AS Escalafon,
-            perfil AS Perfil, cat_minciencia AS CatMinciencia,
-            conv_minciencia AS ConvMinciencia, nacionalidaad AS Nacionalidaad,
-            linea_investigacion_principal AS LineaInvestigacionPrincipal";
 
     public async Task<IEnumerable<Docente>> ObtenerTodos(int limite)
     {
-        using var conexion = CrearConexion();
-        var sql = $@"
-            SELECT TOP (@Limite) {COLUMNAS}
-            FROM docente
-            WHERE activo = 1
-            ORDER BY cedula ASC";
-
-        return await conexion.QueryAsync<Docente>(sql, new { Limite = limite });
+        await using var conexion = new SqlConnection(cadena);
+        return await conexion.QueryAsync<Docente>("dbo.sp_listar_docente", new { Limite = limite }, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<Docente?> ObtenerPorId(int cedula)
     {
-        using var conexion = CrearConexion();
-        var sql = $@"
-            SELECT {COLUMNAS}
-            FROM docente
-            WHERE cedula = @Cedula AND activo = 1";
-
-        return await conexion.QueryFirstOrDefaultAsync<Docente>(sql, new { Cedula = cedula });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Cedula", cedula);
+        return await conexion.QuerySingleOrDefaultAsync<Docente>("dbo.sp_consultar_docente", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task Crear(Docente docente)
     {
-        using var conexion = CrearConexion();
-        const string sql = @"
-            INSERT INTO docente (cedula, nombres, apellidos, genero, cargo, fecha_nacimiento,
-                                 correo, telefono, url_cvlac, fecha_actualizacion, escalafon,
-                                 perfil, cat_minciencia, conv_minciencia, nacionalidaad,
-                                 linea_investigacion_principal, activo)
-            VALUES (@Cedula, @Nombres, @Apellidos, @Genero, @Cargo, @FechaNacimiento,
-                    @Correo, @Telefono, @UrlCvlac, @FechaActualizacion, @Escalafon,
-                    @Perfil, @CatMinciencia, @ConvMinciencia, @Nacionalidaad,
-                    @LineaInvestigacionPrincipal, 1)";
-
-        await conexion.ExecuteAsync(sql, new
-        {
-            docente.Cedula,
-            docente.Nombres,
-            docente.Apellidos,
-            docente.Genero,
-            docente.Cargo,
-            FechaNacimiento = docente.FechaNacimiento.ToDateTime(TimeOnly.MinValue),
-            docente.Correo,
-            docente.Telefono,
-            docente.UrlCvlac,
-            FechaActualizacion = docente.FechaActualizacion.ToDateTime(TimeOnly.MinValue),
-            docente.Escalafon,
-            docente.Perfil,
-            docente.CatMinciencia,
-            docente.ConvMinciencia,
-            docente.Nacionalidaad,
-            docente.LineaInvestigacionPrincipal
-        });
+        await using var conexion = new SqlConnection(cadena);
+        var guardada = await conexion.QuerySingleAsync<Docente>("dbo.sp_crear_docente", Parametros(docente), commandType: CommandType.StoredProcedure);
+        docente.Cedula = guardada.Cedula;
+        docente.Nombres = guardada.Nombres;
+        docente.Apellidos = guardada.Apellidos;
+        docente.Genero = guardada.Genero;
+        docente.Cargo = guardada.Cargo;
+        docente.FechaNacimiento = guardada.FechaNacimiento;
+        docente.Correo = guardada.Correo;
+        docente.Telefono = guardada.Telefono;
+        docente.UrlCvlac = guardada.UrlCvlac;
+        docente.FechaActualizacion = guardada.FechaActualizacion;
+        docente.Escalafon = guardada.Escalafon;
+        docente.Perfil = guardada.Perfil;
+        docente.CatMinciencia = guardada.CatMinciencia;
+        docente.ConvMinciencia = guardada.ConvMinciencia;
+        docente.Nacionalidaad = guardada.Nacionalidaad;
+        docente.LineaInvestigacionPrincipal = guardada.LineaInvestigacionPrincipal;
+        docente.TotalEstudios = guardada.TotalEstudios;
     }
 
     public async Task<int> Reemplazar(Docente docente)
     {
-        using var conexion = CrearConexion();
-        const string sql = @"
-            UPDATE docente
-            SET nombres = @Nombres, apellidos = @Apellidos, genero = @Genero,
-                cargo = @Cargo, fecha_nacimiento = @FechaNacimiento, correo = @Correo,
-                telefono = @Telefono, url_cvlac = @UrlCvlac,
-                fecha_actualizacion = @FechaActualizacion, escalafon = @Escalafon,
-                perfil = @Perfil, cat_minciencia = @CatMinciencia,
-                conv_minciencia = @ConvMinciencia, nacionalidaad = @Nacionalidaad,
-                linea_investigacion_principal = @LineaInvestigacionPrincipal
-            WHERE cedula = @Cedula AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, new
-        {
-            docente.Cedula,
-            docente.Nombres,
-            docente.Apellidos,
-            docente.Genero,
-            docente.Cargo,
-            FechaNacimiento = docente.FechaNacimiento.ToDateTime(TimeOnly.MinValue),
-            docente.Correo,
-            docente.Telefono,
-            docente.UrlCvlac,
-            FechaActualizacion = docente.FechaActualizacion.ToDateTime(TimeOnly.MinValue),
-            docente.Escalafon,
-            docente.Perfil,
-            docente.CatMinciencia,
-            docente.ConvMinciencia,
-            docente.Nacionalidaad,
-            docente.LineaInvestigacionPrincipal
-        });
+        await using var conexion = new SqlConnection(cadena);
+        var p = Parametros(docente);
+        p.Add("OriginalCedula", docente.Cedula);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_docente", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> ActualizarParcial(int cedula, DocenteCampos campos)
     {
-        using var conexion = CrearConexion();
-
-        var asignaciones = new List<string>();
-        var parametros = new DynamicParameters();
-        parametros.Add("Cedula", cedula);
-
-        void Agregar(string columna, string parametro, object? valor)
-        {
-            if (valor == null) return;
-            asignaciones.Add($"{columna} = @{parametro}");
-            parametros.Add(parametro, valor);
-        }
-
-        Agregar("nombres", "Nombres", campos.Nombres);
-        Agregar("apellidos", "Apellidos", campos.Apellidos);
-        Agregar("genero", "Genero", campos.Genero);
-        Agregar("cargo", "Cargo", campos.Cargo);
-        if (campos.FechaNacimiento.HasValue)
-            Agregar("fecha_nacimiento", "FechaNacimiento",
-                campos.FechaNacimiento.Value.ToDateTime(TimeOnly.MinValue));
-        Agregar("correo", "Correo", campos.Correo);
-        Agregar("telefono", "Telefono", campos.Telefono);
-        Agregar("url_cvlac", "UrlCvlac", campos.UrlCvlac);
-        if (campos.FechaActualizacion.HasValue)
-            Agregar("fecha_actualizacion", "FechaActualizacion",
-                campos.FechaActualizacion.Value.ToDateTime(TimeOnly.MinValue));
-        Agregar("escalafon", "Escalafon", campos.Escalafon);
-        Agregar("perfil", "Perfil", campos.Perfil);
-        Agregar("cat_minciencia", "CatMinciencia", campos.CatMinciencia);
-        Agregar("conv_minciencia", "ConvMinciencia", campos.ConvMinciencia);
-        Agregar("nacionalidaad", "Nacionalidaad", campos.Nacionalidaad);
-        Agregar("linea_investigacion_principal", "LineaInvestigacionPrincipal",
-            campos.LineaInvestigacionPrincipal);
-
-        if (asignaciones.Count == 0) return 0;
-
-        var sql = $"UPDATE docente SET {string.Join(", ", asignaciones)} WHERE cedula = @Cedula AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, parametros);
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Nombres", campos.Nombres);
+        p.Add("Apellidos", campos.Apellidos);
+        p.Add("Genero", campos.Genero);
+        p.Add("Cargo", campos.Cargo);
+        p.Add("FechaNacimiento", campos.FechaNacimiento?.ToDateTime(TimeOnly.MinValue));
+        p.Add("Correo", campos.Correo);
+        p.Add("Telefono", campos.Telefono);
+        p.Add("UrlCvlac", campos.UrlCvlac);
+        p.Add("FechaActualizacion", campos.FechaActualizacion?.ToDateTime(TimeOnly.MinValue));
+        p.Add("Escalafon", campos.Escalafon);
+        p.Add("Perfil", campos.Perfil);
+        p.Add("CatMinciencia", campos.CatMinciencia);
+        p.Add("ConvMinciencia", campos.ConvMinciencia);
+        p.Add("Nacionalidaad", campos.Nacionalidaad);
+        p.Add("LineaInvestigacionPrincipal", campos.LineaInvestigacionPrincipal);
+        p.Add("Cedula", cedula);
+        p.Add("Parcial", true);
+        p.Add("OriginalCedula", cedula);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_actualizar_docente", p, commandType: CommandType.StoredProcedure);
     }
 
     public async Task<int> EliminarLogico(int cedula)
     {
-        using var conexion = CrearConexion();
-        const string sql = @"
-            UPDATE docente
-            SET activo = 0
-            WHERE cedula = @Cedula AND activo = 1";
-
-        return await conexion.ExecuteAsync(sql, new { Cedula = cedula });
+        await using var conexion = new SqlConnection(cadena);
+        var p = new DynamicParameters();
+        p.Add("Cedula", cedula);
+        return await conexion.QuerySingleAsync<int>("dbo.sp_eliminar_docente", p, commandType: CommandType.StoredProcedure);
     }
 }
-

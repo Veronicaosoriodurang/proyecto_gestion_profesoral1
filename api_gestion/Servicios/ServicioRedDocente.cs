@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Peticiones;
 using ApiGestion.Repositorios;
@@ -155,14 +155,14 @@ public class ServicioRedDocente : IServicioRedDocente
     private async Task ValidarRed(int id)
     {
         if (await _redes.ObtenerPorId(id) == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"La red con id {id} no existe o no está activa.");
     }
 
     private async Task ValidarDocente(int cedula)
     {
         if (await _docentes.ObtenerPorId(cedula) == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El docente con cédula {cedula} no existe o no está activo.");
     }
 }

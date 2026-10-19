@@ -1,0 +1,86 @@
+{
+  "fecha": "2026-10-16T07:56:22.476634+00:00",
+  "comprobaciones": [
+    {
+      "prueba": "programas: crear desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "programas: reemplazo completo desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "programas: actualización parcial desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "programas: retiro desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "redes: crear desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "redes: reemplazo completo desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "redes: actualización parcial desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "redes: retiro desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "areas-conocimiento: crear desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "areas-conocimiento: reemplazo completo desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "areas-conocimiento: actualización parcial desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "areas-conocimiento: retiro desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "terminos-clave: crear desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "terminos-clave: reemplazo completo desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "terminos-clave: actualización parcial desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "terminos-clave: retiro desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "lineas-investigacion: crear desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "lineas-investigacion: reemplazo completo desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "lineas-investigacion: actualización parcial desde interfaz",
+      "paso": true
+    },
+    {
+      "prueba": "lineas-investigacion: retiro desde interfaz",
+      "paso": true
+    }
+  ],
+  "error": null
+}

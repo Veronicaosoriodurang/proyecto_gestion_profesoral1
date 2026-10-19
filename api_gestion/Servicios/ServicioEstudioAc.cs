@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Peticiones;
 using ApiGestion.Repositorios;
@@ -146,14 +146,14 @@ public class ServicioEstudioAc : IServicioEstudioAc
     private async Task ValidarEstudio(int id)
     {
         if (await _estudios.ObtenerPorId(id) == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El estudio con id {id} no existe o no está activo.");
     }
 
     private async Task ValidarArea(string id)
     {
         if (await _areas.ObtenerPorId(id) == null)
-            throw new ArgumentException(
+            throw new ApiGestion.Excepciones.ConflictoExcepcion(
                 $"El área de conocimiento '{id}' no existe o no está activa.");
     }
 }

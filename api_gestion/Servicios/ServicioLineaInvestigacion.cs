@@ -1,4 +1,4 @@
-﻿using ApiGestion.Excepciones;
+using ApiGestion.Excepciones;
 using ApiGestion.Modelos;
 using ApiGestion.Repositorios;
 
@@ -6,10 +6,12 @@ namespace ApiGestion.Servicios;
 
 public class ServicioLineaInvestigacion : IServicioLineaInvestigacion
 {
+    private readonly IReglasRetiro? reglasRetiro;
     private readonly IRepositorioLineaInvestigacion _repositorio;
 
-    public ServicioLineaInvestigacion(IRepositorioLineaInvestigacion repositorio)
+    public ServicioLineaInvestigacion(IRepositorioLineaInvestigacion repositorio, IReglasRetiro? reglasRetiro = null)
     {
+        this.reglasRetiro = reglasRetiro;
         _repositorio = repositorio;
     }
 
@@ -69,6 +71,7 @@ public class ServicioLineaInvestigacion : IServicioLineaInvestigacion
 
     public async Task<int> Eliminar(int id)
     {
+        if (reglasRetiro != null) await reglasRetiro.Comprobar("linea_investigacion", new { Id = id });
         var filas = await _repositorio.EliminarLogico(id);
 
         if (filas == 0)
