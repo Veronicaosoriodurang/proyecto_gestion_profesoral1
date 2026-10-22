@@ -1,37 +1,45 @@
-@*
-    El marco de todas las pantallas: la barra de arriba, el menú y el
-    contenido.
-
-    NO HAY AUTENTICACIÓN AQUÍ, y no es un olvido. La v1 construye el CRUD de
-    una tabla; el ingreso con usuario y el control de acceso por rol son de
-    otra versión, y anticiparlos contradice el Artículo 1.
-*@
 @inherits LayoutComponentBase
 
 <div class="pagina">
-
-    <header>
-        <div class="barra">
-            <div class="contenedor barra-interna">
-                <a class="marca" href="">Gestión profesoral</a>
-                <span class="dependencia">Universidad de Ejemplo</span>
+    <header class="cabecera-app">
+        <div class="barra-institucional">
+            <div class="contenedor barra-institucional-interna">
+                <a class="marca-app" href="" aria-label="Ir al inicio de Gestión Profesoral">
+                    <span class="marca-simbolo">GP</span>
+                    <span class="marca-texto">
+                        <strong>Gestión Profesoral</strong>
+                        <small>Proyecto académico ITM</small>
+                    </span>
+                </a>
+                <div class="estado-version" title="Versión actual del proyecto">
+                    <span class="estado-punto"></span>
+                    <span>Versión 2</span>
+                </div>
             </div>
         </div>
         <NavMenu />
     </header>
 
-    <main class="contenedor">
+    <main class="contenedor contenido-principal">
         @Body
     </main>
 
-    <footer class="contenedor">
-        <p>Sistema de gestión profesoral &mdash; ejemplo de referencia del curso</p>
+    <footer class="pie-app">
+        <div class="contenedor pie-app-interno">
+            <div>
+                <strong>Gestión Profesoral</strong>
+                <p>Información docente organizada de forma clara y segura.</p>
+            </div>
+            <div class="pie-academico">
+                <span>Aplicación y Servicios Web</span>
+                <span>Instituto Tecnológico Metropolitano — ITM</span>
+            </div>
+        </div>
     </footer>
-
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
     Ocurrió un error inesperado.
     <a href="." class="reload">Recargar</a>
-    <span class="dismiss">🗙</span>
+    <span class="dismiss">×</span>
 </div>
